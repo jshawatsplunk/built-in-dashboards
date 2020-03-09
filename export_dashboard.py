@@ -119,4 +119,5 @@ with signalfx.SignalFx(
 
     dout = handle_asset(args['key'], args['api_url'], 'signalfx_dashboard', args['name'], args['id'])
     if output != None:
-        print(replace_chart_ids(dout.decode('utf-8'), chart_ids))
+        filtered = filter_hcl(output.decode('utf-8'))
+        print(replace_chart_ids(filtered, chart_ids))
