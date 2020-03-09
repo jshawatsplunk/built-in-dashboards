@@ -75,7 +75,7 @@ def filter_hcl(hcl):
 
 def replace_chart_ids(hcl, charts):
     for id, name in charts.items():
-        hcl = hcl.replace(f'"{id}"', name)
+        hcl = hcl.replace(f'"{id}"', f'{name}.id')
     return hcl
 
 with signalfx.SignalFx(
