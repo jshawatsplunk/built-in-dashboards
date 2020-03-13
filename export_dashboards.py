@@ -12,8 +12,11 @@ parser = argparse.ArgumentParser(description='Export a SignalFx asset as Terrafo
 parser.add_argument('--key', dest='key', required=True, help='An API key for accessing SignalFx')
 parser.add_argument('--api_url', dest='api_url', help='The API URL, used for non-default realms', default='https://api.us0.signalfx.com')
 parser.add_argument('--name', dest='name', required=True, help='The name of the resource after export, e.g. mychart0')
-parser.add_argument('--id', dest='id', required=True, help='The ID of the asset in SignalFx')
 parser.add_argument('--exclude', dest='excludes', nargs='*', help='A field to exclude from the emitted HCL', default=['id', 'url', 'tags'])
+parser.add_argument('--output', dest='output', required=True, help='The name of the directory to which output will be written')
+group = parser.add_mutually_exclusive_group(required=True)
+group.add_argument('--group', dest='group', help='The ID of the dashboard group in SignalFx')
+group.add_argument('--dashboard', dest='dash', help='The ID of the dashboard in SignalFx')
 
 args = vars(parser.parse_args())
 
@@ -43,6 +46,15 @@ def handle_asset(key, api_url, resource, name, id):
         output = export_resource(tmpdirname, resource, name)
     os.chdir(currdir)
     return output
+
+def write_output(directory, filename, content):
+    currdir = os.getcwd()
+
+    os.chdir(directory)
+    with open(filename, "w") as f:
+        f.write(filter_hcl(content))
+
+    os.chdir(currdir)
 
 # Handles replacing various problematic bits of output. Some are computed fields, others are problematic parts of an export.
 def filter_hcl(hcl):
@@ -78,10 +90,8 @@ def replace_chart_ids(hcl, charts):
         hcl = hcl.replace(f'"{id}"', f'{name}.id')
     return hcl
 
-with signalfx.SignalFx(
-    api_endpoint=args['api_url'],
-).rest(args['key']) as sfx:
-    dash = sfx.get_dashboard(args['id'])
+def handle_dashboard(sfx, id, name, args):
+    dash = sfx.get_dashboard(id)
 
     # I am not certain of the API guarantees that these will come in a sane
     # order so we'll just sort it for human readability.
@@ -89,6 +99,7 @@ with signalfx.SignalFx(
 
     chart_types = []
     chart_ids = {}
+    out = ""
     # Iterate through and fetch each chart
     for i, chart in enumerate(charts):
         api_chart = sfx.get_chart(chart["chartId"])
@@ -114,10 +125,29 @@ with signalfx.SignalFx(
 
         output = handle_asset(args['key'], args['api_url'], tf_type, tf_name, chart['chartId'])
         if output != None:
-            print(filter_hcl(output.decode('utf-8')))
+            out += filter_hcl(output.decode('utf-8'))
+            out += "\n"
 
-
-    dout = handle_asset(args['key'], args['api_url'], 'signalfx_dashboard', args['name'], args['id'])
+    output = handle_asset(args['key'], args['api_url'], "signalfx_dashboard", args['name'], id)
     if output != None:
-        filtered = filter_hcl(output.decode('utf-8'))
-        print(replace_chart_ids(filtered, chart_ids))
+         out += filter_hcl(output.decode('utf-8'))
+
+    return out
+
+with signalfx.SignalFx(
+    api_endpoint=args['api_url'],
+).rest(args['key']) as sfx:
+    if args['group']:
+        group = sfx.get_dashboard_group(args['group'])
+        for i, dash in enumerate(group['dashboards']):
+            print(f"Exporting dashboard {dash}")
+            dash_name = args['name'] + f"_dash_{i}"
+            dash_out = handle_dashboard(sfx, dash, dash_name, args)
+            write_output(args['output'], dash_name + ".tf", dash_out)
+
+        output = handle_asset(args['key'], args['api_url'], "signalfx_dashboard_group", args['name'], args['group'])
+        if output != None:
+            write_output(args['output'], args['name'] + ".tf", output.decode('utf-8'))
+    else:
+        dash_out = handle_dashboard(sfx, args['dash'], args['name'], args)
+        write_output(args['output'], args['name'] + ".tf", dash_out.decode('utf-8'))

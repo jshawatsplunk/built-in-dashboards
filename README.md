@@ -16,11 +16,12 @@ You'll need to provide the var `sfx_token` to use this. I recommend using a `ter
 
 # Exporter
 
-There is an included `export_dashboard.py` script which aims to reduce the effort of export an existing dashboard.
+There is an included `export_dashboards.py` script which aims to reduce the effort of export an existing dashboard.
 
 ```
-usage: export_dashboard.py [-h] --key KEY [--api_url API_URL] --name NAME --id
-                           ID [--exclude [EXCLUDES [EXCLUDES ...]]]
+usage: export_dashboards.py [-h] --key KEY [--api_url API_URL] --name NAME
+                            [--exclude [EXCLUDES [EXCLUDES ...]]] --output
+                            OUTPUT (--group GROUP | --dashboard DASH)
 
 Export a SignalFx asset as Terraform
 
@@ -29,19 +30,24 @@ optional arguments:
   --key KEY             An API key for accessing SignalFx
   --api_url API_URL     The API URL, used for non-default realms
   --name NAME           The name of the resource after export, e.g. mychart0
-  --id ID               The ID of the asset in SignalFx
   --exclude [EXCLUDES [EXCLUDES ...]]
                         A field to exclude from the emitted HCL
+  --output OUTPUT       The name of the directory to which output will be
+                        written
+  --group GROUP         The ID of the dashboard group in SignalFx
+  --dashboard DASH      The ID of the dashboard in SignalFx
 ```
 
-Here's an example:
+Here's an example for a dashboard:
 
 ```
 # You can setup a virtualenv and such, use `requirements.txt`
-python export_dashboard.py --key XxX --id DjJ6MCMAgAA --name sfx_aws_sqs_queue
+python export_dashboard.py --key XxX --dashboard DjJ6MCMAgAA --name sfx_aws_sqs_queue --output ./
 ```
 
-This command will recursively export each individual chart in a dashboard group. And emit a dashboard definition where these charts are referred to by their Terraform resource name.
+This command will recursively export each individual chart in a dashboard group and emit a dashboard definition where these charts are referred to by their Terraform resource name. The output will reside in a file called `sfx_aws_sqs_queue.tf`.
+
+For dashboard groups uses `--group`. The output directory will contain one file per dashboard group.
 
 ## Notes
 
