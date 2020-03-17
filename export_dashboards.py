@@ -130,7 +130,7 @@ def handle_dashboard(sfx, id, name, args):
 
     output = handle_asset(args['key'], args['api_url'], "signalfx_dashboard", args['name'], id)
     if output != None:
-         out += filter_hcl(output.decode('utf-8'))
+         out += replace_chart_ids(filter_hcl(output.decode('utf-8')), chart_ids)
 
     return out
 
@@ -143,11 +143,13 @@ with signalfx.SignalFx(
             print(f"Exporting dashboard {dash}")
             dash_name = args['name'] + f"_dash_{i}"
             dash_out = handle_dashboard(sfx, dash, dash_name, args)
+            # Replace the dashboard group id
+            dash_out = dash_out.replace(f"\"{args['group']}\"", f"signalfx_dashboard_group.{args['name']}.id")
             write_output(args['output'], dash_name + ".tf", dash_out)
 
         output = handle_asset(args['key'], args['api_url'], "signalfx_dashboard_group", args['name'], args['group'])
         if output != None:
-            write_output(args['output'], args['name'] + ".tf", output.decode('utf-8'))
+            write_output(args['output'], args['name'] + ".tf", filter_hcl(output.decode('utf-8')))
     else:
         dash_out = handle_dashboard(sfx, args['dash'], args['name'], args)
         write_output(args['output'], args['name'] + ".tf", dash_out.decode('utf-8'))
