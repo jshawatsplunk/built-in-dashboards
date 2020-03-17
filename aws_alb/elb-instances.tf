@@ -1,4 +1,5 @@
-resource "signalfx_single_value_chart" "sfx_aws_alb_instances_active_conns" {
+# signalfx_single_value_chart.sfx_aws_alb_dash_1_0:
+resource "signalfx_single_value_chart" "sfx_aws_alb_dash_1_0" {
   color_by                = "Dimension"
   is_timestamp_hidden     = false
   max_precision           = 0
@@ -13,16 +14,15 @@ resource "signalfx_single_value_chart" "sfx_aws_alb_instances_active_conns" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_alb_instances_response_times" {
-  axes_include_zero  = false
-  axes_precision     = 0
-  color_by           = "Dimension"
-  disable_sampling   = false
-  minimum_resolution = 0
-  name               = "Target Reponse Time Distribution"
-  plot_type          = "AreaChart"
-  program_text       = <<-EOF
+# signalfx_time_chart.sfx_aws_alb_dash_1_1:
+resource "signalfx_time_chart" "sfx_aws_alb_dash_1_1" {
+  axes_include_zero = false
+  axes_precision    = 0
+  color_by          = "Dimension"
+  disable_sampling  = false
+  name              = "Target Reponse Time Distribution"
+  plot_type         = "AreaChart"
+  program_text      = <<-EOF
         A = data('TargetResponseTime', filter=filter('AvailabilityZone', '*') and filter('stat', 'mean') and filter('LoadBalancer', '*') and filter('namespace', 'AWS/ApplicationELB') and filter('TargetGroup', '*'), extrapolation='last_value', maxExtrapolations=5).sum(by=['LoadBalancer']).publish(label='A', enable=False)
         B = (A).min().publish(label='B')
         C = (A).percentile(pct=10).publish(label='C')
@@ -30,15 +30,12 @@ resource "signalfx_time_chart" "sfx_aws_alb_instances_response_times" {
         E = (A).percentile(pct=90).publish(label='E')
         F = (A).max().publish(label='F')
     EOF
-  show_data_markers  = false
-  show_event_lines   = false
-  stacked            = false
-  time_range         = 7200
-  unit_prefix        = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
+  show_data_markers = false
+  show_event_lines  = false
+  stacked           = false
+  time_range        = 7200
+  timezone          = "UTC"
+  unit_prefix       = "Metric"
 
   viz_options {
     axis         = "left"
@@ -82,10 +79,9 @@ resource "signalfx_time_chart" "sfx_aws_alb_instances_response_times" {
     value_unit   = "Second"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_alb_instances_top_response_times" {
+# signalfx_list_chart.sfx_aws_alb_dash_1_2:
+resource "signalfx_list_chart" "sfx_aws_alb_dash_1_2" {
   color_by                = "Dimension"
-  disable_sampling        = false
   max_precision           = 2
   name                    = "Top 5 LBs by Target Response Time"
   program_text            = "A = data('TargetResponseTime', filter=filter('namespace', 'AWS/ApplicationELB') and filter('stat', 'mean') and filter('AvailabilityZone', '*') and filter('TargetGroup', '*')).sum(by=['LoadBalancer']).top(count=5).publish(label='A')"
@@ -133,8 +129,8 @@ resource "signalfx_list_chart" "sfx_aws_alb_instances_top_response_times" {
     value_unit   = "Second"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_alb_instances_req_count" {
+# signalfx_single_value_chart.sfx_aws_alb_dash_1_3:
+resource "signalfx_single_value_chart" "sfx_aws_alb_dash_1_3" {
   color_by                = "Dimension"
   is_timestamp_hidden     = false
   max_precision           = 0
@@ -150,16 +146,15 @@ resource "signalfx_single_value_chart" "sfx_aws_alb_instances_req_count" {
     value_suffix = "reqs"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_alb_instances_req_count_pctile" {
-  axes_include_zero  = false
-  axes_precision     = 0
-  color_by           = "Dimension"
-  disable_sampling   = false
-  minimum_resolution = 0
-  name               = "Request Count Percentile Distribution"
-  plot_type          = "AreaChart"
-  program_text       = <<-EOF
+# signalfx_time_chart.sfx_aws_alb_dash_1_4:
+resource "signalfx_time_chart" "sfx_aws_alb_dash_1_4" {
+  axes_include_zero = false
+  axes_precision    = 0
+  color_by          = "Dimension"
+  disable_sampling  = false
+  name              = "Request Count Percentile Distribution"
+  plot_type         = "AreaChart"
+  program_text      = <<-EOF
         A = data('RequestCount', filter=filter('AvailabilityZone', '*') and filter('stat', 'sum') and filter('namespace', 'AWS/ApplicationELB') and filter('LoadBalancer', '*') and filter('TargetGroup', '*'), rollup='average').sum(by=['LoadBalancer']).publish(label='A', enable=False)
         B = (A).min().publish(label='B')
         C = (A).percentile(pct=10).publish(label='C')
@@ -167,15 +162,12 @@ resource "signalfx_time_chart" "sfx_aws_alb_instances_req_count_pctile" {
         E = (A).percentile(pct=90).publish(label='E')
         F = (A).max().publish(label='F')
     EOF
-  show_data_markers  = false
-  show_event_lines   = false
-  stacked            = false
-  time_range         = 7200
-  unit_prefix        = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
+  show_data_markers = false
+  show_event_lines  = false
+  stacked           = false
+  time_range        = 7200
+  timezone          = "UTC"
+  unit_prefix       = "Metric"
 
   viz_options {
     axis         = "left"
@@ -213,10 +205,9 @@ resource "signalfx_time_chart" "sfx_aws_alb_instances_req_count_pctile" {
     label        = "E"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_alb_instances_top_req_counts" {
+# signalfx_list_chart.sfx_aws_alb_dash_1_5:
+resource "signalfx_list_chart" "sfx_aws_alb_dash_1_5" {
   color_by                = "Dimension"
-  disable_sampling        = false
   max_precision           = 2
   name                    = "Top 5 LBs by Number of Requests"
   program_text            = "A = data('RequestCount', filter=filter('namespace', 'AWS/ApplicationELB') and filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('TargetGroup', '*'), rollup='average').sum(by=['LoadBalancer']).top(count=5).publish(label='A')"
@@ -264,11 +255,10 @@ resource "signalfx_list_chart" "sfx_aws_alb_instances_top_req_counts" {
     value_suffix = "reqs"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_alb_instances_top_errors_by_lb" {
+# signalfx_list_chart.sfx_aws_alb_dash_1_6:
+resource "signalfx_list_chart" "sfx_aws_alb_dash_1_6" {
   color_by                = "Dimension"
   description             = "3xx, 4xx, and 5xx responses"
-  disable_sampling        = false
   max_precision           = 2
   name                    = "Top 5 LBs by HTTP Errors"
   program_text            = "A = data('HTTPCode_ELB*XX*', filter=filter('namespace', 'AWS/ApplicationELB') and filter('stat', 'sum') and filter('AvailabilityZone', '*'), rollup='average').sum(by=['LoadBalancer']).top(count=5).publish(label='A')"
@@ -312,14 +302,13 @@ resource "signalfx_list_chart" "sfx_aws_alb_instances_top_errors_by_lb" {
     value_suffix = "errors"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_alb_instances_top_tls_error_by_target" {
+# signalfx_list_chart.sfx_aws_alb_dash_1_7:
+resource "signalfx_list_chart" "sfx_aws_alb_dash_1_7" {
   color_by                = "Dimension"
-  disable_sampling        = false
+  description             = " "
   max_precision           = 2
   name                    = "Top 5 LBs by Target TLS Negotiation Errors"
-  description             = " "
-  program_text            = "A = data('TargetTLSNegotiationErrorCount', filter=filter('namespace', 'AWS/ApplicationELB') and filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('TargetGroup', '*')).sum(by=['LoadBalancer']).top(count=5).publish(label='A')"
+  program_text            = "A = data('TargetTLSNegotiationErrorCount', filter=filter('namespace', 'AWS/ApplicationELB') and filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('TargetGroup', '*'), rollup='rate').sum(by=['LoadBalancer']).top(count=5).publish(label='A')"
   secondary_visualization = "Sparkline"
   time_range              = 900
   unit_prefix             = "Metric"
@@ -329,10 +318,9 @@ resource "signalfx_list_chart" "sfx_aws_alb_instances_top_tls_error_by_target" {
     label        = "A"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_alb_instances_top_conn_errors_by_lb" {
+# signalfx_list_chart.sfx_aws_alb_dash_1_8:
+resource "signalfx_list_chart" "sfx_aws_alb_dash_1_8" {
   color_by                = "Dimension"
-  disable_sampling        = false
   max_precision           = 2
   name                    = "Top 5 LBs by Target Connection Errors"
   program_text            = "A = data('TargetConnectionErrorCount', filter=filter('namespace', 'AWS/ApplicationELB') and filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('TargetGroup', '*'), rollup='average').sum(by=['LoadBalancer']).top(count=5).publish(label='A')"
@@ -359,10 +347,9 @@ resource "signalfx_list_chart" "sfx_aws_alb_instances_top_conn_errors_by_lb" {
     value_suffix = "errors"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_alb_instances_top_errors_by_http_target" {
+# signalfx_list_chart.sfx_aws_alb_dash_1_9:
+resource "signalfx_list_chart" "sfx_aws_alb_dash_1_9" {
   color_by                = "Dimension"
-  disable_sampling        = false
   max_precision           = 2
   name                    = "Top 5 LBs by HTTP Target Errors"
   program_text            = "A = data('HTTPCode_T*', filter=filter('namespace', 'AWS/ApplicationELB') and filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('TargetGroup', '*') and (not filter('sf_metric', 'HTTPCode_Target_2XX_Count')), rollup='average').sum(by=['LoadBalancer']).top(count=5).publish(label='A')"
@@ -410,26 +397,22 @@ resource "signalfx_list_chart" "sfx_aws_alb_instances_top_errors_by_http_target"
     value_suffix = "errors"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_alb_instances_top_client_tls_error_by_lb" {
-  axes_include_zero  = false
-  axes_precision     = 0
-  color_by           = "Dimension"
-  disable_sampling   = false
-  minimum_resolution = 0
-  name               = "Top 5 LBs by Client TLS Negotiation Errors"
-  description        = "Number of TLS connections initiated by the client that did not establish a session with the load balancer. Possible causes include a mismatch of ciphers or protocols."
-  plot_type          = "LineChart"
-  program_text       = "A = data('ClientTLSNegotiationErrorCount', filter=filter('namespace', 'AWS/ApplicationELB') and filter('stat', 'sum') and filter('AvailabilityZone', '*'), rollup='average').sum(by=['LoadBalancer']).top(count=5).publish(label='A')"
-  show_data_markers  = false
-  show_event_lines   = false
-  stacked            = false
-  time_range         = 900
-  unit_prefix        = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
+# signalfx_time_chart.sfx_aws_alb_dash_1_10:
+resource "signalfx_time_chart" "sfx_aws_alb_dash_1_10" {
+  axes_include_zero = false
+  axes_precision    = 0
+  color_by          = "Dimension"
+  description       = "Number of TLS connections initiated by the client that did not establish a session with the load balancer. Possible causes include a mismatch of ciphers or protocols."
+  disable_sampling  = false
+  name              = "Top 5 LBs by Client TLS Negotiation Errors"
+  plot_type         = "LineChart"
+  program_text      = "A = data('ClientTLSNegotiationErrorCount', filter=filter('namespace', 'AWS/ApplicationELB') and filter('stat', 'sum') and filter('AvailabilityZone', '*'), rollup='average').sum(by=['LoadBalancer']).top(count=5).publish(label='A')"
+  show_data_markers = false
+  show_event_lines  = false
+  stacked           = false
+  time_range        = 900
+  timezone          = "UTC"
+  unit_prefix       = "Metric"
 
   legend_options_fields {
     enabled  = true
@@ -467,11 +450,10 @@ resource "signalfx_time_chart" "sfx_aws_alb_instances_top_client_tls_error_by_lb
     value_suffix = "errors"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_alb_instances_top_cpu_by_lb" {
+# signalfx_list_chart.sfx_aws_alb_dash_1_11:
+resource "signalfx_list_chart" "sfx_aws_alb_dash_1_11" {
   color_by                = "Dimension"
   description             = "Number of load balancer capacity units (LCU) used by your load balancer. You pay for the number of LCUs that you use per hour."
-  disable_sampling        = false
   max_precision           = 2
   name                    = "Top 5 LBs by LCU Usage"
   program_text            = "A = data('ConsumedLCUs', filter=filter('namespace', 'AWS/ApplicationELB') and filter('stat', 'mean')).sum(by=['LoadBalancer']).top(count=5).publish(label='A')"
@@ -510,10 +492,9 @@ resource "signalfx_list_chart" "sfx_aws_alb_instances_top_cpu_by_lb" {
     value_suffix = "LCUs"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_alb_instances_top_unhealthy_by_lb" {
+# signalfx_list_chart.sfx_aws_alb_dash_1_12:
+resource "signalfx_list_chart" "sfx_aws_alb_dash_1_12" {
   color_by                = "Dimension"
-  disable_sampling        = false
   max_precision           = 3
   name                    = "LBs with Highest Unhealthy Host %"
   program_text            = <<-EOF
@@ -539,30 +520,26 @@ resource "signalfx_list_chart" "sfx_aws_alb_instances_top_unhealthy_by_lb" {
     label        = "B"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_alb_instances_change_in_req_count_by_lb" {
-  axes_include_zero  = false
-  axes_precision     = 0
-  color_by           = "Dimension"
-  disable_sampling   = false
-  minimum_resolution = 0
-  name               = "% Change in Request Count per Load Balancer"
-  description        = "Comparing now to 7 days ago | if LB did not exist 7 days ago, chart will not be populated"
-  plot_type          = "LineChart"
-  program_text       = <<-EOF
+# signalfx_time_chart.sfx_aws_alb_dash_1_13:
+resource "signalfx_time_chart" "sfx_aws_alb_dash_1_13" {
+  axes_include_zero = false
+  axes_precision    = 0
+  color_by          = "Dimension"
+  description       = "Comparing now to 7 days ago | if LB did not exist 7 days ago, chart will not be populated"
+  disable_sampling  = false
+  name              = "% Change in Request Count per Load Balancer"
+  plot_type         = "LineChart"
+  program_text      = <<-EOF
         A = data('RequestCount', filter=filter('AvailabilityZone', '*') and filter('LoadBalancer', '*') and filter('stat', 'sum') and filter('namespace', 'AWS/ApplicationELB') and filter('TargetGroup', '*'), rollup='average').mean(over='1h').sum(by=['LoadBalancer']).publish(label='A', enable=False)
         B = (A).timeshift('1w').publish(label='B', enable=False)
         C = (A/B-1).scale(100).publish(label='C')
     EOF
-  show_data_markers  = false
-  show_event_lines   = false
-  stacked            = false
-  time_range         = 7200
-  unit_prefix        = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
+  show_data_markers = false
+  show_event_lines  = false
+  stacked           = false
+  time_range        = 7200
+  timezone          = "UTC"
+  unit_prefix       = "Metric"
 
   viz_options {
     axis         = "left"
@@ -581,30 +558,26 @@ resource "signalfx_time_chart" "sfx_aws_alb_instances_change_in_req_count_by_lb"
     value_suffix = "%"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_alb_instances_change_in_tgt_resp_time_by_lb" {
-  axes_include_zero  = false
-  axes_precision     = 0
-  color_by           = "Dimension"
-  disable_sampling   = false
-  minimum_resolution = 0
-  name               = "% Change in Target Reponse Time per LB"
-  description        = "Comparing now vs 7 days ago | If LB did not exist 7 days ago, chart will not be populated"
-  plot_type          = "LineChart"
-  program_text       = <<-EOF
+# signalfx_time_chart.sfx_aws_alb_dash_1_14:
+resource "signalfx_time_chart" "sfx_aws_alb_dash_1_14" {
+  axes_include_zero = false
+  axes_precision    = 0
+  color_by          = "Dimension"
+  description       = "Comparing now vs 7 days ago | If LB did not exist 7 days ago, chart will not be populated"
+  disable_sampling  = false
+  name              = "% Change in Target Reponse Time per LB"
+  plot_type         = "LineChart"
+  program_text      = <<-EOF
         A = data('TargetResponseTime', filter=filter('AvailabilityZone', '*') and filter('LoadBalancer', '*') and filter('stat', 'mean') and filter('namespace', 'AWS/ApplicationELB') and filter('TargetGroup', '*'), rollup='average').sum(by=['LoadBalancer']).mean(over='1h').publish(label='A', enable=False)
         B = (A).timeshift('1w').publish(label='B', enable=False)
         C = (A/B-1).scale(100).publish(label='C')
     EOF
-  show_data_markers  = false
-  show_event_lines   = false
-  stacked            = false
-  time_range         = 7200
-  unit_prefix        = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
+  show_data_markers = false
+  show_event_lines  = false
+  stacked           = false
+  time_range        = 7200
+  timezone          = "UTC"
+  unit_prefix       = "Metric"
 
   viz_options {
     axis         = "left"
@@ -623,16 +596,128 @@ resource "signalfx_time_chart" "sfx_aws_alb_instances_change_in_tgt_resp_time_by
     value_suffix = "%"
   }
 }
+# signalfx_dashboard.sfx_aws_alb_dash_1:
+resource "signalfx_dashboard" "sfx_aws_alb_dash_1" {
+  charts_resolution       = "default"
+  dashboard_group         = signalfx_dashboard_group.sfx_aws_alb.id
+  description             = "Overview of the Amazon ALB service."
+  discovery_options_query = "namespace:\"AWS/ApplicationELB\""
+  discovery_options_selectors = [
+    "namespace:AWS/ApplicationELB",
+    "sf_key:LoadBalancer",
+  ]
+  name = "Application ELB Instances"
 
-resource "signalfx_dashboard" "sfx_aws_alb_instances" {
-  charts_resolution = "default"
-  dashboard_group   = signalfx_dashboard_group.sfx_aws_alb.id
-  description       = "Overview of the Amazon ALB service."
-  name              = "Application ELB Instances"
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_alb_dash_1_12.id
+    column   = 0
+    height   = 1
+    row      = 4
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_alb_dash_1_13.id
+    column   = 4
+    height   = 1
+    row      = 4
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_alb_dash_1_9.id
+    column   = 0
+    height   = 1
+    row      = 3
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_alb_dash_1_8.id
+    column   = 8
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_alb_dash_1_11.id
+    column   = 8
+    height   = 1
+    row      = 3
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_alb_dash_1_5.id
+    column   = 8
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_alb_dash_1_7.id
+    column   = 4
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_alb_dash_1_4.id
+    column   = 4
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_alb_dash_1_2.id
+    column   = 8
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_alb_dash_1_0.id
+    column   = 0
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_alb_dash_1_14.id
+    column   = 8
+    height   = 1
+    row      = 4
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_alb_dash_1_10.id
+    column   = 4
+    height   = 1
+    row      = 3
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_alb_dash_1_6.id
+    column   = 0
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_alb_dash_1_1.id
+    column   = 4
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_alb_dash_1_3.id
+    column   = 0
+    height   = 1
+    row      = 1
+    width    = 4
+  }
 
   variable {
     alias                  = "Availability Zone"
     apply_if_exist         = false
+    description            = "null"
     property               = "AvailabilityZone"
     replace_only           = false
     restricted_suggestions = false
@@ -640,111 +725,4 @@ resource "signalfx_dashboard" "sfx_aws_alb_instances" {
     values                 = []
     values_suggested       = []
   }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_alb_instances_active_conns.id
-    column   = 0
-    height   = 1
-    row      = 0
-    width    = 4
-  }
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_alb_instances_response_times.id
-    column   = 4
-    height   = 1
-    row      = 0
-    width    = 4
-  }
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_alb_instances_top_response_times.id
-    column   = 8
-    height   = 1
-    row      = 0
-    width    = 4
-  }
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_alb_instances_req_count.id
-    column   = 0
-    height   = 1
-    row      = 1
-    width    = 4
-  }
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_alb_instances_req_count_pctile.id
-    column   = 4
-    height   = 1
-    row      = 1
-    width    = 4
-  }
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_alb_instances_top_req_counts.id
-    column   = 8
-    height   = 1
-    row      = 1
-    width    = 4
-  }
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_alb_instances_top_errors_by_lb.id
-    column   = 0
-    height   = 1
-    row      = 2
-    width    = 4
-  }
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_alb_instances_top_tls_error_by_target.id
-    column   = 4
-    height   = 1
-    row      = 2
-    width    = 4
-  }
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_alb_instances_top_conn_errors_by_lb.id
-    column   = 8
-    height   = 1
-    row      = 2
-    width    = 4
-  }
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_alb_instances_top_errors_by_http_target.id
-    column   = 0
-    height   = 1
-    row      = 3
-    width    = 4
-  }
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_alb_instances_top_client_tls_error_by_lb.id
-    column   = 4
-    height   = 1
-    row      = 3
-    width    = 4
-  }
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_alb_instances_top_cpu_by_lb.id
-    column   = 8
-    height   = 1
-    row      = 3
-    width    = 4
-  }
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_alb_instances_top_unhealthy_by_lb.id
-    column   = 0
-    height   = 1
-    row      = 4
-    width    = 4
-  }
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_alb_instances_change_in_req_count_by_lb.id
-    column   = 4
-    height   = 1
-    row      = 4
-    width    = 4
-  }
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_alb_instances_change_in_tgt_resp_time_by_lb.id
-    column   = 8
-    height   = 1
-    row      = 4
-    width    = 4
-  }
-
 }
