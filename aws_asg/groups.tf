@@ -1,5 +1,7 @@
-resource "signalfx_single_value_chart" "sfx_aws_asg_groups_count" {
+# signalfx_single_value_chart.sfx_aws_asg_dash_0_0:
+resource "signalfx_single_value_chart" "sfx_aws_asg_dash_0_0" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 0
   name                    = "# AutoScaling Groups"
   program_text            = "A = data('GroupTotalInstances', filter=filter('stat', 'mean') and filter('namespace', 'AWS/AutoScaling')).count(by=['AutoScalingGroupName']).sum().publish(label='A')"
@@ -12,8 +14,8 @@ resource "signalfx_single_value_chart" "sfx_aws_asg_groups_count" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_asg_groups_instance_count" {
+# signalfx_time_chart.sfx_aws_asg_dash_0_1:
+resource "signalfx_time_chart" "sfx_aws_asg_dash_0_1" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -38,8 +40,8 @@ resource "signalfx_time_chart" "sfx_aws_asg_groups_instance_count" {
     label        = "A"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_asg_groups_top_group_by_instances" {
+# signalfx_list_chart.sfx_aws_asg_dash_0_2:
+resource "signalfx_list_chart" "sfx_aws_asg_dash_0_2" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 0
@@ -49,13 +51,11 @@ resource "signalfx_list_chart" "sfx_aws_asg_groups_top_group_by_instances" {
   sort_by                 = "-value"
   unit_prefix             = "Metric"
 
-  viz_options {
-    label = "A"
-  }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_asg_groups_in_service_count" {
+# signalfx_single_value_chart.sfx_aws_asg_dash_0_3:
+resource "signalfx_single_value_chart" "sfx_aws_asg_dash_0_3" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 0
   name                    = "In Service Instances"
   program_text            = "A = data('GroupInServiceInstances', filter=filter('stat', 'mean') and filter('namespace', 'AWS/AutoScaling')).mean(by=['AutoScalingGroupName']).sum().publish(label='A')"
@@ -68,8 +68,8 @@ resource "signalfx_single_value_chart" "sfx_aws_asg_groups_in_service_count" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_asg_groups_in_service" {
+# signalfx_time_chart.sfx_aws_asg_dash_0_4:
+resource "signalfx_time_chart" "sfx_aws_asg_dash_0_4" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -99,9 +99,10 @@ resource "signalfx_time_chart" "sfx_aws_asg_groups_in_service" {
     label        = "A"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_asg_groups_pending_count" {
+# signalfx_single_value_chart.sfx_aws_asg_dash_0_5:
+resource "signalfx_single_value_chart" "sfx_aws_asg_dash_0_5" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 0
   name                    = "Total Pending Instances"
   program_text            = "A = data('GroupPendingInstances', filter=filter('stat', 'mean') and filter('namespace', 'AWS/AutoScaling')).mean(by=['AutoScalingGroupName']).sum().publish(label='A')"
@@ -114,8 +115,8 @@ resource "signalfx_single_value_chart" "sfx_aws_asg_groups_pending_count" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_asg_groups_pending" {
+# signalfx_time_chart.sfx_aws_asg_dash_0_6:
+resource "signalfx_time_chart" "sfx_aws_asg_dash_0_6" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -145,9 +146,10 @@ resource "signalfx_time_chart" "sfx_aws_asg_groups_pending" {
     label        = "A"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_asg_groups_terminating_count" {
+# signalfx_single_value_chart.sfx_aws_asg_dash_0_7:
+resource "signalfx_single_value_chart" "sfx_aws_asg_dash_0_7" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 0
   name                    = "Total Terminating Instances"
   program_text            = "A = data('GroupTerminatingInstances', filter=filter('stat', 'mean') and filter('namespace', 'AWS/AutoScaling')).mean(by=['AutoScalingGroupName']).sum().publish(label='A')"
@@ -160,8 +162,8 @@ resource "signalfx_single_value_chart" "sfx_aws_asg_groups_terminating_count" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_asg_groups_terminating" {
+# signalfx_time_chart.sfx_aws_asg_dash_0_8:
+resource "signalfx_time_chart" "sfx_aws_asg_dash_0_8" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -191,82 +193,78 @@ resource "signalfx_time_chart" "sfx_aws_asg_groups_terminating" {
     label        = "A"
   }
 }
-
-resource "signalfx_dashboard" "sfx_aws_asg_groups" {
-  charts_resolution = "default"
-  dashboard_group   = signalfx_dashboard_group.sfx_aws_asg.id
-  name              = "AutoScaling - Multi Group"
+# signalfx_dashboard.sfx_aws_asg_dash_0:
+resource "signalfx_dashboard" "sfx_aws_asg_dash_0" {
+  charts_resolution       = "default"
+  dashboard_group         = signalfx_dashboard_group.sfx_aws_asg.id
+  discovery_options_query = "namespace:\"AWS/AutoScaling\" AND _exists_:AutoScalingGroupName"
+  discovery_options_selectors = [
+    "namespace:AWS/AutoScaling",
+    "sf_key:AutoScalingGroupName",
+  ]
+  name = "AutoScaling - Multi Group"
 
   chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_asg_groups_count.id
-    row      = 0
+    chart_id = signalfx_single_value_chart.sfx_aws_asg_dash_0_5.id
     column   = 0
     height   = 1
-    width    = 4
+    row      = 2
+    width    = 6
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_asg_groups_instance_count.id
-    row      = 0
-    column   = 4
+    chart_id = signalfx_single_value_chart.sfx_aws_asg_dash_0_3.id
+    column   = 0
     height   = 1
-    width    = 4
+    row      = 1
+    width    = 6
   }
-
   chart {
-    chart_id = signalfx_list_chart.sfx_aws_asg_groups_top_group_by_instances.id
-    row      = 0
+    chart_id = signalfx_list_chart.sfx_aws_asg_dash_0_2.id
     column   = 8
     height   = 1
+    row      = 0
     width    = 4
   }
-
   chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_asg_groups_in_service_count.id
-    row      = 1
+    chart_id = signalfx_single_value_chart.sfx_aws_asg_dash_0_0.id
     column   = 0
     height   = 1
-    width    = 6
+    row      = 0
+    width    = 4
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_asg_groups_in_service.id
-    row      = 1
-    column   = 6
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_asg_groups_pending_count.id
-    row      = 2
+    chart_id = signalfx_single_value_chart.sfx_aws_asg_dash_0_7.id
     column   = 0
     height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_asg_groups_pending.id
-    row      = 2
-    column   = 6
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_asg_groups_terminating_count.id
     row      = 3
-    column   = 0
-    height   = 1
     width    = 6
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_asg_groups_terminating.id
-    row      = 3
+    chart_id = signalfx_time_chart.sfx_aws_asg_dash_0_6.id
     column   = 6
     height   = 1
+    row      = 2
     width    = 6
   }
-
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_asg_dash_0_8.id
+    column   = 6
+    height   = 1
+    row      = 3
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_asg_dash_0_4.id
+    column   = 6
+    height   = 1
+    row      = 1
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_asg_dash_0_1.id
+    column   = 4
+    height   = 1
+    row      = 0
+    width    = 4
+  }
 }
