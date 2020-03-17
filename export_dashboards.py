@@ -120,7 +120,7 @@ def handle_dashboard(sfx, id, name, args):
             sys.exit()
 
         chart_types.append(tf_type)
-        tf_name = args['name'] + "_" + f"{i}"
+        tf_name = f"{name}_{i}"
         chart_ids[chart['chartId']] = f"{tf_type}.{tf_name}"
 
         output = handle_asset(args['key'], args['api_url'], tf_type, tf_name, chart['chartId'])
@@ -128,7 +128,7 @@ def handle_dashboard(sfx, id, name, args):
             out += filter_hcl(output.decode('utf-8'))
             out += "\n"
 
-    output = handle_asset(args['key'], args['api_url'], "signalfx_dashboard", args['name'], id)
+    output = handle_asset(args['key'], args['api_url'], "signalfx_dashboard", name, id)
     if output != None:
          out += replace_chart_ids(filter_hcl(output.decode('utf-8')), chart_ids)
 
