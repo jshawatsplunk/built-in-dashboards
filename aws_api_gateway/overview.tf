@@ -1,5 +1,7 @@
-resource "signalfx_single_value_chart" "sfx_aws_api_gateway_overview_api_resources" {
+# signalfx_single_value_chart.sfx_aws_api_gateway_dash_1_0:
+resource "signalfx_single_value_chart" "sfx_aws_api_gateway_dash_1_0" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_delay               = 0
   max_precision           = 0
   name                    = "API Resources"
@@ -13,8 +15,8 @@ resource "signalfx_single_value_chart" "sfx_aws_api_gateway_overview_api_resourc
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_api_gateway_overview_total_api_calls" {
+# signalfx_time_chart.sfx_aws_api_gateway_dash_1_1:
+resource "signalfx_time_chart" "sfx_aws_api_gateway_dash_1_1" {
   axes_include_zero  = true
   axes_precision     = 0
   color_by           = "Dimension"
@@ -42,8 +44,8 @@ resource "signalfx_time_chart" "sfx_aws_api_gateway_overview_total_api_calls" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_api_gateway_overview_total_api_calls_by_method" {
+# signalfx_time_chart.sfx_aws_api_gateway_dash_1_2:
+resource "signalfx_time_chart" "sfx_aws_api_gateway_dash_1_2" {
   axes_include_zero         = false
   axes_precision            = 0
   color_by                  = "Dimension"
@@ -84,8 +86,8 @@ resource "signalfx_time_chart" "sfx_aws_api_gateway_overview_total_api_calls_by_
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_api_gateway_overview_4xx_count_by_method" {
+# signalfx_time_chart.sfx_aws_api_gateway_dash_1_3:
+resource "signalfx_time_chart" "sfx_aws_api_gateway_dash_1_3" {
   axes_include_zero         = false
   axes_precision            = 0
   color_by                  = "Dimension"
@@ -126,8 +128,8 @@ resource "signalfx_time_chart" "sfx_aws_api_gateway_overview_4xx_count_by_method
     label        = "A"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_api_gateway_overview_top_api_res_4xx" {
+# signalfx_list_chart.sfx_aws_api_gateway_dash_1_4:
+resource "signalfx_list_chart" "sfx_aws_api_gateway_dash_1_4" {
   color_by                = "Dimension"
   description             = "Top 10 API resources by highest number of 4xx responses in 5 minutes intervals"
   disable_sampling        = false
@@ -181,8 +183,8 @@ resource "signalfx_list_chart" "sfx_aws_api_gateway_overview_top_api_res_4xx" {
     label        = "A"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_api_gateway_overview_top_api_res_5xx" {
+# signalfx_list_chart.sfx_aws_api_gateway_dash_1_5:
+resource "signalfx_list_chart" "sfx_aws_api_gateway_dash_1_5" {
   color_by                = "Dimension"
   description             = "Top 10 API resources by highest number of 5xx responses in 5 minutes intervals"
   disable_sampling        = false
@@ -236,23 +238,24 @@ resource "signalfx_list_chart" "sfx_aws_api_gateway_overview_top_api_res_5xx" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_api_gateway_overview_5xx_resp_by_method" {
-  axes_include_zero  = false
-  axes_precision     = 0
-  color_by           = "Dimension"
-  description        = "Total number 5XX status responses from all API resources in 5 minutes intervals by HTTP method"
-  disable_sampling   = false
-  max_delay          = 0
-  minimum_resolution = 0
-  name               = "5XX Responses by HTTP Method"
-  plot_type          = "ColumnChart"
-  program_text       = "A = data('5XXError', filter=filter('Method', '*'), rollup='latest').sum(by=['Method']).publish(label='A')"
-  show_data_markers  = false
-  show_event_lines   = false
-  stacked            = true
-  time_range         = 900
-  unit_prefix        = "Metric"
+# signalfx_time_chart.sfx_aws_api_gateway_dash_1_6:
+resource "signalfx_time_chart" "sfx_aws_api_gateway_dash_1_6" {
+  axes_include_zero         = false
+  axes_precision            = 0
+  color_by                  = "Dimension"
+  description               = "Total number 5XX status responses from all API resources in 5 minutes intervals by HTTP method"
+  disable_sampling          = false
+  max_delay                 = 0
+  minimum_resolution        = 0
+  name                      = "5XX Responses by HTTP Method"
+  on_chart_legend_dimension = "Method"
+  plot_type                 = "ColumnChart"
+  program_text              = "A = data('5XXError', filter=filter('Method', '*'), rollup='latest').sum(by=['Method']).publish(label='A')"
+  show_data_markers         = false
+  show_event_lines          = false
+  stacked                   = true
+  time_range                = 900
+  unit_prefix               = "Metric"
 
   histogram_options {
     color_theme = "red"
@@ -277,23 +280,24 @@ resource "signalfx_time_chart" "sfx_aws_api_gateway_overview_5xx_resp_by_method"
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_api_gateway_overview_latency" {
-  axes_include_zero  = true
-  axes_precision     = 0
-  color_by           = "Dimension"
-  description        = "The time between when API Gateway receives a request from a client and when it returns a response to the client"
-  disable_sampling   = false
-  max_delay          = 0
-  minimum_resolution = 0
-  name               = "Average Latency across all API Resources"
-  plot_type          = "AreaChart"
-  program_text       = "A = data('Latency', filter=filter('stat', 'mean'), rollup='latest').mean().publish(label='A')"
-  show_data_markers  = false
-  show_event_lines   = false
-  stacked            = false
-  time_range         = 900
-  unit_prefix        = "Metric"
+# signalfx_time_chart.sfx_aws_api_gateway_dash_1_7:
+resource "signalfx_time_chart" "sfx_aws_api_gateway_dash_1_7" {
+  axes_include_zero         = true
+  axes_precision            = 0
+  color_by                  = "Dimension"
+  description               = "The time between when API Gateway receives a request from a client and when it returns a response to the client"
+  disable_sampling          = false
+  max_delay                 = 0
+  minimum_resolution        = 0
+  name                      = "Average Latency across all API Resources"
+  on_chart_legend_dimension = "metric"
+  plot_type                 = "AreaChart"
+  program_text              = "A = data('Latency', filter=filter('stat', 'mean'), rollup='latest').mean().publish(label='A')"
+  show_data_markers         = false
+  show_event_lines          = false
+  stacked                   = false
+  time_range                = 900
+  unit_prefix               = "Metric"
 
   histogram_options {
     color_theme = "red"
@@ -306,23 +310,24 @@ resource "signalfx_time_chart" "sfx_aws_api_gateway_overview_latency" {
     value_unit   = "Millisecond"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_api_gateway_overview_int_latency" {
-  axes_include_zero  = true
-  axes_precision     = 0
-  color_by           = "Dimension"
-  description        = "The time between when API Gateway relays a request to the back end and when it receives a response from the back end"
-  disable_sampling   = false
-  max_delay          = 0
-  minimum_resolution = 0
-  name               = "Average Integration Latency across all API Resources"
-  plot_type          = "AreaChart"
-  program_text       = "A = data('IntegrationLatency', filter=filter('stat', 'mean'), rollup='latest').mean().publish(label='A')"
-  show_data_markers  = false
-  show_event_lines   = false
-  stacked            = false
-  time_range         = 900
-  unit_prefix        = "Metric"
+# signalfx_time_chart.sfx_aws_api_gateway_dash_1_8:
+resource "signalfx_time_chart" "sfx_aws_api_gateway_dash_1_8" {
+  axes_include_zero         = true
+  axes_precision            = 0
+  color_by                  = "Dimension"
+  description               = "The time between when API Gateway relays a request to the back end and when it receives a response from the back end"
+  disable_sampling          = false
+  max_delay                 = 0
+  minimum_resolution        = 0
+  name                      = "Average Integration Latency across all API Resources"
+  on_chart_legend_dimension = "metric"
+  plot_type                 = "AreaChart"
+  program_text              = "A = data('IntegrationLatency', filter=filter('stat', 'mean'), rollup='latest').mean().publish(label='A')"
+  show_data_markers         = false
+  show_event_lines          = false
+  stacked                   = false
+  time_range                = 900
+  unit_prefix               = "Metric"
 
   histogram_options {
     color_theme = "red"
@@ -335,83 +340,75 @@ resource "signalfx_time_chart" "sfx_aws_api_gateway_overview_int_latency" {
     value_unit   = "Millisecond"
   }
 }
-
-resource "signalfx_dashboard" "sfx_aws_api_gateway_overview" {
-  name            = "Overview"
-  dashboard_group = signalfx_dashboard_group.sfx_aws_api_gateway.id
-  description     = "An overview of all AWS API Gateway resources"
-  time_range      = "-5h"
+# signalfx_dashboard.sfx_aws_api_gateway_dash_1:
+resource "signalfx_dashboard" "sfx_aws_api_gateway_dash_1" {
+  charts_resolution = "default"
+  dashboard_group   = signalfx_dashboard_group.sfx_aws_api_gateway.id
+  description       = "An overview of all AWS API Gateway resources"
+  name              = "Overview"
+  time_range        = "-5h"
 
   chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_api_gateway_overview_api_resources.id
-    row      = 0
+    chart_id = signalfx_time_chart.sfx_aws_api_gateway_dash_1_7.id
     column   = 0
     height   = 1
-    width    = 4
+    row      = 3
+    width    = 6
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_api_gateway_overview_total_api_calls.id
-    row      = 0
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_api_gateway_overview_total_api_calls_by_method.id
-    row      = 0
+    chart_id = signalfx_time_chart.sfx_aws_api_gateway_dash_1_2.id
     column   = 8
     height   = 1
+    row      = 0
     width    = 4
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_api_gateway_overview_4xx_count_by_method.id
-    row      = 1
+    chart_id = signalfx_time_chart.sfx_aws_api_gateway_dash_1_3.id
     column   = 0
     height   = 1
+    row      = 1
     width    = 6
   }
-
   chart {
-    chart_id = signalfx_list_chart.sfx_aws_api_gateway_overview_top_api_res_4xx.id
-    row      = 1
+    chart_id = signalfx_list_chart.sfx_aws_api_gateway_dash_1_4.id
     column   = 6
     height   = 2
+    row      = 1
     width    = 3
   }
-
   chart {
-    chart_id = signalfx_list_chart.sfx_aws_api_gateway_overview_top_api_res_5xx.id
-    row      = 1
+    chart_id = signalfx_list_chart.sfx_aws_api_gateway_dash_1_5.id
     column   = 9
     height   = 2
+    row      = 1
     width    = 3
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_api_gateway_overview_5xx_resp_by_method.id
+    chart_id = signalfx_single_value_chart.sfx_aws_api_gateway_dash_1_0.id
+    column   = 0
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_api_gateway_dash_1_6.id
+    column   = 0
+    height   = 1
     row      = 2
-    column   = 0
-    height   = 1
     width    = 6
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_api_gateway_overview_latency.id
-    row      = 3
-    column   = 0
+    chart_id = signalfx_time_chart.sfx_aws_api_gateway_dash_1_1.id
+    column   = 4
     height   = 1
-    width    = 6
+    row      = 0
+    width    = 4
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_api_gateway_overview_int_latency.id
-    row      = 3
+    chart_id = signalfx_time_chart.sfx_aws_api_gateway_dash_1_8.id
     column   = 6
     height   = 1
+    row      = 3
     width    = 6
   }
-
 }

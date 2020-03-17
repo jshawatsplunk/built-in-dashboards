@@ -1,6 +1,8 @@
-resource "signalfx_single_value_chart" "sfx_aws_api_gateway_api_resource_call_count_single" {
+# signalfx_single_value_chart.sfx_aws_api_gateway_dash_0_0:
+resource "signalfx_single_value_chart" "sfx_aws_api_gateway_dash_0_0" {
   color_by                = "Dimension"
   description             = "Number of API calls in 5 minutes intervals"
+  is_timestamp_hidden     = false
   max_delay               = 0
   max_precision           = 0
   name                    = "API Calls"
@@ -14,8 +16,8 @@ resource "signalfx_single_value_chart" "sfx_aws_api_gateway_api_resource_call_co
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_api_gateway_api_resource_call_count" {
+# signalfx_time_chart.sfx_aws_api_gateway_dash_0_1:
+resource "signalfx_time_chart" "sfx_aws_api_gateway_dash_0_1" {
   axes_include_zero         = true
   axes_precision            = 0
   color_by                  = "Dimension"
@@ -80,10 +82,11 @@ resource "signalfx_time_chart" "sfx_aws_api_gateway_api_resource_call_count" {
     label        = "A"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_api_gateway_api_resource_cache_hits_pct" {
+# signalfx_single_value_chart.sfx_aws_api_gateway_dash_0_2:
+resource "signalfx_single_value_chart" "sfx_aws_api_gateway_dash_0_2" {
   color_by                = "Dimension"
   description             = "Percent cache hits for GET method in 5 minute intervals"
+  is_timestamp_hidden     = false
   max_delay               = 0
   max_precision           = 2
   name                    = "Percent Cache Hits"
@@ -113,8 +116,8 @@ resource "signalfx_single_value_chart" "sfx_aws_api_gateway_api_resource_cache_h
     label        = "B"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_api_gateway_api_resource_cache_hits" {
+# signalfx_time_chart.sfx_aws_api_gateway_dash_0_3:
+resource "signalfx_time_chart" "sfx_aws_api_gateway_dash_0_3" {
   axes_include_zero         = false
   axes_precision            = 0
   color_by                  = "Dimension"
@@ -152,8 +155,8 @@ resource "signalfx_time_chart" "sfx_aws_api_gateway_api_resource_cache_hits" {
     label        = "B"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_api_gateway_api_resource_4xx_errors" {
+# signalfx_time_chart.sfx_aws_api_gateway_dash_0_4:
+resource "signalfx_time_chart" "sfx_aws_api_gateway_dash_0_4" {
   axes_include_zero         = true
   axes_precision            = 0
   color_by                  = "Dimension"
@@ -218,8 +221,8 @@ resource "signalfx_time_chart" "sfx_aws_api_gateway_api_resource_4xx_errors" {
     label        = "A"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_api_gateway_api_resource_latency" {
+# signalfx_list_chart.sfx_aws_api_gateway_dash_0_5:
+resource "signalfx_list_chart" "sfx_aws_api_gateway_dash_0_5" {
   color_by                = "Dimension"
   description             = "The time between when API Gateway receives a request from a client and when it returns a response to the client"
   disable_sampling        = false
@@ -275,8 +278,8 @@ resource "signalfx_list_chart" "sfx_aws_api_gateway_api_resource_latency" {
     value_unit   = "Millisecond"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_api_gateway_api_resource_integration_latency" {
+# signalfx_list_chart.sfx_aws_api_gateway_dash_0_6:
+resource "signalfx_list_chart" "sfx_aws_api_gateway_dash_0_6" {
   color_by                = "Dimension"
   description             = "The time between when API Gateway relays a request to the back end and when it receives a response from the back end"
   disable_sampling        = false
@@ -332,9 +335,8 @@ resource "signalfx_list_chart" "sfx_aws_api_gateway_api_resource_integration_lat
     value_unit   = "Millisecond"
   }
 }
-
-# signalfx_time_chart.sfx_aws_api_gateway_api_resource_7:
-resource "signalfx_time_chart" "sfx_aws_api_gateway_api_resource_5xx" {
+# signalfx_time_chart.sfx_aws_api_gateway_dash_0_7:
+resource "signalfx_time_chart" "sfx_aws_api_gateway_dash_0_7" {
   axes_include_zero         = true
   axes_precision            = 0
   color_by                  = "Dimension"
@@ -399,12 +401,69 @@ resource "signalfx_time_chart" "sfx_aws_api_gateway_api_resource_5xx" {
     label        = "A"
   }
 }
-
-resource "signalfx_dashboard" "sfx_aws_api_gateway_api_resource" {
+# signalfx_dashboard.sfx_aws_api_gateway_dash_0:
+resource "signalfx_dashboard" "sfx_aws_api_gateway_dash_0" {
   charts_resolution = "default"
   dashboard_group   = signalfx_dashboard_group.sfx_aws_api_gateway.id
   description       = "Charts for a single AWS API Gateway resource"
   name              = "API Resource"
+
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_api_gateway_dash_0_3.id
+    column   = 4
+    height   = 1
+    row      = 1
+    width    = 8
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_api_gateway_dash_0_7.id
+    column   = 0
+    height   = 1
+    row      = 3
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_api_gateway_dash_0_4.id
+    column   = 0
+    height   = 1
+    row      = 2
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_api_gateway_dash_0_2.id
+    column   = 0
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_api_gateway_dash_0_6.id
+    column   = 9
+    height   = 2
+    row      = 2
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_api_gateway_dash_0_5.id
+    column   = 6
+    height   = 2
+    row      = 2
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_api_gateway_dash_0_1.id
+    column   = 4
+    height   = 1
+    row      = 0
+    width    = 8
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_api_gateway_dash_0_0.id
+    column   = 0
+    height   = 1
+    row      = 0
+    width    = 4
+  }
 
   variable {
     alias                  = "Resource"
@@ -413,71 +472,7 @@ resource "signalfx_dashboard" "sfx_aws_api_gateway_api_resource" {
     replace_only           = false
     restricted_suggestions = false
     value_required         = true
-    values                 = ["Choose resource"]
+    values                 = ["Choose a resource"]
     values_suggested       = []
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_api_gateway_api_resource_call_count_single.id
-    row      = 0
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_api_gateway_api_resource_call_count.id
-    row      = 0
-    column   = 4
-    height   = 1
-    width    = 8
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_api_gateway_api_resource_cache_hits_pct.id
-    row      = 1
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_api_gateway_api_resource_cache_hits.id
-    row      = 1
-    column   = 4
-    height   = 1
-    width    = 8
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_api_gateway_api_resource_4xx_errors.id
-    row      = 2
-    column   = 0
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_api_gateway_api_resource_latency.id
-    row      = 2
-    column   = 6
-    height   = 2
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_api_gateway_api_resource_integration_latency.id
-    row      = 2
-    column   = 9
-    height   = 2
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_api_gateway_api_resource_5xx.id
-    row      = 3
-    column   = 0
-    height   = 1
-    width    = 6
   }
 }
