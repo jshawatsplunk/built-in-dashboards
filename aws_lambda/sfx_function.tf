@@ -1,4 +1,5 @@
-resource "signalfx_single_value_chart" "sfx_aws_lambda_sfx_function_0" {
+# signalfx_single_value_chart.sfx_aws_lambda_dash_1_0:
+resource "signalfx_single_value_chart" "sfx_aws_lambda_dash_1_0" {
   color_by                = "Dimension"
   description             = "sum over 1m"
   is_timestamp_hidden     = false
@@ -15,14 +16,13 @@ resource "signalfx_single_value_chart" "sfx_aws_lambda_sfx_function_0" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_1" {
+# signalfx_time_chart.sfx_aws_lambda_dash_1_1:
+resource "signalfx_time_chart" "sfx_aws_lambda_dash_1_1" {
   axes_include_zero         = false
   axes_precision            = 0
   color_by                  = "Dimension"
   description               = "The number of times a function is invoked in response to an event or invocation API call."
   disable_sampling          = false
-  minimum_resolution        = 0
   name                      = "Invocations"
   on_chart_legend_dimension = "plot_label"
   plot_type                 = "AreaChart"
@@ -35,11 +35,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_1" {
   show_event_lines          = false
   stacked                   = false
   time_range                = 900
+  timezone                  = "UTC"
   unit_prefix               = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
 
   legend_options_fields {
     enabled  = false
@@ -93,11 +90,10 @@ resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_1" {
     label        = "C"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_lambda_sfx_function_2" {
+# signalfx_list_chart.sfx_aws_lambda_dash_1_2:
+resource "signalfx_list_chart" "sfx_aws_lambda_dash_1_2" {
   color_by                = "Dimension"
   description             = "The % of total invocations handled by version"
-  disable_sampling        = false
   max_precision           = 0
   name                    = "% Invocations by Version"
   program_text            = <<-EOF
@@ -155,13 +151,12 @@ resource "signalfx_list_chart" "sfx_aws_lambda_sfx_function_2" {
     label        = "B"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_3" {
+# signalfx_time_chart.sfx_aws_lambda_dash_1_3:
+resource "signalfx_time_chart" "sfx_aws_lambda_dash_1_3" {
   axes_include_zero         = false
   axes_precision            = 0
   color_by                  = "Dimension"
   disable_sampling          = false
-  minimum_resolution        = 0
   name                      = "Invocations by Version"
   on_chart_legend_dimension = "aws_function_version"
   plot_type                 = "AreaChart"
@@ -170,11 +165,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_3" {
   show_event_lines          = false
   stacked                   = false
   time_range                = 900
+  timezone                  = "UTC"
   unit_prefix               = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
 
   viz_options {
     axis         = "left"
@@ -183,8 +175,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_3" {
     label        = "A"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_lambda_sfx_function_4" {
+# signalfx_single_value_chart.sfx_aws_lambda_dash_1_4:
+resource "signalfx_single_value_chart" "sfx_aws_lambda_dash_1_4" {
   color_by                = "Dimension"
   description             = "sum over 1m"
   is_timestamp_hidden     = false
@@ -201,20 +193,18 @@ resource "signalfx_single_value_chart" "sfx_aws_lambda_sfx_function_4" {
     label        = "A"
   }
 }
-
-resource "signalfx_heatmap_chart" "sfx_aws_lambda_sfx_function_5" {
-  description        = "% Erred Invocations"
-  disable_sampling   = false
-  group_by           = []
-  hide_timestamp     = false
-  minimum_resolution = 0
-  name               = "Version Errors Heatmap"
-  program_text       = <<-EOF
+# signalfx_heatmap_chart.sfx_aws_lambda_dash_1_5:
+resource "signalfx_heatmap_chart" "sfx_aws_lambda_dash_1_5" {
+  description    = "% Erred Invocations"
+  group_by       = []
+  hide_timestamp = false
+  name           = "Version Errors Heatmap"
+  program_text   = <<-EOF
         A = data('function.invocations', rollup='sum', extrapolation='last_value', maxExtrapolations=2).sum(by=['aws_function_version']).publish(label='A', enable=False)
         B = data('function.errors', rollup='sum', extrapolation='last_value', maxExtrapolations=2).sum(by=['aws_function_version']).publish(label='B', enable=False)
         C = (B/A).scale(100).publish(label='C')
     EOF
-  unit_prefix        = "Metric"
+  unit_prefix    = "Metric"
 
   color_scale {
     color = "green"
@@ -245,13 +235,12 @@ resource "signalfx_heatmap_chart" "sfx_aws_lambda_sfx_function_5" {
     lte   = 20
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_6" {
+# signalfx_time_chart.sfx_aws_lambda_dash_1_6:
+resource "signalfx_time_chart" "sfx_aws_lambda_dash_1_6" {
   axes_include_zero         = false
   axes_precision            = 0
   color_by                  = "Dimension"
   disable_sampling          = false
-  minimum_resolution        = 0
   name                      = "Errors by Version"
   on_chart_legend_dimension = "aws_function_version"
   plot_type                 = "AreaChart"
@@ -260,11 +249,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_6" {
   show_event_lines          = false
   stacked                   = true
   time_range                = 900
+  timezone                  = "UTC"
   unit_prefix               = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
 
   viz_options {
     axis         = "left"
@@ -272,8 +258,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_6" {
     label        = "A"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_lambda_sfx_function_7" {
+# signalfx_single_value_chart.sfx_aws_lambda_dash_1_7:
+resource "signalfx_single_value_chart" "sfx_aws_lambda_dash_1_7" {
   color_by                = "Metric"
   description             = "mean over 1m (ms)"
   is_timestamp_hidden     = false
@@ -290,17 +276,16 @@ resource "signalfx_single_value_chart" "sfx_aws_lambda_sfx_function_7" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_8" {
-  axes_include_zero  = false
-  axes_precision     = 0
-  color_by           = "Dimension"
-  description        = "percentile distribution"
-  disable_sampling   = false
-  minimum_resolution = 0
-  name               = "Duration"
-  plot_type          = "AreaChart"
-  program_text       = <<-EOF
+# signalfx_time_chart.sfx_aws_lambda_dash_1_8:
+resource "signalfx_time_chart" "sfx_aws_lambda_dash_1_8" {
+  axes_include_zero = false
+  axes_precision    = 0
+  color_by          = "Dimension"
+  description       = "percentile distribution"
+  disable_sampling  = false
+  name              = "Duration"
+  plot_type         = "AreaChart"
+  program_text      = <<-EOF
         A = data('function.duration', rollup='average').mean().publish(label='A', enable=False)
         B = (A).max().publish(label='B')
         C = (A).min().publish(label='C')
@@ -308,18 +293,15 @@ resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_8" {
         E = (A).percentile(pct=50).publish(label='E')
         F = (A).percentile(pct=90).publish(label='F')
     EOF
-  show_data_markers  = false
-  show_event_lines   = false
-  stacked            = false
-  time_range         = 900
-  unit_prefix        = "Metric"
+  show_data_markers = false
+  show_event_lines  = false
+  stacked           = false
+  time_range        = 900
+  timezone          = "UTC"
+  unit_prefix       = "Metric"
 
   axis_left {
     label = "ms"
-  }
-
-  histogram_options {
-    color_theme = "red"
   }
 
   viz_options {
@@ -355,14 +337,13 @@ resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_8" {
     label        = "B"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_9" {
+# signalfx_time_chart.sfx_aws_lambda_dash_1_9:
+resource "signalfx_time_chart" "sfx_aws_lambda_dash_1_9" {
   axes_include_zero         = false
   axes_precision            = 0
   color_by                  = "Dimension"
   description               = "mean"
   disable_sampling          = false
-  minimum_resolution        = 0
   name                      = "Duration by Version"
   on_chart_legend_dimension = "aws_function_version"
   plot_type                 = "AreaChart"
@@ -375,14 +356,11 @@ resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_9" {
   show_event_lines          = false
   stacked                   = false
   time_range                = 900
+  timezone                  = "UTC"
   unit_prefix               = "Metric"
 
   axis_left {
     label = "ms"
-  }
-
-  histogram_options {
-    color_theme = "red"
   }
 
   viz_options {
@@ -401,8 +379,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_9" {
     label        = "B"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_lambda_sfx_function_10" {
+# signalfx_single_value_chart.sfx_aws_lambda_dash_1_10:
+resource "signalfx_single_value_chart" "sfx_aws_lambda_dash_1_10" {
   color_by                = "Dimension"
   description             = "sum over 1m"
   is_timestamp_hidden     = false
@@ -419,25 +397,21 @@ resource "signalfx_single_value_chart" "sfx_aws_lambda_sfx_function_10" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_11" {
-  axes_include_zero  = false
-  axes_precision     = 0
-  color_by           = "Dimension"
-  disable_sampling   = false
-  minimum_resolution = 0
-  name               = "Cold Starts by Version"
-  plot_type          = "ColumnChart"
-  program_text       = "A = data('function.cold_starts', rollup='sum').sum(by=['aws_function_version']).publish(label='A')"
-  show_data_markers  = false
-  show_event_lines   = false
-  stacked            = false
-  time_range         = 900
-  unit_prefix        = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
+# signalfx_time_chart.sfx_aws_lambda_dash_1_11:
+resource "signalfx_time_chart" "sfx_aws_lambda_dash_1_11" {
+  axes_include_zero = false
+  axes_precision    = 0
+  color_by          = "Dimension"
+  disable_sampling  = false
+  name              = "Cold Starts by Version"
+  plot_type         = "ColumnChart"
+  program_text      = "A = data('function.cold_starts', rollup='sum').sum(by=['aws_function_version']).publish(label='A')"
+  show_data_markers = false
+  show_event_lines  = false
+  stacked           = false
+  time_range        = 900
+  timezone          = "UTC"
+  unit_prefix       = "Metric"
 
   viz_options {
     axis         = "left"
@@ -446,16 +420,106 @@ resource "signalfx_time_chart" "sfx_aws_lambda_sfx_function_11" {
     label        = "A"
   }
 }
+# signalfx_dashboard.sfx_aws_lambda_dash_1:
+resource "signalfx_dashboard" "sfx_aws_lambda_dash_1" {
+  charts_resolution       = "default"
+  dashboard_group         = signalfx_dashboard_group.sfx_aws_lambda.id
+  discovery_options_query = "metric_source:\"lambda_wrapper\""
+  discovery_options_selectors = [
+    "_exists_:aws_function_name",
+    "_exists_:lambda_arn",
+  ]
+  name = "Lambda (SignalFx) Function"
 
-resource "signalfx_dashboard" "sfx_aws_lambda_sfx_function" {
-
-  charts_resolution = "default"
-  dashboard_group   = signalfx_dashboard_group.sfx_aws_lambda.id
-  name              = "Lambda (SignalFx) Function"
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_lambda_dash_1_8.id
+    column   = 3
+    height   = 1
+    row      = 2
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_lambda_dash_1_11.id
+    column   = 3
+    height   = 1
+    row      = 3
+    width    = 9
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_lambda_dash_1_9.id
+    column   = 6
+    height   = 1
+    row      = 2
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_lambda_dash_1_1.id
+    column   = 3
+    height   = 1
+    row      = 0
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_lambda_dash_1_10.id
+    column   = 0
+    height   = 1
+    row      = 3
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_lambda_dash_1_4.id
+    column   = 0
+    height   = 1
+    row      = 1
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_lambda_dash_1_6.id
+    column   = 6
+    height   = 1
+    row      = 1
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_heatmap_chart.sfx_aws_lambda_dash_1_5.id
+    column   = 3
+    height   = 1
+    row      = 1
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_lambda_dash_1_3.id
+    column   = 9
+    height   = 1
+    row      = 0
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_lambda_dash_1_0.id
+    column   = 0
+    height   = 1
+    row      = 0
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_lambda_dash_1_7.id
+    column   = 0
+    height   = 1
+    row      = 2
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_lambda_dash_1_2.id
+    column   = 6
+    height   = 1
+    row      = 0
+    width    = 3
+  }
 
   variable {
     alias                  = "Function Name"
     apply_if_exist         = false
+    description            = "null"
     property               = "aws_function_name"
     replace_only           = false
     restricted_suggestions = false
@@ -465,101 +529,4 @@ resource "signalfx_dashboard" "sfx_aws_lambda_sfx_function" {
     ]
     values_suggested = []
   }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_lambda_sfx_function_0.id
-    row      = 0
-    column   = 0
-    height   = 1
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_sfx_function_1.id
-    row      = 0
-    column   = 3
-    height   = 1
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_lambda_sfx_function_2.id
-    row      = 0
-    column   = 6
-    height   = 1
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_sfx_function_3.id
-    row      = 0
-    column   = 9
-    height   = 1
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_lambda_sfx_function_4.id
-    row      = 1
-    column   = 0
-    height   = 1
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_heatmap_chart.sfx_aws_lambda_sfx_function_5.id
-    row      = 1
-    column   = 3
-    height   = 1
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_sfx_function_6.id
-    row      = 1
-    column   = 6
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_lambda_sfx_function_7.id
-    row      = 2
-    column   = 0
-    height   = 1
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_sfx_function_8.id
-    row      = 2
-    column   = 3
-    height   = 1
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_sfx_function_9.id
-    row      = 2
-    column   = 6
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_lambda_sfx_function_10.id
-    row      = 3
-    column   = 0
-    height   = 1
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_sfx_function_11.id
-    row      = 3
-    column   = 3
-    height   = 1
-    width    = 9
-  }
-
 }

@@ -1,4 +1,5 @@
-resource "signalfx_single_value_chart" "sfx_aws_lambda_opsworks_other_0" {
+# signalfx_single_value_chart.sfx_aws_opsworks_dash_1_0:
+resource "signalfx_single_value_chart" "sfx_aws_opsworks_dash_1_0" {
   color_by                = "Dimension"
   is_timestamp_hidden     = false
   max_precision           = 3
@@ -10,9 +11,10 @@ resource "signalfx_single_value_chart" "sfx_aws_lambda_opsworks_other_0" {
   secondary_visualization = "None"
   show_spark_line         = false
   unit_prefix             = "Metric"
-}
 
-resource "signalfx_time_chart" "sfx_aws_lambda_opsworks_other_1" {
+}
+# signalfx_time_chart.sfx_aws_opsworks_dash_1_1:
+resource "signalfx_time_chart" "sfx_aws_opsworks_dash_1_1" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -80,8 +82,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_opsworks_other_1" {
     label        = "C"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_opsworks_other_2" {
+# signalfx_time_chart.sfx_aws_opsworks_dash_1_2:
+resource "signalfx_time_chart" "sfx_aws_opsworks_dash_1_2" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -110,6 +112,14 @@ resource "signalfx_time_chart" "sfx_aws_lambda_opsworks_other_2" {
   }
 
   viz_options {
+    axis  = "left"
+    label = "A"
+  }
+  viz_options {
+    axis  = "left"
+    label = "B"
+  }
+  viz_options {
     axis         = "left"
     display_name = "24h change %"
     label        = "D"
@@ -120,8 +130,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_opsworks_other_2" {
     label        = "C"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_opsworks_other_3" {
+# signalfx_time_chart.sfx_aws_opsworks_dash_1_3:
+resource "signalfx_time_chart" "sfx_aws_opsworks_dash_1_3" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -161,8 +171,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_opsworks_other_3" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_opsworks_other_4" {
+# signalfx_time_chart.sfx_aws_opsworks_dash_1_4:
+resource "signalfx_time_chart" "sfx_aws_opsworks_dash_1_4" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -209,8 +219,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_opsworks_other_4" {
     label        = "B"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_lambda_opsworks_other_5" {
+# signalfx_single_value_chart.sfx_aws_opsworks_dash_1_5:
+resource "signalfx_single_value_chart" "sfx_aws_opsworks_dash_1_5" {
   color_by                = "Dimension"
   is_timestamp_hidden     = false
   max_precision           = 4
@@ -219,9 +229,10 @@ resource "signalfx_single_value_chart" "sfx_aws_lambda_opsworks_other_5" {
   secondary_visualization = "None"
   show_spark_line         = false
   unit_prefix             = "Metric"
-}
 
-resource "signalfx_time_chart" "sfx_aws_lambda_opsworks_other_6" {
+}
+# signalfx_time_chart.sfx_aws_opsworks_dash_1_6:
+resource "signalfx_time_chart" "sfx_aws_opsworks_dash_1_6" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -251,8 +262,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_opsworks_other_6" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_opsworks_other_7" {
+# signalfx_time_chart.sfx_aws_opsworks_dash_1_7:
+resource "signalfx_time_chart" "sfx_aws_opsworks_dash_1_7" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -295,76 +306,73 @@ resource "signalfx_time_chart" "sfx_aws_lambda_opsworks_other_7" {
     label        = "B"
   }
 }
-
-resource "signalfx_dashboard" "sfx_aws_lambda_opsworks_other" {
-
-  charts_resolution = "default"
-  dashboard_group   = signalfx_dashboard_group.sfx_aws_opsworks.id
-  description       = "Default dashboard."
-  name              = "OpsWorks"
+# signalfx_dashboard.sfx_aws_opsworks_dash_1:
+resource "signalfx_dashboard" "sfx_aws_opsworks_dash_1" {
+  charts_resolution       = "default"
+  dashboard_group         = signalfx_dashboard_group.sfx_aws_opsworks.id
+  description             = "Default dashboard."
+  discovery_options_query = "namespace:\"AWS/OpsWorks\""
+  discovery_options_selectors = [
+    "_exists_:InstanceId",
+    "_exists_:LayerId",
+    "_exists_:StackId",
+  ]
+  name = "OpsWorks"
 
   chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_lambda_opsworks_other_0.id
-    row      = 0
+    chart_id = signalfx_time_chart.sfx_aws_opsworks_dash_1_3.id
     column   = 0
     height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_opsworks_other_1.id
-    row      = 0
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_opsworks_other_2.id
-    row      = 0
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_opsworks_other_3.id
     row      = 1
-    column   = 0
-    height   = 1
     width    = 6
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_opsworks_other_4.id
-    row      = 1
+    chart_id = signalfx_time_chart.sfx_aws_opsworks_dash_1_4.id
     column   = 6
     height   = 1
+    row      = 1
     width    = 6
   }
-
   chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_lambda_opsworks_other_5.id
-    row      = 2
+    chart_id = signalfx_single_value_chart.sfx_aws_opsworks_dash_1_0.id
     column   = 0
     height   = 1
+    row      = 0
     width    = 4
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_opsworks_other_6.id
+    chart_id = signalfx_single_value_chart.sfx_aws_opsworks_dash_1_5.id
+    column   = 0
+    height   = 1
     row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_opsworks_dash_1_1.id
     column   = 4
     height   = 1
+    row      = 0
     width    = 4
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_opsworks_other_7.id
-    row      = 2
+    chart_id = signalfx_time_chart.sfx_aws_opsworks_dash_1_2.id
     column   = 8
     height   = 1
+    row      = 0
     width    = 4
   }
-
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_opsworks_dash_1_7.id
+    column   = 8
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_opsworks_dash_1_6.id
+    column   = 4
+    height   = 1
+    row      = 2
+    width    = 4
+  }
 }

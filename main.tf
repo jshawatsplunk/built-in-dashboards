@@ -82,14 +82,14 @@ module "aws_kinesis_streams" {
   source = "./aws_kinesis_streams"
 }
 
-# module "aws_lambda" {
-#   source = "./aws_lambda"
-# }
-#
-# module "aws_opsworks" {
-#   source = "./aws_opsworks"
-# }
-#
+module "aws_lambda" {
+  source = "./aws_lambda"
+}
+
+module "aws_opsworks" {
+  source = "./aws_opsworks"
+}
+
 # module "aws_rds" {
 #   source = "./aws_rds"
 # }

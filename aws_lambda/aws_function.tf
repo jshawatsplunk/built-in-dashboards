@@ -1,4 +1,5 @@
-resource "signalfx_single_value_chart" "sfx_aws_lambda_aws_function_0" {
+# signalfx_single_value_chart.sfx_aws_lambda_dash_0_0:
+resource "signalfx_single_value_chart" "sfx_aws_lambda_dash_0_0" {
   color_by                = "Dimension"
   description             = "over 5m"
   is_timestamp_hidden     = false
@@ -15,8 +16,8 @@ resource "signalfx_single_value_chart" "sfx_aws_lambda_aws_function_0" {
     label        = "A"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_lambda_aws_function_1" {
+# signalfx_single_value_chart.sfx_aws_lambda_dash_0_1:
+resource "signalfx_single_value_chart" "sfx_aws_lambda_dash_0_1" {
   color_by                = "Metric"
   is_timestamp_hidden     = false
   max_precision           = 5
@@ -32,15 +33,14 @@ resource "signalfx_single_value_chart" "sfx_aws_lambda_aws_function_1" {
     value_unit   = "Millisecond"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_lambda_aws_function_2" {
+# signalfx_single_value_chart.sfx_aws_lambda_dash_0_2:
+resource "signalfx_single_value_chart" "sfx_aws_lambda_dash_0_2" {
   color_by                = "Dimension"
   description             = "over 5m | Spillover invocations are run on nonprovisioned concurrency, when all provisioned concurrency is in use."
   is_timestamp_hidden     = false
-  max_delay               = 0
   max_precision           = 0
   name                    = "Total Spillover Invocations"
-  program_text            = "A = data('ProvisionedConcurrencySpilloverInvocations', filter=filter('stat', 'sum') and filter('Resource', '*') and filter('ExecutedVersion', '*')).sum(over='5m').sum().publish(label='A')"
+  program_text            = "A = data('ProvisionedConcurrencySpilloverInvocations', filter=filter('stat', 'sum') and filter('Resource', '*') and filter('ExecutedVersion', '*'), rollup='rate').sum(over='5m').sum().publish(label='A')"
   secondary_visualization = "None"
   show_spark_line         = false
   unit_prefix             = "Metric"
@@ -50,8 +50,8 @@ resource "signalfx_single_value_chart" "sfx_aws_lambda_aws_function_2" {
     label        = "A"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_lambda_aws_function_3" {
+# signalfx_single_value_chart.sfx_aws_lambda_dash_0_3:
+resource "signalfx_single_value_chart" "sfx_aws_lambda_dash_0_3" {
   color_by                = "Dimension"
   description             = "over 5m"
   is_timestamp_hidden     = false
@@ -68,8 +68,8 @@ resource "signalfx_single_value_chart" "sfx_aws_lambda_aws_function_3" {
     label        = "A"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_lambda_aws_function_4" {
+# signalfx_single_value_chart.sfx_aws_lambda_dash_0_4:
+resource "signalfx_single_value_chart" "sfx_aws_lambda_dash_0_4" {
   color_by                = "Dimension"
   description             = "over 5m"
   is_timestamp_hidden     = false
@@ -86,14 +86,13 @@ resource "signalfx_single_value_chart" "sfx_aws_lambda_aws_function_4" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_5" {
+# signalfx_time_chart.sfx_aws_lambda_dash_0_5:
+resource "signalfx_time_chart" "sfx_aws_lambda_dash_0_5" {
   axes_include_zero         = false
   axes_precision            = 0
   color_by                  = "Dimension"
   description               = "The number of times a function is invoked in response to an event or invocation API call and associated errors or throttles."
   disable_sampling          = false
-  minimum_resolution        = 0
   name                      = "Invocations"
   on_chart_legend_dimension = "plot_label"
   plot_type                 = "AreaChart"
@@ -102,11 +101,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_5" {
   show_event_lines          = false
   stacked                   = false
   time_range                = 900
+  timezone                  = "UTC"
   unit_prefix               = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
 
   legend_options_fields {
     enabled  = false
@@ -151,14 +147,13 @@ resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_5" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_6" {
+# signalfx_time_chart.sfx_aws_lambda_dash_0_6:
+resource "signalfx_time_chart" "sfx_aws_lambda_dash_0_6" {
   axes_include_zero         = false
   axes_precision            = 0
   color_by                  = "Dimension"
   description               = "The number of times a function is invoked in response to an event or invocation API call."
   disable_sampling          = false
-  minimum_resolution        = 0
   name                      = "Invocations by Version"
   on_chart_legend_dimension = "ExecutedVersion"
   plot_type                 = "AreaChart"
@@ -167,11 +162,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_6" {
   show_event_lines          = false
   stacked                   = true
   time_range                = 900
+  timezone                  = "UTC"
   unit_prefix               = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
 
   legend_options_fields {
     enabled  = false
@@ -217,28 +209,23 @@ resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_6" {
     value_suffix = "-invocations"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_7" {
+# signalfx_time_chart.sfx_aws_lambda_dash_0_7:
+resource "signalfx_time_chart" "sfx_aws_lambda_dash_0_7" {
   axes_include_zero         = false
   axes_precision            = 0
   color_by                  = "Dimension"
   description               = "The number of invocations that are run on provisioned concurrency. Lambda increments the count once for each invocation that runs on provisioned concurrency."
   disable_sampling          = false
-  max_delay                 = 0
-  minimum_resolution        = 0
   name                      = "Provisioned Concurrency Invocations by Version"
   on_chart_legend_dimension = "ExecutedVersion"
   plot_type                 = "AreaChart"
-  program_text              = "A = data('ProvisionedConcurrencyInvocations', filter=filter('stat', 'sum') and filter('Resource', '*') and filter('ExecutedVersion', '*')).sum(by=['ExecutedVersion']).publish(label='A')"
+  program_text              = "A = data('ProvisionedConcurrencyInvocations', filter=filter('stat', 'sum') and filter('Resource', '*') and filter('ExecutedVersion', '*'), rollup='rate').sum(by=['ExecutedVersion']).publish(label='A')"
   show_data_markers         = false
   show_event_lines          = false
   stacked                   = true
   time_range                = 900
+  timezone                  = "UTC"
   unit_prefix               = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
 
   legend_options_fields {
     enabled  = false
@@ -279,15 +266,13 @@ resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_7" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_8" {
+# signalfx_time_chart.sfx_aws_lambda_dash_0_8:
+resource "signalfx_time_chart" "sfx_aws_lambda_dash_0_8" {
   axes_include_zero         = false
   axes_precision            = 0
   color_by                  = "Dimension"
   description               = "The number of events that are being processed on provisioned concurrency. For each invocation of an alias or version with provisioned concurrency, Lambda emits the current count."
   disable_sampling          = false
-  max_delay                 = 0
-  minimum_resolution        = 0
   name                      = "Provisioned Concurrent Executions by Version"
   on_chart_legend_dimension = "ExecutedVersion"
   plot_type                 = "AreaChart"
@@ -296,11 +281,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_8" {
   show_event_lines          = false
   stacked                   = true
   time_range                = 900
+  timezone                  = "UTC"
   unit_prefix               = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
 
   viz_options {
     axis         = "left"
@@ -308,10 +290,9 @@ resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_8" {
     label        = "A"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_lambda_aws_function_9" {
+# signalfx_list_chart.sfx_aws_lambda_dash_0_9:
+resource "signalfx_list_chart" "sfx_aws_lambda_dash_0_9" {
   color_by                = "Dimension"
-  disable_sampling        = false
   max_precision           = 0
   name                    = "Average Duration by Version"
   program_text            = "A = data('Duration', filter=filter('namespace', 'AWS/Lambda') and filter('stat', 'mean') and filter('Resource', '*') and filter('ExecutedVersion', '*'), rollup='average').sum(by=['ExecutedVersion']).publish(label='A')"
@@ -363,14 +344,13 @@ resource "signalfx_list_chart" "sfx_aws_lambda_aws_function_9" {
     value_unit   = "Millisecond"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_10" {
+# signalfx_time_chart.sfx_aws_lambda_dash_0_10:
+resource "signalfx_time_chart" "sfx_aws_lambda_dash_0_10" {
   axes_include_zero         = false
   axes_precision            = 0
   color_by                  = "Dimension"
   description               = "The number of invocations that failed due to errors in the function (response code 4XX)."
   disable_sampling          = false
-  minimum_resolution        = 0
   name                      = "Errors by Version"
   on_chart_legend_dimension = "ExecutedVersion"
   plot_type                 = "AreaChart"
@@ -379,11 +359,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_10" {
   show_event_lines          = false
   stacked                   = false
   time_range                = 900
+  timezone                  = "UTC"
   unit_prefix               = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
 
   legend_options_fields {
     enabled  = false
@@ -429,14 +406,13 @@ resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_10" {
     value_suffix = "-errors"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_11" {
+# signalfx_time_chart.sfx_aws_lambda_dash_0_11:
+resource "signalfx_time_chart" "sfx_aws_lambda_dash_0_11" {
   axes_include_zero         = false
   axes_precision            = 0
   color_by                  = "Dimension"
-  description               = "The number of Lambda function invocation attempts that were throttled due to invocation rates exceeding the customer’s concurrent limits (error code 429)."
+  description               = "The number of Lambda function invocation attempts that were throttled due to invocation rates exceeding the customerâ€™s concurrent limits (error code 429)."
   disable_sampling          = false
-  minimum_resolution        = 0
   name                      = "Throttles by version"
   on_chart_legend_dimension = "ExecutedVersion"
   plot_type                 = "AreaChart"
@@ -445,11 +421,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_11" {
   show_event_lines          = false
   stacked                   = true
   time_range                = 900
+  timezone                  = "UTC"
   unit_prefix               = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
 
   legend_options_fields {
     enabled  = false
@@ -494,11 +467,10 @@ resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_11" {
     label        = "A"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_lambda_aws_function_12" {
+# signalfx_list_chart.sfx_aws_lambda_dash_0_12:
+resource "signalfx_list_chart" "sfx_aws_lambda_dash_0_12" {
   color_by                = "Dimension"
   description             = "The % of total invocations handled by version"
-  disable_sampling        = false
   max_precision           = 0
   name                    = "% Invocations by Version"
   program_text            = <<-EOF
@@ -549,39 +521,28 @@ resource "signalfx_list_chart" "sfx_aws_lambda_aws_function_12" {
   }
 
   viz_options {
-    label = "A"
-  }
-  viz_options {
-    label = "B"
-  }
-  viz_options {
     display_name = "version"
     label        = "C"
     value_suffix = "%"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_13" {
+# signalfx_time_chart.sfx_aws_lambda_dash_0_13:
+resource "signalfx_time_chart" "sfx_aws_lambda_dash_0_13" {
   axes_include_zero         = false
   axes_precision            = 0
   color_by                  = "Dimension"
   description               = "The number of invocations that are run on nonprovisioned concurrency, when all provisioned concurrency is in use. For a version or alias that is configured to use provisioned concurrency, Lambda increments the count once for each invocation that runs on non-provisioned concurrency."
   disable_sampling          = false
-  max_delay                 = 0
-  minimum_resolution        = 0
   name                      = "Provisioned Concurrency Spillover Invocations by Version"
   on_chart_legend_dimension = "ExecutedVersion"
   plot_type                 = "AreaChart"
-  program_text              = "A = data('ProvisionedConcurrencySpilloverInvocations', filter=filter('stat', 'sum') and filter('Resource', '*') and filter('ExecutedVersion', '*')).sum(by=['ExecutedVersion']).publish(label='A')"
+  program_text              = "A = data('ProvisionedConcurrencySpilloverInvocations', filter=filter('stat', 'sum') and filter('Resource', '*') and filter('ExecutedVersion', '*'), rollup='rate').sum(by=['ExecutedVersion']).publish(label='A')"
   show_data_markers         = false
   show_event_lines          = false
   stacked                   = true
   time_range                = 900
+  timezone                  = "UTC"
   unit_prefix               = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
 
   legend_options_fields {
     enabled  = false
@@ -622,15 +583,13 @@ resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_13" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_14" {
+# signalfx_time_chart.sfx_aws_lambda_dash_0_14:
+resource "signalfx_time_chart" "sfx_aws_lambda_dash_0_14" {
   axes_include_zero         = true
   axes_precision            = 0
   color_by                  = "Dimension"
   description               = "The number of events that are being processed on provisioned concurrency, divided by the total amount of provisioned concurrency allocated. For example, .5 indicates that 50 percent of allocated provisioned concurrency is in use. For each invocation of an alias or version with provisioned concurrency, Lambda emits the current count."
   disable_sampling          = false
-  max_delay                 = 0
-  minimum_resolution        = 0
   name                      = "Provisioned Concurrency Utilization"
   on_chart_legend_dimension = "ExecutedVersion"
   plot_type                 = "LineChart"
@@ -639,11 +598,8 @@ resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_14" {
   show_event_lines          = false
   stacked                   = false
   time_range                = 900
+  timezone                  = "UTC"
   unit_prefix               = "Metric"
-
-  histogram_options {
-    color_theme = "red"
-  }
 
   legend_options_fields {
     enabled  = false
@@ -685,16 +641,127 @@ resource "signalfx_time_chart" "sfx_aws_lambda_aws_function_14" {
     value_suffix = "%"
   }
 }
+# signalfx_dashboard.sfx_aws_lambda_dash_0:
+resource "signalfx_dashboard" "sfx_aws_lambda_dash_0" {
+  charts_resolution       = "default"
+  dashboard_group         = signalfx_dashboard_group.sfx_aws_lambda.id
+  discovery_options_query = "namespace:\"AWS/Lambda\""
+  discovery_options_selectors = [
+    "_exists_:FunctionName",
+    "_exists_:aws_function_name",
+  ]
+  name = "Lambda (AWS) Function"
 
-resource "signalfx_dashboard" "sfx_aws_lambda_aws_function" {
-
-  charts_resolution = "default"
-  dashboard_group   = signalfx_dashboard_group.sfx_aws_lambda.id
-  name              = "Lambda (AWS) Function"
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_lambda_dash_0_11.id
+    column   = 8
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_lambda_dash_0_0.id
+    column   = 0
+    height   = 1
+    row      = 0
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_lambda_dash_0_9.id
+    column   = 0
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_lambda_dash_0_4.id
+    column   = 10
+    height   = 1
+    row      = 0
+    width    = 2
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_lambda_dash_0_2.id
+    column   = 6
+    height   = 1
+    row      = 0
+    width    = 2
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_lambda_dash_0_8.id
+    column   = 9
+    height   = 1
+    row      = 1
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_lambda_dash_0_5.id
+    column   = 0
+    height   = 1
+    row      = 1
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_lambda_dash_0_1.id
+    column   = 3
+    height   = 1
+    row      = 0
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_lambda_dash_0_14.id
+    column   = 8
+    height   = 1
+    row      = 3
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_lambda_dash_0_10.id
+    column   = 4
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_lambda_dash_0_12.id
+    column   = 0
+    height   = 1
+    row      = 3
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_lambda_dash_0_3.id
+    column   = 8
+    height   = 1
+    row      = 0
+    width    = 2
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_lambda_dash_0_7.id
+    column   = 6
+    height   = 1
+    row      = 1
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_lambda_dash_0_6.id
+    column   = 3
+    height   = 1
+    row      = 1
+    width    = 3
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_lambda_dash_0_13.id
+    column   = 4
+    height   = 1
+    row      = 3
+    width    = 4
+  }
 
   variable {
     alias                  = "Function Name"
     apply_if_exist         = false
+    description            = "null"
     property               = "FunctionName"
     replace_only           = false
     restricted_suggestions = false
@@ -702,126 +769,6 @@ resource "signalfx_dashboard" "sfx_aws_lambda_aws_function" {
     values = [
       "Choose a function",
     ]
+    values_suggested = []
   }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_lambda_aws_function_0.id
-    row      = 0
-    column   = 0
-    height   = 1
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_lambda_aws_function_1.id
-    row      = 0
-    column   = 3
-    height   = 1
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_lambda_aws_function_2.id
-    row      = 0
-    column   = 6
-    height   = 1
-    width    = 2
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_lambda_aws_function_3.id
-    row      = 0
-    column   = 8
-    height   = 1
-    width    = 2
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_lambda_aws_function_4.id
-    row      = 0
-    column   = 10
-    height   = 1
-    width    = 2
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_aws_function_5.id
-    row      = 1
-    column   = 0
-    height   = 1
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_aws_function_6.id
-    row      = 1
-    column   = 3
-    height   = 1
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_aws_function_7.id
-    row      = 1
-    column   = 6
-    height   = 1
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_aws_function_8.id
-    row      = 1
-    column   = 9
-    height   = 1
-    width    = 3
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_lambda_aws_function_9.id
-    row      = 2
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_aws_function_10.id
-    row      = 2
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_aws_function_11.id
-    row      = 2
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_lambda_aws_function_12.id
-    row      = 3
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_aws_function_13.id
-    row      = 3
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_lambda_aws_function_14.id
-    row      = 3
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
 }
