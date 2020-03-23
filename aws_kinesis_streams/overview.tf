@@ -1,5 +1,5 @@
-# signalfx_single_value_chart.sfx_aws_kinesis_streams_overview_0:
-resource "signalfx_single_value_chart" "sfx_aws_kinesis_streams_overview_0" {
+# signalfx_single_value_chart.sfx_aws_kinesis_streams_dash_1_0:
+resource "signalfx_single_value_chart" "sfx_aws_kinesis_streams_dash_1_0" {
   color_by                = "Dimension"
   is_timestamp_hidden     = false
   max_precision           = 0
@@ -14,9 +14,8 @@ resource "signalfx_single_value_chart" "sfx_aws_kinesis_streams_overview_0" {
     label        = "A"
   }
 }
-
-# signalfx_list_chart.sfx_aws_kinesis_streams_overview_1:
-resource "signalfx_list_chart" "sfx_aws_kinesis_streams_overview_1" {
+# signalfx_list_chart.sfx_aws_kinesis_streams_dash_1_1:
+resource "signalfx_list_chart" "sfx_aws_kinesis_streams_dash_1_1" {
   color_by                = "Dimension"
   description             = "The number of records successfully put to the Kinesis stream"
   disable_sampling        = false
@@ -56,9 +55,8 @@ resource "signalfx_list_chart" "sfx_aws_kinesis_streams_overview_1" {
     label        = "A"
   }
 }
-
-# signalfx_list_chart.sfx_aws_kinesis_streams_overview_2:
-resource "signalfx_list_chart" "sfx_aws_kinesis_streams_overview_2" {
+# signalfx_list_chart.sfx_aws_kinesis_streams_dash_1_2:
+resource "signalfx_list_chart" "sfx_aws_kinesis_streams_dash_1_2" {
   color_by                = "Dimension"
   description             = "The average number of bytes successfully put to the Kinesis stream"
   disable_sampling        = false
@@ -98,9 +96,8 @@ resource "signalfx_list_chart" "sfx_aws_kinesis_streams_overview_2" {
     label        = "A"
   }
 }
-
-# signalfx_list_chart.sfx_aws_kinesis_streams_overview_3:
-resource "signalfx_list_chart" "sfx_aws_kinesis_streams_overview_3" {
+# signalfx_list_chart.sfx_aws_kinesis_streams_dash_1_3:
+resource "signalfx_list_chart" "sfx_aws_kinesis_streams_dash_1_3" {
   color_by                = "Dimension"
   description             = "The average time taken per PutRecord operation in milliseconds"
   disable_sampling        = false
@@ -140,9 +137,8 @@ resource "signalfx_list_chart" "sfx_aws_kinesis_streams_overview_3" {
     label        = "A"
   }
 }
-
-# signalfx_list_chart.sfx_aws_kinesis_streams_overview_4:
-resource "signalfx_list_chart" "sfx_aws_kinesis_streams_overview_4" {
+# signalfx_list_chart.sfx_aws_kinesis_streams_dash_1_4:
+resource "signalfx_list_chart" "sfx_aws_kinesis_streams_dash_1_4" {
   color_by                = "Dimension"
   description             = "The time taken per GetRecords operation in milliseconds"
   disable_sampling        = false
@@ -182,9 +178,8 @@ resource "signalfx_list_chart" "sfx_aws_kinesis_streams_overview_4" {
     label        = "A"
   }
 }
-
-# signalfx_list_chart.sfx_aws_kinesis_streams_overview_5:
-resource "signalfx_list_chart" "sfx_aws_kinesis_streams_overview_5" {
+# signalfx_list_chart.sfx_aws_kinesis_streams_dash_1_5:
+resource "signalfx_list_chart" "sfx_aws_kinesis_streams_dash_1_5" {
   color_by                = "Dimension"
   description             = "The age of the last record in all GetRecords calls made against an Kinesis stream"
   disable_sampling        = false
@@ -224,9 +219,8 @@ resource "signalfx_list_chart" "sfx_aws_kinesis_streams_overview_5" {
     label        = "A"
   }
 }
-
-# signalfx_list_chart.sfx_aws_kinesis_streams_overview_6:
-resource "signalfx_list_chart" "sfx_aws_kinesis_streams_overview_6" {
+# signalfx_list_chart.sfx_aws_kinesis_streams_dash_1_6:
+resource "signalfx_list_chart" "sfx_aws_kinesis_streams_dash_1_6" {
   color_by                = "Dimension"
   description             = "The number of GetRecords calls throttled for the stream"
   disable_sampling        = false
@@ -266,9 +260,8 @@ resource "signalfx_list_chart" "sfx_aws_kinesis_streams_overview_6" {
     label        = "A"
   }
 }
-
-# signalfx_list_chart.sfx_aws_kinesis_streams_overview_7:
-resource "signalfx_list_chart" "sfx_aws_kinesis_streams_overview_7" {
+# signalfx_list_chart.sfx_aws_kinesis_streams_dash_1_7:
+resource "signalfx_list_chart" "sfx_aws_kinesis_streams_dash_1_7" {
   color_by                = "Dimension"
   description             = "The number of records rejected due to throttling for the stream from PutRecord and PutRecords"
   disable_sampling        = false
@@ -308,9 +301,8 @@ resource "signalfx_list_chart" "sfx_aws_kinesis_streams_overview_7" {
     label        = "A"
   }
 }
-
-# signalfx_time_chart.sfx_aws_kinesis_streams_overview_8:
-resource "signalfx_time_chart" "sfx_aws_kinesis_streams_overview_8" {
+# signalfx_time_chart.sfx_aws_kinesis_streams_dash_1_8:
+resource "signalfx_time_chart" "sfx_aws_kinesis_streams_dash_1_8" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -365,9 +357,8 @@ resource "signalfx_time_chart" "sfx_aws_kinesis_streams_overview_8" {
     label        = "A"
   }
 }
-
-# signalfx_time_chart.sfx_aws_kinesis_streams_overview_9:
-resource "signalfx_time_chart" "sfx_aws_kinesis_streams_overview_9" {
+# signalfx_time_chart.sfx_aws_kinesis_streams_dash_1_9:
+resource "signalfx_time_chart" "sfx_aws_kinesis_streams_dash_1_9" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -430,92 +421,85 @@ resource "signalfx_time_chart" "sfx_aws_kinesis_streams_overview_9" {
     label        = "B"
   }
 }
-
-resource "signalfx_dashboard" "sfx_aws_kinesis_streams_overview" {
-
-  charts_resolution = "default"
-  dashboard_group   = signalfx_dashboard_group.sfx_aws_kinesis_streams.id
-  description       = "An overview of all Amazon Kinesis Streams"
-  name              = "Kinesis Streams Overview"
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_kinesis_streams_overview_0.id
-    row      = 0
-    column   = 0
-    height   = 1
-    width    = 4
-  }
+# signalfx_dashboard.sfx_aws_kinesis_streams_dash_1:
+resource "signalfx_dashboard" "sfx_aws_kinesis_streams_dash_1" {
+  charts_resolution       = "default"
+  dashboard_group         = signalfx_dashboard_group.sfx_aws_kinesis_streams.id
+  description             = "An overview of all Amazon Kinesis Streams"
+  discovery_options_query = "namespace:\"AWS/Kinesis\" AND _exists_:StreamName"
+  discovery_options_selectors = [
+    "_exists_:StreamName",
+  ]
+  name = "Kinesis Streams Overview"
 
   chart {
-    chart_id = signalfx_list_chart.sfx_aws_kinesis_streams_overview_1.id
-    row      = 0
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_kinesis_streams_overview_2.id
-    row      = 0
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_kinesis_streams_overview_3.id
-    row      = 1
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_kinesis_streams_overview_4.id
-    row      = 1
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_kinesis_streams_overview_5.id
-    row      = 1
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_kinesis_streams_overview_6.id
-    row      = 2
-    column   = 0
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_kinesis_streams_overview_7.id
-    row      = 2
+    chart_id = signalfx_time_chart.sfx_aws_kinesis_streams_dash_1_9.id
     column   = 6
     height   = 1
+    row      = 3
     width    = 6
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_kinesis_streams_overview_8.id
-    row      = 3
+    chart_id = signalfx_list_chart.sfx_aws_kinesis_streams_dash_1_5.id
+    column   = 8
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_kinesis_streams_dash_1_0.id
     column   = 0
     height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_kinesis_streams_dash_1_2.id
+    column   = 8
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_kinesis_streams_dash_1_6.id
+    column   = 0
+    height   = 1
+    row      = 2
     width    = 6
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_kinesis_streams_overview_9.id
-    row      = 3
+    chart_id = signalfx_list_chart.sfx_aws_kinesis_streams_dash_1_1.id
+    column   = 4
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_kinesis_streams_dash_1_7.id
     column   = 6
     height   = 1
+    row      = 2
     width    = 6
   }
-
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_kinesis_streams_dash_1_8.id
+    column   = 0
+    height   = 1
+    row      = 3
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_kinesis_streams_dash_1_3.id
+    column   = 0
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_kinesis_streams_dash_1_4.id
+    column   = 4
+    height   = 1
+    row      = 1
+    width    = 4
+  }
 }
