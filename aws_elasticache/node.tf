@@ -1,5 +1,7 @@
-resource "signalfx_single_value_chart" "sfx_aws_elasticache_node_nodes" {
+# signalfx_single_value_chart.sfx_aws_elasticache_dash_2_0:
+resource "signalfx_single_value_chart" "sfx_aws_elasticache_dash_2_0" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 0
   name                    = "# Nodes"
   program_text            = "A = data('CPUUtilization', filter=filter('namespace', 'AWS/ElastiCache') and filter('stat', 'mean') and filter('CacheNodeId', '*'), extrapolation='last_value', maxExtrapolations=5).mean(by=['CacheClusterId', 'CacheNodeId', 'aws_region']).count().publish(label='A')"
@@ -12,14 +14,15 @@ resource "signalfx_single_value_chart" "sfx_aws_elasticache_node_nodes" {
     label        = "A"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_elasticache_node_hit_rate" {
+# signalfx_single_value_chart.sfx_aws_elasticache_dash_2_1:
+resource "signalfx_single_value_chart" "sfx_aws_elasticache_dash_2_1" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 3
   name                    = "Hit Rate %"
   program_text            = <<-EOF
-        A = data('*Hits', filter=filter('namespace', 'AWS/ElastiCache') and filter('stat', 'sum') and filter('CacheNodeId', '*'), extrapolation='last_value', maxExtrapolations=5).sum().publish(label='A', enable=False)
-        B = data('*Misses', filter=filter('namespace', 'AWS/ElastiCache') and filter('stat', 'sum') and filter('CacheNodeId', '*'), extrapolation='last_value', maxExtrapolations=5).sum().publish(label='B', enable=False)
+        A = data('*Hits', filter=filter('namespace', 'AWS/ElastiCache') and filter('stat', 'sum') and filter('CacheNodeId', '*'), extrapolation='last_value', maxExtrapolations=5,rollup='rate').sum().publish(label='A', enable=False)
+        B = data('*Misses', filter=filter('namespace', 'AWS/ElastiCache') and filter('stat', 'sum') and filter('CacheNodeId', '*'), extrapolation='last_value', maxExtrapolations=5,rollup='rate').sum().publish(label='B', enable=False)
         C = (A/(A+B)*100).publish(label='C')
     EOF
   secondary_visualization = "None"
@@ -39,8 +42,8 @@ resource "signalfx_single_value_chart" "sfx_aws_elasticache_node_hit_rate" {
     label        = "C"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elasticache_node_cache_hits_and_misses" {
+# signalfx_time_chart.sfx_aws_elasticache_dash_2_2:
+resource "signalfx_time_chart" "sfx_aws_elasticache_dash_2_2" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -49,8 +52,8 @@ resource "signalfx_time_chart" "sfx_aws_elasticache_node_cache_hits_and_misses" 
   name               = "Cache Hits & Misses /Interval"
   plot_type          = "AreaChart"
   program_text       = <<-EOF
-        A = data('*Hits', filter=filter('namespace', 'AWS/ElastiCache') and filter('stat', 'sum') and filter('CacheNodeId', '*'), extrapolation='last_value', maxExtrapolations=5).sum(by=['sf_metric']).publish(label='A')
-        B = data('*Misses', filter=filter('namespace', 'AWS/ElastiCache') and filter('stat', 'sum') and filter('CacheNodeId', '*'), extrapolation='last_value', maxExtrapolations=5).sum(by=['sf_metric']).publish(label='B')
+        A = data('*Hits', filter=filter('namespace', 'AWS/ElastiCache') and filter('stat', 'sum') and filter('CacheNodeId', '*'), extrapolation='last_value', maxExtrapolations=5,rollup='rate').sum(by=['sf_metric']).publish(label='A')
+        B = data('*Misses', filter=filter('namespace', 'AWS/ElastiCache') and filter('stat', 'sum') and filter('CacheNodeId', '*'), extrapolation='last_value', maxExtrapolations=5,rollup='rate').sum(by=['sf_metric']).publish(label='B')
     EOF
   show_data_markers  = false
   show_event_lines   = false
@@ -78,8 +81,8 @@ resource "signalfx_time_chart" "sfx_aws_elasticache_node_cache_hits_and_misses" 
     label = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elasticache_node_items_history" {
+# signalfx_time_chart.sfx_aws_elasticache_dash_2_3:
+resource "signalfx_time_chart" "sfx_aws_elasticache_dash_2_3" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -136,8 +139,8 @@ resource "signalfx_time_chart" "sfx_aws_elasticache_node_items_history" {
     plot_type    = "LineChart"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elasticache_node_bytes_history" {
+# signalfx_time_chart.sfx_aws_elasticache_dash_2_4:
+resource "signalfx_time_chart" "sfx_aws_elasticache_dash_2_4" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -194,8 +197,8 @@ resource "signalfx_time_chart" "sfx_aws_elasticache_node_bytes_history" {
     plot_type    = "LineChart"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elasticache_node_conn_history" {
+# signalfx_time_chart.sfx_aws_elasticache_dash_2_5:
+resource "signalfx_time_chart" "sfx_aws_elasticache_dash_2_5" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -252,8 +255,8 @@ resource "signalfx_time_chart" "sfx_aws_elasticache_node_conn_history" {
     plot_type    = "LineChart"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elasticache_node_cpu_history" {
+# signalfx_time_chart.sfx_aws_elasticache_dash_2_6:
+resource "signalfx_time_chart" "sfx_aws_elasticache_dash_2_6" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -310,8 +313,8 @@ resource "signalfx_time_chart" "sfx_aws_elasticache_node_cpu_history" {
     plot_type    = "LineChart"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elasticache_node_freeable_history" {
+# signalfx_time_chart.sfx_aws_elasticache_dash_2_7:
+resource "signalfx_time_chart" "sfx_aws_elasticache_dash_2_7" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -368,8 +371,8 @@ resource "signalfx_time_chart" "sfx_aws_elasticache_node_freeable_history" {
     plot_type    = "LineChart"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elasticache_node_evictions_history" {
+# signalfx_time_chart.sfx_aws_elasticache_dash_2_8:
+resource "signalfx_time_chart" "sfx_aws_elasticache_dash_2_8" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -426,8 +429,8 @@ resource "signalfx_time_chart" "sfx_aws_elasticache_node_evictions_history" {
     plot_type    = "LineChart"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elasticache_node_bytes_in_history" {
+# signalfx_time_chart.sfx_aws_elasticache_dash_2_9:
+resource "signalfx_time_chart" "sfx_aws_elasticache_dash_2_9" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -484,8 +487,8 @@ resource "signalfx_time_chart" "sfx_aws_elasticache_node_bytes_in_history" {
     plot_type    = "LineChart"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elasticache_node_bytes_out_history" {
+# signalfx_time_chart.sfx_aws_elasticache_dash_2_10:
+resource "signalfx_time_chart" "sfx_aws_elasticache_dash_2_10" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -542,8 +545,8 @@ resource "signalfx_time_chart" "sfx_aws_elasticache_node_bytes_out_history" {
     plot_type    = "LineChart"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elasticache_node_swap_history" {
+# signalfx_time_chart.sfx_aws_elasticache_dash_2_11:
+resource "signalfx_time_chart" "sfx_aws_elasticache_dash_2_11" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -600,12 +603,100 @@ resource "signalfx_time_chart" "sfx_aws_elasticache_node_swap_history" {
     plot_type    = "LineChart"
   }
 }
+# signalfx_dashboard.sfx_aws_elasticache_dash_2:
+resource "signalfx_dashboard" "sfx_aws_elasticache_dash_2" {
+  charts_resolution       = "default"
+  dashboard_group         = signalfx_dashboard_group.sfx_aws_elasticache.id
+  discovery_options_query = "namespace:\"AWS/ElastiCache\""
+  discovery_options_selectors = [
+    "_exists_:CacheNodeId",
+  ]
+  name = "ElastiCache Node"
 
-resource "signalfx_dashboard" "sfx_aws_elasticache_node" {
-
-  charts_resolution = "default"
-  dashboard_group   = signalfx_dashboard_group.sfx_aws_elasticache.id
-  name              = "ElastiCache Node"
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elasticache_dash_2_4.id
+    column   = 4
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elasticache_dash_2_8.id
+    column   = 8
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_elasticache_dash_2_1.id
+    column   = 4
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elasticache_dash_2_3.id
+    column   = 0
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_elasticache_dash_2_0.id
+    column   = 0
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elasticache_dash_2_9.id
+    column   = 0
+    height   = 1
+    row      = 3
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elasticache_dash_2_5.id
+    column   = 8
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elasticache_dash_2_11.id
+    column   = 8
+    height   = 1
+    row      = 3
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elasticache_dash_2_10.id
+    column   = 4
+    height   = 1
+    row      = 3
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elasticache_dash_2_2.id
+    column   = 8
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elasticache_dash_2_7.id
+    column   = 4
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elasticache_dash_2_6.id
+    column   = 0
+    height   = 1
+    row      = 2
+    width    = 4
+  }
 
   variable {
     alias                  = "cluster id"
@@ -651,101 +742,4 @@ resource "signalfx_dashboard" "sfx_aws_elasticache_node" {
     values                 = []
     values_suggested       = []
   }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_elasticache_node_nodes.id
-    row      = 0
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_elasticache_node_hit_rate.id
-    row      = 0
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elasticache_node_cache_hits_and_misses.id
-    row      = 0
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elasticache_node_items_history.id
-    row      = 1
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elasticache_node_bytes_history.id
-    row      = 1
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elasticache_node_conn_history.id
-    row      = 1
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elasticache_node_cpu_history.id
-    row      = 2
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elasticache_node_freeable_history.id
-    row      = 2
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elasticache_node_evictions_history.id
-    row      = 2
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elasticache_node_bytes_in_history.id
-    row      = 3
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elasticache_node_bytes_out_history.id
-    row      = 3
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elasticache_node_swap_history.id
-    row      = 3
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
 }
