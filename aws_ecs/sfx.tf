@@ -1,8 +1,10 @@
-resource "signalfx_single_value_chart" "sfx_aws_ecs_sfx_clusters" {
+# signalfx_single_value_chart.sfx_aws_ecs_dash_3_0:
+resource "signalfx_single_value_chart" "sfx_aws_ecs_dash_3_0" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 0
   name                    = "# Clusters"
-  program_text            = "A = data('cpu.usage.system', extrapolation='last_value', maxExtrapolations=5).mean(by=['ClusterName']).count().publish(label='A')"
+  program_text            = "A = data('cpu.usage.system', extrapolation='last_value', maxExtrapolations=5,rollup='rate').mean(by=['ClusterName']).count().publish(label='A')"
   secondary_visualization = "None"
   show_spark_line         = false
   unit_prefix             = "Metric"
@@ -12,16 +14,16 @@ resource "signalfx_single_value_chart" "sfx_aws_ecs_sfx_clusters" {
     label        = "A"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_ecs_sfx_tasks" {
+# signalfx_list_chart.sfx_aws_ecs_dash_3_1:
+resource "signalfx_list_chart" "sfx_aws_ecs_dash_3_1" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_delay               = 0
   max_precision           = 0
   name                    = "# Running Tasks"
   program_text            = <<-EOF
-        A = data('cpu.usage.system', filter=filter('ecs_task_arn', '*')).sum(by=['ecs_task_arn']).count().publish(label='A')
-        B = data('cpu.usage.system', filter=filter('ecs_task_arn', '*') and filter('AWSUniqueId', '*')).sum(by=['ecs_task_arn']).count().publish(label='B')
+        A = data('cpu.usage.system', filter=filter('ecs_task_arn', '*'),rollup='rate').sum(by=['ecs_task_arn']).count().publish(label='A')
+        B = data('cpu.usage.system', filter=filter('ecs_task_arn', '*') and filter('AWSUniqueId', '*'),rollup='rate').sum(by=['ecs_task_arn']).count().publish(label='B')
         C = (A-B).publish(label='C')
     EOF
   secondary_visualization = "None"
@@ -42,45 +44,16 @@ resource "signalfx_list_chart" "sfx_aws_ecs_sfx_tasks" {
     label        = "C"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_ecs_sfx_top_cpu_by_cluster" {
-  color_by                = "Dimension"
-  disable_sampling        = false
-  max_precision           = 3
-  name                    = "Top Clusters by CPU %"
-  program_text            = <<-EOF
-        A = data('cpu.usage.total', filter=filter('ecs_task_group', '*'), extrapolation='last_value', maxExtrapolations=5).sum(by=['ClusterName']).top(count=5).publish(label='A', enable=False)
-        B = data('cpu.usage.system', filter=filter('ecs_task_group', '*'), extrapolation='last_value', maxExtrapolations=5).mean(by=['ClusterName']).publish(label='B', enable=False)
-        C = ((A/B)*100).publish(label='C')
-    EOF
-  secondary_visualization = "Sparkline"
-  sort_by                 = "-value"
-  time_range              = 900
-  unit_prefix             = "Metric"
-
-  viz_options {
-    label        = "C"
-    value_suffix = "%"
-  }
-  viz_options {
-    display_name = "Cluster CPU Usage"
-    label        = "A"
-  }
-  viz_options {
-    display_name = "Total Cluster CPU"
-    label        = "B"
-  }
-}
-
-resource "signalfx_list_chart" "sfx_aws_ecs_sfx_containers" {
+# signalfx_list_chart.sfx_aws_ecs_dash_3_2:
+resource "signalfx_list_chart" "sfx_aws_ecs_dash_3_2" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_delay               = 0
   max_precision           = 0
   name                    = "# Running Containers"
   program_text            = <<-EOF
-        A = data('cpu.usage.system', filter=filter('ecs_task_arn', '*')).count().publish(label='A')
-        B = data('cpu.usage.system', filter=filter('ecs_task_arn', '*') and filter('AWSUniqueId', '*')).count().publish(label='B')
+        A = data('cpu.usage.system', filter=filter('ecs_task_arn', '*'),rollup='rate').count().publish(label='A')
+        B = data('cpu.usage.system', filter=filter('ecs_task_arn', '*') and filter('AWSUniqueId', '*'),rollup='rate').count().publish(label='B')
         C = (A-B).publish(label='C')
     EOF
   secondary_visualization = "None"
@@ -101,8 +74,37 @@ resource "signalfx_list_chart" "sfx_aws_ecs_sfx_containers" {
     label        = "C"
   }
 }
+# signalfx_list_chart.sfx_aws_ecs_dash_3_3:
+resource "signalfx_list_chart" "sfx_aws_ecs_dash_3_3" {
+  color_by                = "Dimension"
+  disable_sampling        = false
+  max_precision           = 3
+  name                    = "Top Clusters by CPU %"
+  program_text            = <<-EOF
+        A = data('cpu.usage.total', filter=filter('ecs_task_group', '*'), extrapolation='last_value', maxExtrapolations=5,rollup='rate').sum(by=['ClusterName']).top(count=5).publish(label='A', enable=False)
+        B = data('cpu.usage.system', filter=filter('ecs_task_group', '*'), extrapolation='last_value', maxExtrapolations=5,rollup='rate').mean(by=['ClusterName']).publish(label='B', enable=False)
+        C = ((A/B)*100).publish(label='C')
+    EOF
+  secondary_visualization = "Sparkline"
+  sort_by                 = "-value"
+  time_range              = 900
+  unit_prefix             = "Metric"
 
-resource "signalfx_list_chart" "sfx_aws_ecs_sfx_top_memory_by_mem" {
+  viz_options {
+    label        = "C"
+    value_suffix = "%"
+  }
+  viz_options {
+    display_name = "Cluster CPU Usage"
+    label        = "A"
+  }
+  viz_options {
+    display_name = "Total Cluster CPU"
+    label        = "B"
+  }
+}
+# signalfx_list_chart.sfx_aws_ecs_dash_3_4:
+resource "signalfx_list_chart" "sfx_aws_ecs_dash_3_4" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 3
@@ -130,8 +132,8 @@ resource "signalfx_list_chart" "sfx_aws_ecs_sfx_top_memory_by_mem" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_ecs_sfx_tasks_by_cluster" {
+# signalfx_time_chart.sfx_aws_ecs_dash_3_5:
+resource "signalfx_time_chart" "sfx_aws_ecs_dash_3_5" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -139,7 +141,7 @@ resource "signalfx_time_chart" "sfx_aws_ecs_sfx_tasks_by_cluster" {
   minimum_resolution = 0
   name               = "# Running Tasks by Cluster"
   plot_type          = "LineChart"
-  program_text       = "B = data('cpu.usage.total', filter=filter('ClusterName', '*')).sum(by=['ecs_task_arn']).count(by=['ClusterName']).publish(label='B')"
+  program_text       = "B = data('cpu.usage.total', filter=filter('ClusterName', '*'),rollup='rate').sum(by=['ecs_task_arn']).count(by=['ClusterName']).publish(label='B')"
   show_data_markers  = false
   show_event_lines   = false
   stacked            = false
@@ -161,8 +163,8 @@ resource "signalfx_time_chart" "sfx_aws_ecs_sfx_tasks_by_cluster" {
     label        = "B"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_ecs_sfx_containers_by_cluster" {
+# signalfx_time_chart.sfx_aws_ecs_dash_3_6:
+resource "signalfx_time_chart" "sfx_aws_ecs_dash_3_6" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -170,7 +172,7 @@ resource "signalfx_time_chart" "sfx_aws_ecs_sfx_containers_by_cluster" {
   minimum_resolution = 0
   name               = "# Running Containers by Cluster"
   plot_type          = "LineChart"
-  program_text       = "B = data('cpu.usage.total', filter=filter('ClusterName', '*')).count(by=['ClusterName']).publish(label='B')"
+  program_text       = "B = data('cpu.usage.total', filter=filter('ClusterName', '*'),rollup='rate').count(by=['ClusterName']).publish(label='B')"
   show_data_markers  = false
   show_event_lines   = false
   stacked            = false
@@ -192,8 +194,8 @@ resource "signalfx_time_chart" "sfx_aws_ecs_sfx_containers_by_cluster" {
     label        = "B"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_ecs_sfx_top_cpu_by_task" {
+# signalfx_list_chart.sfx_aws_ecs_dash_3_7:
+resource "signalfx_list_chart" "sfx_aws_ecs_dash_3_7" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 3
@@ -209,18 +211,12 @@ resource "signalfx_list_chart" "sfx_aws_ecs_sfx_top_cpu_by_task" {
   unit_prefix             = "Metric"
 
   viz_options {
-    label = "A"
-  }
-  viz_options {
-    label = "B"
-  }
-  viz_options {
     label        = "C"
     value_suffix = "%"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_ecs_sfx_top_memory_by_task" {
+# signalfx_list_chart.sfx_aws_ecs_dash_3_8:
+resource "signalfx_list_chart" "sfx_aws_ecs_dash_3_8" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 3
@@ -236,92 +232,77 @@ resource "signalfx_list_chart" "sfx_aws_ecs_sfx_top_memory_by_task" {
   unit_prefix             = "Metric"
 
   viz_options {
-    label = "A"
-  }
-  viz_options {
-    label = "B"
-  }
-  viz_options {
     label        = "C"
     value_suffix = "%"
   }
 }
-
-resource "signalfx_dashboard" "sfx_aws_ecs_sfx" {
+# signalfx_dashboard.sfx_aws_ecs_dash_3:
+resource "signalfx_dashboard" "sfx_aws_ecs_dash_3" {
   charts_resolution = "default"
   dashboard_group   = signalfx_dashboard_group.sfx_aws_ecs.id
   name              = "ECS (SignalFx)"
 
   chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_ecs_sfx_clusters.id
-    row      = 0
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_ecs_sfx_tasks.id
-    row      = 0
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_ecs_sfx_containers.id
-    row      = 0
+    chart_id = signalfx_list_chart.sfx_aws_ecs_dash_3_2.id
     column   = 8
     height   = 1
+    row      = 0
     width    = 4
   }
-
   chart {
-    chart_id = signalfx_list_chart.sfx_aws_ecs_sfx_top_cpu_by_cluster.id
-    row      = 1
+    chart_id = signalfx_single_value_chart.sfx_aws_ecs_dash_3_0.id
     column   = 0
     height   = 1
-    width    = 6
+    row      = 0
+    width    = 4
   }
-
   chart {
-    chart_id = signalfx_list_chart.sfx_aws_ecs_sfx_top_memory_by_mem.id
-    row      = 1
-    column   = 6
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_ecs_sfx_tasks_by_cluster.id
-    row      = 2
+    chart_id = signalfx_list_chart.sfx_aws_ecs_dash_3_7.id
     column   = 0
     height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_ecs_sfx_containers_by_cluster.id
-    row      = 2
-    column   = 6
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_ecs_sfx_top_cpu_by_task.id
     row      = 3
-    column   = 0
-    height   = 1
     width    = 6
   }
-
   chart {
-    chart_id = signalfx_list_chart.sfx_aws_ecs_sfx_top_memory_by_task.id
-    row      = 3
+    chart_id = signalfx_list_chart.sfx_aws_ecs_dash_3_4.id
     column   = 6
     height   = 1
+    row      = 1
     width    = 6
   }
-
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_ecs_dash_3_3.id
+    column   = 0
+    height   = 1
+    row      = 1
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_ecs_dash_3_8.id
+    column   = 6
+    height   = 1
+    row      = 3
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_ecs_dash_3_1.id
+    column   = 4
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_ecs_dash_3_6.id
+    column   = 6
+    height   = 1
+    row      = 2
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_ecs_dash_3_5.id
+    column   = 0
+    height   = 1
+    row      = 2
+    width    = 6
+  }
 }

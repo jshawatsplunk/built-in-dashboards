@@ -1,8 +1,10 @@
-resource "signalfx_single_value_chart" "sfx_aws_ecs_sfx_task_def_tasks_count" {
+# signalfx_single_value_chart.sfx_aws_ecs_dash_5_0:
+resource "signalfx_single_value_chart" "sfx_aws_ecs_dash_5_0" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 0
   name                    = "# Running Tasks"
-  program_text            = "B = data('cpu.usage.total', filter=filter('ClusterName', '*', match_missing=True) and filter('ecs_task_group', '*', match_missing=True)).sum(by=['ecs_task_arn']).count().publish(label='B')"
+  program_text            = "B = data('cpu.usage.total', filter=filter('ClusterName', '*', match_missing=True) and filter('ecs_task_group', '*', match_missing=True),rollup='rate').sum(by=['ecs_task_arn']).count().publish(label='B')"
   secondary_visualization = "None"
   show_spark_line         = false
   unit_prefix             = "Metric"
@@ -12,8 +14,8 @@ resource "signalfx_single_value_chart" "sfx_aws_ecs_sfx_task_def_tasks_count" {
     label        = "B"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_ecs_sfx_task_def_tasks" {
+# signalfx_time_chart.sfx_aws_ecs_dash_5_1:
+resource "signalfx_time_chart" "sfx_aws_ecs_dash_5_1" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -21,7 +23,7 @@ resource "signalfx_time_chart" "sfx_aws_ecs_sfx_task_def_tasks" {
   minimum_resolution = 0
   name               = "# Running Tasks"
   plot_type          = "AreaChart"
-  program_text       = "B = data('cpu.usage.total', filter=filter('ClusterName', '*') and filter('ecs_task_group', '*')).sum(by=['ecs_task_arn']).count().publish(label='B')"
+  program_text       = "B = data('cpu.usage.total', filter=filter('ClusterName', '*') and filter('ecs_task_group', '*'),rollup='rate').sum(by=['ecs_task_arn']).count().publish(label='B')"
   show_data_markers  = false
   show_event_lines   = false
   stacked            = false
@@ -42,8 +44,8 @@ resource "signalfx_time_chart" "sfx_aws_ecs_sfx_task_def_tasks" {
     label        = "B"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_ecs_sfx_task_def_cpu_pct" {
+# signalfx_time_chart.sfx_aws_ecs_dash_5_2:
+resource "signalfx_time_chart" "sfx_aws_ecs_dash_5_2" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -89,8 +91,8 @@ resource "signalfx_time_chart" "sfx_aws_ecs_sfx_task_def_cpu_pct" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_ecs_sfx_task_def_mem_pct" {
+# signalfx_time_chart.sfx_aws_ecs_dash_5_3:
+resource "signalfx_time_chart" "sfx_aws_ecs_dash_5_3" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -136,12 +138,40 @@ resource "signalfx_time_chart" "sfx_aws_ecs_sfx_task_def_mem_pct" {
     label        = "A"
   }
 }
-
-resource "signalfx_dashboard" "sfx_aws_ecs_sfx_task_def" {
-
+# signalfx_dashboard.sfx_aws_ecs_dash_5:
+resource "signalfx_dashboard" "sfx_aws_ecs_dash_5" {
   charts_resolution = "default"
   dashboard_group   = signalfx_dashboard_group.sfx_aws_ecs.id
   name              = "ECS (SignalFx) Task Definition"
+
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_ecs_dash_5_0.id
+    column   = 0
+    height   = 1
+    row      = 0
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_ecs_dash_5_1.id
+    column   = 6
+    height   = 1
+    row      = 0
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_ecs_dash_5_2.id
+    column   = 0
+    height   = 1
+    row      = 1
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_ecs_dash_5_3.id
+    column   = 6
+    height   = 1
+    row      = 1
+    width    = 6
+  }
 
   variable {
     alias                  = "Cluster"
@@ -164,37 +194,4 @@ resource "signalfx_dashboard" "sfx_aws_ecs_sfx_task_def" {
     values                 = []
     values_suggested       = []
   }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_ecs_sfx_task_def_tasks_count.id
-    row      = 0
-    column   = 0
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_ecs_sfx_task_def_tasks.id
-    row      = 0
-    column   = 6
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_ecs_sfx_task_def_cpu_pct.id
-    row      = 1
-    column   = 0
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_ecs_sfx_task_def_mem_pct.id
-    row      = 1
-    column   = 6
-    height   = 1
-    width    = 6
-  }
-
 }

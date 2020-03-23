@@ -1,5 +1,7 @@
-resource "signalfx_single_value_chart" "sfx_aws_ecs_aws_cluster_running_services" {
+# signalfx_single_value_chart.sfx_aws_ecs_dash_1_0:
+resource "signalfx_single_value_chart" "sfx_aws_ecs_dash_1_0" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 0
   name                    = "# Running Services"
   program_text            = "A = data('CPUUtilization', filter=filter('ServiceName', '*') and filter('stat', 'mean') and filter('namespace', 'AWS/ECS')).count(by=['ServiceName']).sum().publish(label='A')"
@@ -13,9 +15,10 @@ resource "signalfx_single_value_chart" "sfx_aws_ecs_aws_cluster_running_services
     value_suffix = "services"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_ecs_aws_cluster_running_tasks" {
+# signalfx_single_value_chart.sfx_aws_ecs_dash_1_1:
+resource "signalfx_single_value_chart" "sfx_aws_ecs_dash_1_1" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 0
   name                    = "# Running Tasks"
   program_text            = "A = data('CPUUtilization', filter=filter('namespace', 'AWS/ECS') and filter('ServiceName', '*') and filter('stat', 'count'), rollup='average').sum().publish(label='A')"
@@ -29,8 +32,8 @@ resource "signalfx_single_value_chart" "sfx_aws_ecs_aws_cluster_running_tasks" {
     value_suffix = "tasks"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_ecs_aws_cluster_cpu_pct" {
+# signalfx_time_chart.sfx_aws_ecs_dash_1_2:
+resource "signalfx_time_chart" "sfx_aws_ecs_dash_1_2" {
   axes_include_zero  = true
   axes_precision     = 0
   color_by           = "Dimension"
@@ -86,8 +89,8 @@ resource "signalfx_time_chart" "sfx_aws_ecs_aws_cluster_cpu_pct" {
     value_suffix = "%"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_ecs_aws_cluster_memory_pct" {
+# signalfx_time_chart.sfx_aws_ecs_dash_1_3:
+resource "signalfx_time_chart" "sfx_aws_ecs_dash_1_3" {
   axes_include_zero  = true
   axes_precision     = 0
   color_by           = "Dimension"
@@ -143,8 +146,8 @@ resource "signalfx_time_chart" "sfx_aws_ecs_aws_cluster_memory_pct" {
     value_suffix = "%"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_ecs_aws_cluster_running_tasks_history" {
+# signalfx_time_chart.sfx_aws_ecs_dash_1_4:
+resource "signalfx_time_chart" "sfx_aws_ecs_dash_1_4" {
   axes_include_zero  = true
   axes_precision     = 0
   color_by           = "Dimension"
@@ -175,8 +178,8 @@ resource "signalfx_time_chart" "sfx_aws_ecs_aws_cluster_running_tasks_history" {
     value_suffix = "tasks"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_ecs_aws_cluster_running_services_history" {
+# signalfx_time_chart.sfx_aws_ecs_dash_1_5:
+resource "signalfx_time_chart" "sfx_aws_ecs_dash_1_5" {
   axes_include_zero  = true
   axes_precision     = 0
   color_by           = "Dimension"
@@ -207,8 +210,8 @@ resource "signalfx_time_chart" "sfx_aws_ecs_aws_cluster_running_services_history
     value_suffix = "services"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_ecs_aws_cluster_top_cpu_by_service" {
+# signalfx_list_chart.sfx_aws_ecs_dash_1_6:
+resource "signalfx_list_chart" "sfx_aws_ecs_dash_1_6" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 3
@@ -224,8 +227,8 @@ resource "signalfx_list_chart" "sfx_aws_ecs_aws_cluster_top_cpu_by_service" {
     value_suffix = "%"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_ecs_aws_cluster_top_memory_by_service" {
+# signalfx_list_chart.sfx_aws_ecs_dash_1_7:
+resource "signalfx_list_chart" "sfx_aws_ecs_dash_1_7" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 3
@@ -241,11 +244,72 @@ resource "signalfx_list_chart" "sfx_aws_ecs_aws_cluster_top_memory_by_service" {
     value_suffix = "%"
   }
 }
+# signalfx_dashboard.sfx_aws_ecs_dash_1:
+resource "signalfx_dashboard" "sfx_aws_ecs_dash_1" {
+  charts_resolution       = "default"
+  dashboard_group         = signalfx_dashboard_group.sfx_aws_ecs.id
+  discovery_options_query = "namespace:\"AWS/ECS\" AND _exists_:ServiceName AND _exists_:ClusterName"
+  discovery_options_selectors = [
+    "_exists_:ClusterName",
+  ]
+  name = "ECS (AWS) Cluster"
 
-resource "signalfx_dashboard" "sfx_aws_ecs_aws_cluster" {
-  charts_resolution = "default"
-  dashboard_group   = signalfx_dashboard_group.sfx_aws_ecs.id
-  name              = "ECS (AWS) Cluster"
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_ecs_dash_1_0.id
+    column   = 0
+    height   = 1
+    row      = 0
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_ecs_dash_1_4.id
+    column   = 0
+    height   = 1
+    row      = 2
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_ecs_dash_1_7.id
+    column   = 6
+    height   = 1
+    row      = 3
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_ecs_dash_1_2.id
+    column   = 0
+    height   = 1
+    row      = 1
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_ecs_dash_1_5.id
+    column   = 6
+    height   = 1
+    row      = 2
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_ecs_dash_1_1.id
+    column   = 6
+    height   = 1
+    row      = 0
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_ecs_dash_1_6.id
+    column   = 0
+    height   = 1
+    row      = 3
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_ecs_dash_1_3.id
+    column   = 6
+    height   = 1
+    row      = 1
+    width    = 6
+  }
 
   variable {
     alias                  = "Cluster"
@@ -258,69 +322,4 @@ resource "signalfx_dashboard" "sfx_aws_ecs_aws_cluster" {
     values                 = []
     values_suggested       = []
   }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_ecs_aws_cluster_running_services.id
-    row      = 0
-    column   = 0
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_ecs_aws_cluster_running_tasks.id
-    row      = 0
-    column   = 6
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_ecs_aws_cluster_cpu_pct.id
-    row      = 1
-    column   = 0
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_ecs_aws_cluster_memory_pct.id
-    row      = 1
-    column   = 6
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_ecs_aws_cluster_running_tasks_history.id
-    row      = 2
-    column   = 0
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_ecs_aws_cluster_running_services_history.id
-    row      = 2
-    column   = 6
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_ecs_aws_cluster_top_cpu_by_service.id
-    row      = 3
-    column   = 0
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_ecs_aws_cluster_top_memory_by_service.id
-    row      = 3
-    column   = 6
-    height   = 1
-    width    = 6
-  }
-
 }
