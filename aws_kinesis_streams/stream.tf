@@ -709,7 +709,7 @@ resource "signalfx_dashboard" "sfx_aws_kinesis_streams_dash_0" {
     replace_only           = false
     restricted_suggestions = false
     value_required         = true
-    values                 = []
+    values                 = ["Select a stream"]
     values_suggested       = []
   }
 }
