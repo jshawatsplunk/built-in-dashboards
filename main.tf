@@ -70,18 +70,18 @@ module "aws_elasticache" {
   source = "./aws_elasticache"
 }
 
-# module "aws_elb" {
-#   source = "./aws_elb"
-# }
-#
-# module "aws_kinesis_analytics" {
-#   source = "./aws_kinesis_analytics"
-# }
-#
-# module "aws_kinesis_streams" {
-#   source = "./aws_kinesis_streams"
-# }
-#
+module "aws_elb" {
+  source = "./aws_elb"
+}
+
+module "aws_kinesis_analytics" {
+  source = "./aws_kinesis_analytics"
+}
+
+module "aws_kinesis_streams" {
+  source = "./aws_kinesis_streams"
+}
+
 # module "aws_lambda" {
 #   source = "./aws_lambda"
 # }
