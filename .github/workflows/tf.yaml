@@ -2,6 +2,9 @@ name: Terraform Bits
 on:
   - pull_request
 
+env:
+  tf_version: 'latest'
+
 jobs:
   terraform:
     name: 'Terraform'
