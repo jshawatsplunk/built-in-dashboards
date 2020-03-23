@@ -54,66 +54,66 @@ module "aws_dynamodb" {
   source = "./aws_dynamodb"
 }
 
-module "aws_ebs" {
-  source = "./aws_ebs"
-}
-
-module "aws_ec2" {
-  source = "./aws_ec2"
-}
-
-module "aws_ecs" {
-  source = "./aws_ecs"
-}
-
-module "aws_elasticache" {
-  source = "./aws_elasticache"
-}
-
-module "aws_elb" {
-  source = "./aws_elb"
-}
-
-module "aws_kinesis_analytics" {
-  source = "./aws_kinesis_analytics"
-}
-
-module "aws_kinesis_streams" {
-  source = "./aws_kinesis_streams"
-}
-
-module "aws_lambda" {
-  source = "./aws_lambda"
-}
-
-module "aws_opsworks" {
-  source = "./aws_opsworks"
-}
-
-module "aws_rds" {
-  source = "./aws_rds"
-}
-
-module "aws_rds_enhanced" {
-  source = "./aws_rds_enhanced"
-}
-
-module "aws_rds_enhanced_aurora" {
-  source = "./aws_rds_enhanced_aurora"
-}
-
-module "aws_redshift" {
-  source = "./aws_redshift"
-}
-
-module "aws_route53" {
-  source = "./aws_route53"
-}
-
-module "aws_sns" {
-  source = "./aws_sns"
-}
-
-module "aws_sqs" {
-  source = "./aws_sqs"
-}
+# module "aws_ebs" {
+#   source = "./aws_ebs"
+# }
+#
+# module "aws_ec2" {
+#   source = "./aws_ec2"
+# }
+#
+# module "aws_ecs" {
+#   source = "./aws_ecs"
+# }
+#
+# module "aws_elasticache" {
+#   source = "./aws_elasticache"
+# }
+#
+# module "aws_elb" {
+#   source = "./aws_elb"
+# }
+#
+# module "aws_kinesis_analytics" {
+#   source = "./aws_kinesis_analytics"
+# }
+#
+# module "aws_kinesis_streams" {
+#   source = "./aws_kinesis_streams"
+# }
+#
+# module "aws_lambda" {
+#   source = "./aws_lambda"
+# }
+#
+# module "aws_opsworks" {
+#   source = "./aws_opsworks"
+# }
+#
+# module "aws_rds" {
+#   source = "./aws_rds"
+# }
+#
+# module "aws_rds_enhanced" {
+#   source = "./aws_rds_enhanced"
+# }
+#
+# module "aws_rds_enhanced_aurora" {
+#   source = "./aws_rds_enhanced_aurora"
+# }
+#
+# module "aws_redshift" {
+#   source = "./aws_redshift"
+# }
+#
+# module "aws_route53" {
+#   source = "./aws_route53"
+# }
+#
+# module "aws_sns" {
+#   source = "./aws_sns"
+# }
+#
+# module "aws_sqs" {
+#   source = "./aws_sqs"
+# }
