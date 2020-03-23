@@ -1,6 +1,8 @@
-resource "signalfx_single_value_chart" "sfx_aws_elb_instances_count" {
+# signalfx_single_value_chart.sfx_aws_elb_dash_1_0:
+resource "signalfx_single_value_chart" "sfx_aws_elb_dash_1_0" {
   color_by                = "Dimension"
   description             = "that reported in last hour"
+  is_timestamp_hidden     = false
   max_precision           = 0
   name                    = "# LBs"
   program_text            = "A = data('RequestCount', filter=filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*') and filter('stat', 'mean'), extrapolation='zero').sum(by=['LoadBalancerName']).count().max(over='1h').publish(label='A')"
@@ -13,8 +15,8 @@ resource "signalfx_single_value_chart" "sfx_aws_elb_instances_count" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elb_instances_latency" {
+# signalfx_time_chart.sfx_aws_elb_dash_1_1:
+resource "signalfx_time_chart" "sfx_aws_elb_dash_1_1" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -81,12 +83,24 @@ resource "signalfx_time_chart" "sfx_aws_elb_instances_latency" {
     label        = "E"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_elb_instances_total_reqs" {
+# signalfx_list_chart.sfx_aws_elb_dash_1_2:
+resource "signalfx_list_chart" "sfx_aws_elb_dash_1_2" {
   color_by                = "Dimension"
+  disable_sampling        = false
+  max_precision           = 3
+  name                    = "LBs with Worst Average Latency (ms)"
+  program_text            = "A = data('Latency', filter=filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*') and filter('stat', 'mean'), extrapolation='last_value', maxExtrapolations=5).sum(by=['LoadBalancerName']).top(count=5).publish(label='A')"
+  secondary_visualization = "Sparkline"
+  unit_prefix             = "Metric"
+
+}
+# signalfx_single_value_chart.sfx_aws_elb_dash_1_3:
+resource "signalfx_single_value_chart" "sfx_aws_elb_dash_1_3" {
+  color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 0
   name                    = "Total Requests/min"
-  program_text            = "A = data('RequestCount', filter=filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*') and filter('stat', 'sum'), extrapolation='last_value', maxExtrapolations=5).sum().scale(60).publish(label='A')"
+  program_text            = "A = data('RequestCount', filter=filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*') and filter('stat', 'sum'), extrapolation='last_value', maxExtrapolations=5,rollup='rate').sum().scale(60).publish(label='A')"
   secondary_visualization = "None"
   show_spark_line         = false
   unit_prefix             = "Metric"
@@ -96,18 +110,8 @@ resource "signalfx_single_value_chart" "sfx_aws_elb_instances_total_reqs" {
     label        = "A"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_elb_instances_latency_by_lb" {
-  color_by                = "Dimension"
-  disable_sampling        = false
-  max_precision           = 3
-  name                    = "LBs with Worst Average Latency (ms)"
-  program_text            = "A = data('Latency', filter=filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*') and filter('stat', 'mean'), extrapolation='last_value', maxExtrapolations=5).sum(by=['LoadBalancerName']).top(count=5).publish(label='A')"
-  secondary_visualization = "Sparkline"
-  unit_prefix             = "Metric"
-}
-
-resource "signalfx_time_chart" "sfx_aws_elb_instances_req_history" {
+# signalfx_time_chart.sfx_aws_elb_dash_1_4:
+resource "signalfx_time_chart" "sfx_aws_elb_dash_1_4" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -117,7 +121,7 @@ resource "signalfx_time_chart" "sfx_aws_elb_instances_req_history" {
   name               = "Requests/min"
   plot_type          = "AreaChart"
   program_text       = <<-EOF
-        A = data('RequestCount', filter=filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*') and filter('stat', 'sum'), extrapolation='last_value', maxExtrapolations=5).scale(60).sum(by=['LoadBalancerName']).publish(label='A', enable=False)
+        A = data('RequestCount', filter=filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*') and filter('stat', 'sum'), extrapolation='last_value', maxExtrapolations=5,rollup='rate').scale(60).sum(by=['LoadBalancerName']).publish(label='A', enable=False)
         B = (A).min().publish(label='B')
         C = (A).percentile(pct=10).publish(label='C')
         D = (A).percentile(pct=50).publish(label='D')
@@ -170,46 +174,45 @@ resource "signalfx_time_chart" "sfx_aws_elb_instances_req_history" {
     label        = "E"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_elb_instances_top_lb_by_reqs" {
+# signalfx_list_chart.sfx_aws_elb_dash_1_5:
+resource "signalfx_list_chart" "sfx_aws_elb_dash_1_5" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 3
   name                    = "Top LBs by Requests/min"
-  program_text            = "A = data('RequestCount', filter=filter('AvailabilityZone', '*') and filter('stat', 'sum') and filter('LoadBalancerName', '*'), extrapolation='last_value', maxExtrapolations=5).sum(by=['LoadBalancerName']).top(count=5).scale(60).publish(label='A')"
+  program_text            = "A = data('RequestCount', filter=filter('AvailabilityZone', '*') and filter('stat', 'sum') and filter('LoadBalancerName', '*'), extrapolation='last_value', maxExtrapolations=5,rollup='rate').sum(by=['LoadBalancerName']).top(count=5).scale(60).publish(label='A')"
   secondary_visualization = "Sparkline"
   unit_prefix             = "Metric"
-}
 
-resource "signalfx_list_chart" "sfx_aws_elb_instances_top_fe_errs" {
+}
+# signalfx_list_chart.sfx_aws_elb_dash_1_6:
+resource "signalfx_list_chart" "sfx_aws_elb_dash_1_6" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 0
   name                    = "Top Frontend Errors/min"
-  program_text            = "A = data('HTTPCode_ELB_*', filter=filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*') and filter('stat', 'sum'), extrapolation='zero').sum(by=['sf_metric', 'LoadBalancerName']).scale(60).publish(label='A')"
+  program_text            = "A = data('HTTPCode_ELB_*', filter=filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*') and filter('stat', 'sum'), extrapolation='zero',rollup='rate').sum(by=['sf_metric', 'LoadBalancerName']).scale(60).publish(label='A')"
   secondary_visualization = "Sparkline"
   sort_by                 = "-value"
   unit_prefix             = "Metric"
-}
 
-resource "signalfx_list_chart" "sfx_aws_elb_instances_top_be_errs" {
+}
+# signalfx_list_chart.sfx_aws_elb_dash_1_7:
+resource "signalfx_list_chart" "sfx_aws_elb_dash_1_7" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 3
   name                    = "Highest Backend Error %"
   program_text            = <<-EOF
         A = data('HTTPCode_Backend_*', filter=filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*'), rollup='rate', extrapolation='zero').sum(by=['LoadBalancerName']).publish(label='A', enable=False)
-        B = data('HTTPCode_Backend_2XX', filter=filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*'), extrapolation='zero').sum(by=['LoadBalancerName']).publish(label='B', enable=False)
-        C = data('HTTPCode_Backend_3XX', filter=filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*'), extrapolation='zero').sum(by=['LoadBalancerName']).publish(label='C', enable=False)
+        B = data('HTTPCode_Backend_2XX', filter=filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*'), extrapolation='zero',rollup='rate').sum(by=['LoadBalancerName']).publish(label='B', enable=False)
+        C = data('HTTPCode_Backend_3XX', filter=filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*'), extrapolation='zero',rollup='rate').sum(by=['LoadBalancerName']).publish(label='C', enable=False)
         D = (1 - (B+C)/A).scale(100).publish(label='D')
     EOF
   secondary_visualization = "Sparkline"
   sort_by                 = "-value"
   unit_prefix             = "Metric"
 
-  viz_options {
-    label = "D"
-  }
   viz_options {
     display_name = "HTTPCode_Backend_* - Sum by LoadBalancerName"
     label        = "A"
@@ -223,19 +226,20 @@ resource "signalfx_list_chart" "sfx_aws_elb_instances_top_be_errs" {
     label        = "C"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_elb_instances_top_be_errs_by_lb" {
+# signalfx_list_chart.sfx_aws_elb_dash_1_8:
+resource "signalfx_list_chart" "sfx_aws_elb_dash_1_8" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 4
   name                    = "Top Backend Connection Errors/min"
-  program_text            = "A = data('BackendConnectionErrors', filter=filter('AvailabilityZone', '*') and filter('stat', 'sum') and filter('LoadBalancerName', '*'), extrapolation='zero').sum(by=['LoadBalancerName']).scale(60).publish(label='A')"
+  program_text            = "A = data('BackendConnectionErrors', filter=filter('AvailabilityZone', '*') and filter('stat', 'sum') and filter('LoadBalancerName', '*'), extrapolation='zero',rollup='rate').sum(by=['LoadBalancerName']).scale(60).publish(label='A')"
   secondary_visualization = "Sparkline"
   sort_by                 = "-value"
   unit_prefix             = "Metric"
-}
 
-resource "signalfx_list_chart" "sfx_aws_elb_instances_top_unhealthy_host" {
+}
+# signalfx_list_chart.sfx_aws_elb_dash_1_9:
+resource "signalfx_list_chart" "sfx_aws_elb_dash_1_9" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 3
@@ -258,8 +262,8 @@ resource "signalfx_list_chart" "sfx_aws_elb_instances_top_unhealthy_host" {
     label        = "B"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elb_instances_historical_reqs" {
+# signalfx_time_chart.sfx_aws_elb_dash_1_10:
+resource "signalfx_time_chart" "sfx_aws_elb_dash_1_10" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -269,7 +273,7 @@ resource "signalfx_time_chart" "sfx_aws_elb_instances_historical_reqs" {
   name               = "Requests/min 7d Change %"
   plot_type          = "LineChart"
   program_text       = <<-EOF
-        A = data('RequestCount', filter=filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*') and filter('stat', 'sum'), extrapolation='last_value', maxExtrapolations=5).scale(60).mean(over='1h').sum(by=['LoadBalancerName']).publish(label='A', enable=False)
+        A = data('RequestCount', filter=filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*') and filter('stat', 'sum'), extrapolation='last_value', maxExtrapolations=5,rollup='rate').scale(60).mean(over='1h').sum(by=['LoadBalancerName']).publish(label='A', enable=False)
         B = (A).timeshift('1w').publish(label='B', enable=False)
         C = (A/B-1).scale(100).publish(label='C')
     EOF
@@ -299,8 +303,8 @@ resource "signalfx_time_chart" "sfx_aws_elb_instances_historical_reqs" {
     label        = "C"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elb_instances_historical_latency" {
+# signalfx_time_chart.sfx_aws_elb_dash_1_11:
+resource "signalfx_time_chart" "sfx_aws_elb_dash_1_11" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -344,8 +348,8 @@ resource "signalfx_time_chart" "sfx_aws_elb_instances_historical_latency" {
     label        = "C"
   }
 }
-
-resource "signalfx_text_chart" "sfx_aws_elb_instances_notes" {
+# signalfx_text_chart.sfx_aws_elb_dash_1_12:
+resource "signalfx_text_chart" "sfx_aws_elb_dash_1_12" {
   markdown = <<-EOF
         Empty charts indicate no activity of that category
 
@@ -353,116 +357,107 @@ resource "signalfx_text_chart" "sfx_aws_elb_instances_notes" {
     EOF
   name     = "Notes"
 }
-
-resource "signalfx_dashboard" "sfx_aws_elb_instances" {
-
-  charts_resolution = "default"
-  dashboard_group   = signalfx_dashboard_group.sfx_aws_elb.id
-  description       = "Overview of the Amazon ELB service."
-  name              = "ELB Instances"
+# signalfx_dashboard.sfx_aws_elb_dash_1:
+resource "signalfx_dashboard" "sfx_aws_elb_dash_1" {
+  charts_resolution       = "default"
+  dashboard_group         = signalfx_dashboard_group.sfx_aws_elb.id
+  description             = "Overview of the Amazon ELB service."
+  discovery_options_query = "namespace:\"AWS/ELB\""
+  discovery_options_selectors = [
+    "namespace:AWS/ELB",
+    "sf_key:LoadBalancerName",
+  ]
+  name = "ELB Instances"
 
   chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_elb_instances_count.id
-    row      = 0
+    chart_id = signalfx_list_chart.sfx_aws_elb_dash_1_9.id
     column   = 0
     height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elb_instances_latency.id
-    row      = 0
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_elb_instances_latency_by_lb.id
-    row      = 0
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_elb_instances_total_reqs.id
-    row      = 1
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elb_instances_req_history.id
-    row      = 1
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_elb_instances_top_lb_by_reqs.id
-    row      = 1
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_elb_instances_top_fe_errs.id
-    row      = 2
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_elb_instances_top_be_errs.id
-    row      = 2
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_elb_instances_top_be_errs_by_lb.id
-    row      = 2
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_elb_instances_top_unhealthy_host.id
     row      = 3
-    column   = 0
-    height   = 1
     width    = 4
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_elb_instances_historical_reqs.id
-    row      = 3
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elb_instances_historical_latency.id
-    row      = 3
+    chart_id = signalfx_list_chart.sfx_aws_elb_dash_1_2.id
     column   = 8
     height   = 1
+    row      = 0
     width    = 4
   }
-
   chart {
-    chart_id = signalfx_text_chart.sfx_aws_elb_instances_notes.id
+    chart_id = signalfx_time_chart.sfx_aws_elb_dash_1_1.id
+    column   = 4
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_elb_dash_1_3.id
+    column   = 0
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_elb_dash_1_0.id
+    column   = 0
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_elb_dash_1_5.id
+    column   = 8
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_elb_dash_1_6.id
+    column   = 0
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elb_dash_1_11.id
+    column   = 8
+    height   = 1
+    row      = 3
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elb_dash_1_4.id
+    column   = 4
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_elb_dash_1_8.id
+    column   = 8
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_elb_dash_1_7.id
+    column   = 4
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elb_dash_1_10.id
+    column   = 4
+    height   = 1
+    row      = 3
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_text_chart.sfx_aws_elb_dash_1_12.id
+    column   = 0
+    height   = 1
     row      = 4
-    column   = 0
-    height   = 1
     width    = 4
   }
-
 }

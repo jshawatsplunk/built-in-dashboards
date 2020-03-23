@@ -1,8 +1,10 @@
-resource "signalfx_single_value_chart" "sfx_aws_elb_instance_total_reqs" {
+# signalfx_single_value_chart.sfx_aws_elb_dash_0_0:
+resource "signalfx_single_value_chart" "sfx_aws_elb_dash_0_0" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 4
   name                    = "Total Routed Requests/min"
-  program_text            = "A = data('RequestCount', filter=filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*'), extrapolation='last_value', maxExtrapolations=5).sum().scale(60).publish(label='A')"
+  program_text            = "A = data('RequestCount', filter=filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*'), extrapolation='last_value', maxExtrapolations=5,rollup='rate').sum().scale(60).publish(label='A')"
   secondary_visualization = "None"
   show_spark_line         = false
   unit_prefix             = "Metric"
@@ -12,9 +14,10 @@ resource "signalfx_single_value_chart" "sfx_aws_elb_instance_total_reqs" {
     label        = "A"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_elb_instance_healthy_count" {
+# signalfx_single_value_chart.sfx_aws_elb_dash_0_1:
+resource "signalfx_single_value_chart" "sfx_aws_elb_dash_0_1" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 1
   name                    = "Healthy Hosts"
   program_text            = "A = data('HealthyHostCount', filter=filter('stat', 'mean') and (not filter('AvailabilityZone', '*')), extrapolation='last_value', maxExtrapolations=5).publish(label='A')"
@@ -27,9 +30,10 @@ resource "signalfx_single_value_chart" "sfx_aws_elb_instance_healthy_count" {
     label        = "A"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_elb_instance_latency" {
+# signalfx_single_value_chart.sfx_aws_elb_dash_0_2:
+resource "signalfx_single_value_chart" "sfx_aws_elb_dash_0_2" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 2
   name                    = "Avg latency (ms)"
   program_text            = <<-EOF
@@ -49,20 +53,22 @@ resource "signalfx_single_value_chart" "sfx_aws_elb_instance_latency" {
     label        = "A"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_elb_instance_top_http_codes" {
+# signalfx_list_chart.sfx_aws_elb_dash_0_3:
+resource "signalfx_list_chart" "sfx_aws_elb_dash_0_3" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 0
   name                    = "HTTP Result Codes/min"
-  program_text            = "A = data('HTTPCode_*', filter=filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('LoadBalancerName', 'lb-app-bb-LoadBala-NW8XPG9619V8'), extrapolation='zero').sum(by=['sf_metric']).scale(60).publish(label='A')"
+  program_text            = "A = data('HTTPCode_*', filter=filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('LoadBalancerName', 'lb-app-bb-LoadBala-NW8XPG9619V8'), extrapolation='zero', rollup='rate').sum(by=['sf_metric']).scale(60).publish(label='A')"
   secondary_visualization = "Sparkline"
   sort_by                 = "-sf_originatingMetric"
   unit_prefix             = "Metric"
-}
 
-resource "signalfx_single_value_chart" "sfx_aws_elb_instance_unhealthy" {
+}
+# signalfx_single_value_chart.sfx_aws_elb_dash_0_4:
+resource "signalfx_single_value_chart" "sfx_aws_elb_dash_0_4" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 1
   name                    = "Unhealthy Hosts"
   program_text            = "B = data('UnHealthyHostCount', filter=filter('stat', 'mean') and (not filter('AvailabilityZone', '*')), extrapolation='last_value', maxExtrapolations=5).publish(label='B')"
@@ -75,8 +81,8 @@ resource "signalfx_single_value_chart" "sfx_aws_elb_instance_unhealthy" {
     label        = "B"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_elb_instance_surge_spill" {
+# signalfx_list_chart.sfx_aws_elb_dash_0_5:
+resource "signalfx_list_chart" "sfx_aws_elb_dash_0_5" {
   color_by                = "Dimension"
   description             = "over last minute (no data means zero)"
   disable_sampling        = false
@@ -84,7 +90,7 @@ resource "signalfx_list_chart" "sfx_aws_elb_instance_surge_spill" {
   name                    = "Spillover  & Max SurgeQueue"
   program_text            = <<-EOF
         A = data('SurgeQueueLength', filter=filter('namespace', 'AWS/ELB') and filter('stat', 'upper'), extrapolation='zero').max().publish(label='A')
-        B = data('SpilloverCount', filter=filter('stat', 'sum') and filter('namespace', 'AWS/ELB') and filter('AvailabilityZone', '*')).sum().scale(60).publish(label='B')
+        B = data('SpilloverCount', filter=filter('stat', 'sum') and filter('namespace', 'AWS/ELB') and filter('AvailabilityZone', '*'),rollup='rate').sum().scale(60).publish(label='B')
     EOF
   secondary_visualization = "Sparkline"
   sort_by                 = "+sf_metric"
@@ -101,8 +107,8 @@ resource "signalfx_list_chart" "sfx_aws_elb_instance_surge_spill" {
     label        = "B"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elb_instance_req_history" {
+# signalfx_time_chart.sfx_aws_elb_dash_0_6:
+resource "signalfx_time_chart" "sfx_aws_elb_dash_0_6" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -110,7 +116,7 @@ resource "signalfx_time_chart" "sfx_aws_elb_instance_req_history" {
   minimum_resolution = 0
   name               = "Requests/min by AZ"
   plot_type          = "LineChart"
-  program_text       = "A = data('RequestCount', filter=filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*'), extrapolation='last_value', maxExtrapolations=5).sum(by=['AvailabilityZone']).scale(60).publish(label='A')"
+  program_text       = "A = data('RequestCount', filter=filter('stat', 'sum') and filter('AvailabilityZone', '*') and filter('LoadBalancerName', '*'), extrapolation='last_value', maxExtrapolations=5,rollup='rate').sum(by=['AvailabilityZone']).scale(60).publish(label='A')"
   show_data_markers  = false
   show_event_lines   = false
   stacked            = false
@@ -132,8 +138,8 @@ resource "signalfx_time_chart" "sfx_aws_elb_instance_req_history" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elb_instance_err_history" {
+# signalfx_time_chart.sfx_aws_elb_dash_0_7:
+resource "signalfx_time_chart" "sfx_aws_elb_dash_0_7" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -163,8 +169,8 @@ resource "signalfx_time_chart" "sfx_aws_elb_instance_err_history" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_elb_instance_latency_history" {
+# signalfx_time_chart.sfx_aws_elb_dash_0_8:
+resource "signalfx_time_chart" "sfx_aws_elb_dash_0_8" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -202,8 +208,8 @@ resource "signalfx_time_chart" "sfx_aws_elb_instance_latency_history" {
     label        = "A"
   }
 }
-
-resource "signalfx_text_chart" "sfx_aws_elb_instance_note" {
+# signalfx_text_chart.sfx_aws_elb_dash_0_9:
+resource "signalfx_text_chart" "sfx_aws_elb_dash_0_9" {
   markdown = <<-EOF
         Empty charts indicate no activity of that category
 
@@ -211,12 +217,86 @@ resource "signalfx_text_chart" "sfx_aws_elb_instance_note" {
     EOF
   name     = "Notes"
 }
+# signalfx_dashboard.sfx_aws_elb_dash_0:
+resource "signalfx_dashboard" "sfx_aws_elb_dash_0" {
+  charts_resolution       = "default"
+  dashboard_group         = signalfx_dashboard_group.sfx_aws_elb.id
+  discovery_options_query = "namespace:\"AWS/ELB\""
+  discovery_options_selectors = [
+    "_exists_:LoadBalancerName",
+  ]
+  name = "ELB Instance"
 
-resource "signalfx_dashboard" "sfx_aws_elb_instance" {
-
-  charts_resolution = "default"
-  dashboard_group   = signalfx_dashboard_group.sfx_aws_elb.id
-  name              = "ELB Instance"
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_elb_dash_0_0.id
+    column   = 0
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_elb_dash_0_3.id
+    column   = 0
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_elb_dash_0_1.id
+    column   = 4
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elb_dash_0_8.id
+    column   = 8
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elb_dash_0_6.id
+    column   = 0
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_elb_dash_0_5.id
+    column   = 8
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_text_chart.sfx_aws_elb_dash_0_9.id
+    column   = 0
+    height   = 1
+    row      = 3
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_elb_dash_0_2.id
+    column   = 8
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_elb_dash_0_7.id
+    column   = 4
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_elb_dash_0_4.id
+    column   = 4
+    height   = 1
+    row      = 1
+    width    = 4
+  }
 
   variable {
     alias                  = "load balancer"
@@ -231,85 +311,4 @@ resource "signalfx_dashboard" "sfx_aws_elb_instance" {
     ]
     values_suggested = []
   }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_elb_instance_total_reqs.id
-    row      = 0
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_elb_instance_healthy_count.id
-    row      = 0
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_elb_instance_latency.id
-    row      = 0
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_elb_instance_top_http_codes.id
-    row      = 1
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_elb_instance_unhealthy.id
-    row      = 1
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_elb_instance_surge_spill.id
-    row      = 1
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elb_instance_req_history.id
-    row      = 2
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elb_instance_err_history.id
-    row      = 2
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_elb_instance_latency_history.id
-    row      = 2
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_text_chart.sfx_aws_elb_instance_note.id
-    row      = 3
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
 }
