@@ -1,4 +1,5 @@
-resource "signalfx_time_chart" "sfx_aws_redshift_overview_0" {
+# signalfx_time_chart.sfx_aws_redshift_dash_0_0:
+resource "signalfx_time_chart" "sfx_aws_redshift_dash_0_0" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -72,8 +73,8 @@ resource "signalfx_time_chart" "sfx_aws_redshift_overview_0" {
     plot_type    = "AreaChart"
   }
 }
-
-resource "signalfx_heatmap_chart" "sfx_aws_redshift_overview_1" {
+# signalfx_heatmap_chart.sfx_aws_redshift_dash_0_1:
+resource "signalfx_heatmap_chart" "sfx_aws_redshift_dash_0_1" {
   description        = "The health status of the cluster"
   disable_sampling   = false
   group_by           = []
@@ -81,7 +82,7 @@ resource "signalfx_heatmap_chart" "sfx_aws_redshift_overview_1" {
   minimum_resolution = 0
   name               = "Cluster Health Status"
   program_text       = <<-EOF
-        A = data('HealthStatus', filter=filter('namespace', 'AWS/Redshift') and filter('stat', 'count') and filter('ClusterIdentifier', '*')).count(by=['stat']).publish(label='A', enable=False)
+        A = data('HealthStatus', filter=filter('namespace', 'AWS/Redshift') and filter('stat', 'count') and filter('ClusterIdentifier', '*'), rollup='rate').count(by=['stat']).publish(label='A', enable=False)
         C = (A).publish(label='C')
     EOF
   unit_prefix        = "Metric"
@@ -92,8 +93,8 @@ resource "signalfx_heatmap_chart" "sfx_aws_redshift_overview_1" {
     min_value = 0
   }
 }
-
-resource "signalfx_heatmap_chart" "sfx_aws_redshift_overview_2" {
+# signalfx_heatmap_chart.sfx_aws_redshift_dash_0_2:
+resource "signalfx_heatmap_chart" "sfx_aws_redshift_dash_0_2" {
   description        = "Displays maintenance on members of the cluster. Green, when maintenance mode for a cluster is OFF and yellow when maintenance mode if ON"
   disable_sampling   = false
   group_by           = []
@@ -118,8 +119,8 @@ resource "signalfx_heatmap_chart" "sfx_aws_redshift_overview_2" {
     lte   = 340282346638528860000000000000000000000
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_redshift_overview_3" {
+# signalfx_time_chart.sfx_aws_redshift_dash_0_3:
+resource "signalfx_time_chart" "sfx_aws_redshift_dash_0_3" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -187,8 +188,8 @@ resource "signalfx_time_chart" "sfx_aws_redshift_overview_3" {
     label        = "F"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_redshift_overview_4" {
+# signalfx_time_chart.sfx_aws_redshift_dash_0_4:
+resource "signalfx_time_chart" "sfx_aws_redshift_dash_0_4" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -263,8 +264,8 @@ resource "signalfx_time_chart" "sfx_aws_redshift_overview_4" {
     plot_type    = "AreaChart"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_redshift_overview_5" {
+# signalfx_time_chart.sfx_aws_redshift_dash_0_5:
+resource "signalfx_time_chart" "sfx_aws_redshift_dash_0_5" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -332,8 +333,8 @@ resource "signalfx_time_chart" "sfx_aws_redshift_overview_5" {
     label        = "F"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_redshift_overview_6" {
+# signalfx_time_chart.sfx_aws_redshift_dash_0_6:
+resource "signalfx_time_chart" "sfx_aws_redshift_dash_0_6" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -401,8 +402,8 @@ resource "signalfx_time_chart" "sfx_aws_redshift_overview_6" {
     label        = "F"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_redshift_overview_7" {
+# signalfx_time_chart.sfx_aws_redshift_dash_0_7:
+resource "signalfx_time_chart" "sfx_aws_redshift_dash_0_7" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -470,8 +471,8 @@ resource "signalfx_time_chart" "sfx_aws_redshift_overview_7" {
     label        = "F"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_redshift_overview_8" {
+# signalfx_time_chart.sfx_aws_redshift_dash_0_8:
+resource "signalfx_time_chart" "sfx_aws_redshift_dash_0_8" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -539,8 +540,8 @@ resource "signalfx_time_chart" "sfx_aws_redshift_overview_8" {
     label        = "F"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_redshift_overview_9" {
+# signalfx_time_chart.sfx_aws_redshift_dash_0_9:
+resource "signalfx_time_chart" "sfx_aws_redshift_dash_0_9" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -608,8 +609,8 @@ resource "signalfx_time_chart" "sfx_aws_redshift_overview_9" {
     label        = "F"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_redshift_overview_10" {
+# signalfx_time_chart.sfx_aws_redshift_dash_0_10:
+resource "signalfx_time_chart" "sfx_aws_redshift_dash_0_10" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -677,8 +678,8 @@ resource "signalfx_time_chart" "sfx_aws_redshift_overview_10" {
     label        = "F"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_redshift_overview_11" {
+# signalfx_time_chart.sfx_aws_redshift_dash_0_11:
+resource "signalfx_time_chart" "sfx_aws_redshift_dash_0_11" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -711,14 +712,14 @@ resource "signalfx_time_chart" "sfx_aws_redshift_overview_11" {
     plot_type    = "AreaChart"
   }
 }
-
-resource "signalfx_single_value_chart" "sfx_aws_redshift_overview_12" {
+# signalfx_single_value_chart.sfx_aws_redshift_dash_0_12:
+resource "signalfx_single_value_chart" "sfx_aws_redshift_dash_0_12" {
   color_by                = "Dimension"
   description             = "The total number of data warehouse instances"
   is_timestamp_hidden     = false
   max_precision           = 0
   name                    = "# Data Warehouse Instances"
-  program_text            = "A = data('CPUUtilization', filter=filter('namespace', 'AWS/Redshift') and filter('ClusterIdentifier', 'dw-instance') and filter('stat', 'count')).count().publish(label='A')"
+  program_text            = "A = data('CPUUtilization', filter=filter('namespace', 'AWS/Redshift') and filter('ClusterIdentifier', 'dw-instance') and filter('stat', 'count'), rollup='rate').count().publish(label='A')"
   secondary_visualization = "None"
   show_spark_line         = false
   unit_prefix             = "Metric"
@@ -729,8 +730,8 @@ resource "signalfx_single_value_chart" "sfx_aws_redshift_overview_12" {
     label        = "A"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_redshift_overview_13" {
+# signalfx_list_chart.sfx_aws_redshift_dash_0_13:
+resource "signalfx_list_chart" "sfx_aws_redshift_dash_0_13" {
   color_by                = "Dimension"
   description             = "The top 5 consumers with writes to the data warehouse"
   disable_sampling        = false
@@ -739,9 +740,10 @@ resource "signalfx_list_chart" "sfx_aws_redshift_overview_13" {
   program_text            = "A = data('WriteIOPS', filter=filter('namespace', 'AWS/Redshift') and filter('stat', 'mean') and filter('ClusterIdentifier', '*')).top(count=5).mean(by=['ClusterIdentifier']).publish(label='A')"
   secondary_visualization = "Sparkline"
   unit_prefix             = "Metric"
-}
 
-resource "signalfx_list_chart" "sfx_aws_redshift_overview_14" {
+}
+# signalfx_list_chart.sfx_aws_redshift_dash_0_14:
+resource "signalfx_list_chart" "sfx_aws_redshift_dash_0_14" {
   color_by                = "Dimension"
   description             = "The top 5 consumers impacting read latency to the data warehouse"
   disable_sampling        = false
@@ -750,9 +752,10 @@ resource "signalfx_list_chart" "sfx_aws_redshift_overview_14" {
   program_text            = "A = data('ReadLatency', filter=filter('namespace', 'AWS/Redshift') and filter('stat', 'mean') and filter('ClusterIdentifier', '*')).scale(1000).top(count=5).mean(by=['ClusterIdentifier']).publish(label='A')"
   secondary_visualization = "Sparkline"
   unit_prefix             = "Metric"
-}
 
-resource "signalfx_list_chart" "sfx_aws_redshift_overview_15" {
+}
+# signalfx_list_chart.sfx_aws_redshift_dash_0_15:
+resource "signalfx_list_chart" "sfx_aws_redshift_dash_0_15" {
   color_by                = "Dimension"
   description             = "The top 5 consumers for reads to the data warehouse"
   disable_sampling        = false
@@ -761,15 +764,16 @@ resource "signalfx_list_chart" "sfx_aws_redshift_overview_15" {
   program_text            = "A = data('ReadIOPS', filter=filter('namespace', 'AWS/Redshift') and filter('stat', 'mean') and filter('ClusterIdentifier', '*')).top(count=5).mean(by=['ClusterIdentifier']).publish(label='A')"
   secondary_visualization = "Sparkline"
   unit_prefix             = "Metric"
-}
 
-resource "signalfx_single_value_chart" "sfx_aws_redshift_overview_16" {
+}
+# signalfx_single_value_chart.sfx_aws_redshift_dash_0_16:
+resource "signalfx_single_value_chart" "sfx_aws_redshift_dash_0_16" {
   color_by                = "Dimension"
   description             = "The number of active connections to the data warehouse"
   is_timestamp_hidden     = false
   max_precision           = 0
   name                    = "Data Warehouse Connections"
-  program_text            = "A = data('DatabaseConnections', filter=filter('namespace', 'AWS/Redshift') and filter('stat', 'count') and filter('ClusterIdentifier', '*')).count(by=['ClusterIdentifier']).publish(label='A')"
+  program_text            = "A = data('DatabaseConnections', filter=filter('namespace', 'AWS/Redshift') and filter('stat', 'count') and filter('ClusterIdentifier', '*'), rollup='rate').count(by=['ClusterIdentifier']).publish(label='A')"
   secondary_visualization = "None"
   show_spark_line         = false
   unit_prefix             = "Metric"
@@ -779,8 +783,8 @@ resource "signalfx_single_value_chart" "sfx_aws_redshift_overview_16" {
     label        = "A"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_redshift_overview_17" {
+# signalfx_list_chart.sfx_aws_redshift_dash_0_17:
+resource "signalfx_list_chart" "sfx_aws_redshift_dash_0_17" {
   color_by                = "Dimension"
   description             = "The top 5 instances impacting CPU utilization on the data warehouse"
   disable_sampling        = false
@@ -789,9 +793,10 @@ resource "signalfx_list_chart" "sfx_aws_redshift_overview_17" {
   program_text            = "A = data('CPUUtilization', filter=filter('namespace', 'AWS/Redshift') and filter('stat', 'mean') and filter('ClusterIdentifier', '*')).top(count=5).mean(by=['ClusterIdentifier']).publish(label='A')"
   secondary_visualization = "Sparkline"
   unit_prefix             = "Metric"
-}
 
-resource "signalfx_list_chart" "sfx_aws_redshift_overview_18" {
+}
+# signalfx_list_chart.sfx_aws_redshift_dash_0_18:
+resource "signalfx_list_chart" "sfx_aws_redshift_dash_0_18" {
   color_by                = "Dimension"
   description             = "The top 5 consumers impacting write latency to the data warehouse"
   disable_sampling        = false
@@ -800,164 +805,150 @@ resource "signalfx_list_chart" "sfx_aws_redshift_overview_18" {
   program_text            = "A = data('WriteLatency', filter=filter('namespace', 'AWS/Redshift') and filter('stat', 'mean') and filter('ClusterIdentifier', '*')).scale(1000).top(count=5).mean(by=['ClusterIdentifier']).publish(label='A')"
   secondary_visualization = "Sparkline"
   unit_prefix             = "Metric"
+
 }
-
-resource "signalfx_dashboard" "sfx_aws_redshift_overview" {
-
-  charts_resolution = "default"
-  dashboard_group   = signalfx_dashboard_group.sfx_aws_redshift.id
-  name              = "AWS Redshift"
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_redshift_overview_0.id
-    row      = 0
-    column   = 0
-    height   = 1
-    width    = 4
-  }
+# signalfx_dashboard.sfx_aws_redshift_dash_0:
+resource "signalfx_dashboard" "sfx_aws_redshift_dash_0" {
+  charts_resolution       = "default"
+  dashboard_group         = signalfx_dashboard_group.sfx_aws_redshift.id
+  discovery_options_query = "namespace:\"AWS/Redshift\""
+  discovery_options_selectors = [
+    "namespace:AWS/Redshift",
+    "sf_key:namespace",
+  ]
+  name = "AWS Redshift"
 
   chart {
-    chart_id = signalfx_heatmap_chart.sfx_aws_redshift_overview_1.id
-    row      = 0
+    chart_id = signalfx_time_chart.sfx_aws_redshift_dash_0_10.id
     column   = 4
     height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_heatmap_chart.sfx_aws_redshift_overview_2.id
-    row      = 0
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_redshift_overview_3.id
-    row      = 1
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_redshift_overview_4.id
-    row      = 1
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_redshift_overview_5.id
-    row      = 1
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_redshift_overview_6.id
-    row      = 2
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_redshift_overview_7.id
-    row      = 2
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_redshift_overview_8.id
-    row      = 2
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_redshift_overview_9.id
     row      = 3
-    column   = 0
-    height   = 1
     width    = 4
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_redshift_overview_10.id
-    row      = 3
+    chart_id = signalfx_heatmap_chart.sfx_aws_redshift_dash_0_1.id
     column   = 4
     height   = 1
+    row      = 0
     width    = 4
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_redshift_overview_11.id
-    row      = 3
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_redshift_overview_12.id
-    row      = 4
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_redshift_overview_13.id
-    row      = 4
+    chart_id = signalfx_list_chart.sfx_aws_redshift_dash_0_13.id
     column   = 4
     height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_redshift_overview_14.id
     row      = 4
-    column   = 8
-    height   = 1
     width    = 4
   }
-
   chart {
-    chart_id = signalfx_list_chart.sfx_aws_redshift_overview_15.id
-    row      = 5
+    chart_id = signalfx_single_value_chart.sfx_aws_redshift_dash_0_12.id
     column   = 0
     height   = 1
+    row      = 4
     width    = 4
   }
-
   chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_redshift_overview_16.id
-    row      = 5
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_redshift_overview_17.id
-    row      = 5
+    chart_id = signalfx_list_chart.sfx_aws_redshift_dash_0_14.id
     column   = 8
     height   = 1
+    row      = 4
     width    = 4
   }
-
   chart {
-    chart_id = signalfx_list_chart.sfx_aws_redshift_overview_18.id
+    chart_id = signalfx_time_chart.sfx_aws_redshift_dash_0_3.id
+    column   = 0
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_redshift_dash_0_18.id
+    column   = 0
+    height   = 1
     row      = 6
-    column   = 0
-    height   = 1
     width    = 4
   }
-
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_redshift_dash_0_11.id
+    column   = 8
+    height   = 1
+    row      = 3
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_redshift_dash_0_9.id
+    column   = 0
+    height   = 1
+    row      = 3
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_redshift_dash_0_0.id
+    column   = 0
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_redshift_dash_0_4.id
+    column   = 4
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_redshift_dash_0_6.id
+    column   = 0
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_redshift_dash_0_5.id
+    column   = 8
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_redshift_dash_0_15.id
+    column   = 0
+    height   = 1
+    row      = 5
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_redshift_dash_0_17.id
+    column   = 8
+    height   = 1
+    row      = 5
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_heatmap_chart.sfx_aws_redshift_dash_0_2.id
+    column   = 8
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_redshift_dash_0_7.id
+    column   = 4
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_redshift_dash_0_8.id
+    column   = 8
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_redshift_dash_0_16.id
+    column   = 4
+    height   = 1
+    row      = 5
+    width    = 4
+  }
 }

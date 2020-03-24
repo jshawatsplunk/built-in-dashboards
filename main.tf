@@ -102,10 +102,10 @@ module "aws_rds_enhanced_aurora" {
   source = "./aws_rds_enhanced_aurora"
 }
 
-# module "aws_redshift" {
-#   source = "./aws_redshift"
-# }
-#
+module "aws_redshift" {
+  source = "./aws_redshift"
+}
+
 # module "aws_route53" {
 #   source = "./aws_route53"
 # }
