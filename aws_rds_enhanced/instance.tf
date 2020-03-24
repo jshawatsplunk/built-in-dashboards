@@ -1,5 +1,7 @@
-resource "signalfx_single_value_chart" "sfx_aws_rds_enhanced_instance_cpu" {
+# signalfx_single_value_chart.sfx_aws_rds_enchanced_dash_0_0:
+resource "signalfx_single_value_chart" "sfx_aws_rds_enchanced_dash_0_0" {
   color_by                = "Dimension"
+  is_timestamp_hidden     = false
   max_precision           = 3
   name                    = "Total CPU Utilization"
   program_text            = "A = data('cpuUtilization.total').publish(label='A')"
@@ -12,8 +14,8 @@ resource "signalfx_single_value_chart" "sfx_aws_rds_enhanced_instance_cpu" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_cpu_by_cat" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_1:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_dash_0_1" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Metric"
@@ -41,6 +43,11 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_cpu_by_cat" {
     color_theme = "red"
   }
 
+  viz_options {
+    axis         = "left"
+    display_name = "% idle"
+    label        = "B"
+  }
   viz_options {
     axis         = "left"
     display_name = "% in use by interrupts"
@@ -77,8 +84,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_cpu_by_cat" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_task_status" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_2:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_dash_0_2" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Metric"
@@ -134,8 +141,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_task_status" {
     label        = "F"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_ios" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_3:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_dash_0_3" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Metric"
@@ -178,8 +185,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_ios" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_thruput" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_4:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_dash_0_4" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Metric"
@@ -222,8 +229,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_thruput" {
     label        = "B"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_latency" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_5:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_dash_0_5" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -252,8 +259,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_latency" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_queue_len" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_6:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_dash_0_6" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -283,8 +290,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_queue_len" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_net_io" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_7:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_dash_0_7" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Metric"
@@ -325,8 +332,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_net_io" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_mem" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_8:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_dash_0_8" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Metric"
@@ -382,8 +389,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_mem" {
     label        = "E"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_storage" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_9:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_dash_0_9" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Metric"
@@ -427,11 +434,93 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_instance_storage" {
     label        = "B"
   }
 }
+# signalfx_dashboard.sfx_aws_rds_enchanced_dash_0:
+resource "signalfx_dashboard" "sfx_aws_rds_enchanced_dash_0" {
+  charts_resolution       = "default"
+  dashboard_group         = signalfx_dashboard_group.sfx_aws_rds_enchanced.id
+  discovery_options_query = "_exists_:instanceResourceID AND _exists_:AWSUniqueId AND _exists_:EngineName AND Namespace:\"AWS/RDS\""
+  discovery_options_selectors = [
+    "Namespace:AWS/RDS",
+    "_exists_:AWSUniqueId",
+    "_exists_:EngineName",
+    "_exists_:Namespace",
+    "_exists_:instanceResourceID",
+    "sf_key:AWSUniqueId",
+    "sf_key:EngineName",
+    "sf_key:instanceResourceID",
+  ]
+  name = "Enhanced RDS Instance"
 
-resource "signalfx_dashboard" "sfx_aws_rds_enhanced_instance" {
-  name              = "Enhanced RDS Instance"
-  charts_resolution = "default"
-  dashboard_group   = signalfx_dashboard_group.sfx_aws_rds_enhanced.id
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_1.id
+    column   = 4
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_7.id
+    column   = 8
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_6.id
+    column   = 4
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_9.id
+    column   = 6
+    height   = 1
+    row      = 3
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_8.id
+    column   = 0
+    height   = 1
+    row      = 3
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_5.id
+    column   = 0
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_2.id
+    column   = 8
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_rds_enchanced_dash_0_0.id
+    column   = 0
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_3.id
+    column   = 0
+    height   = 1
+    row      = 1
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_dash_0_4.id
+    column   = 6
+    height   = 1
+    row      = 1
+    width    = 6
+  }
 
   variable {
     alias                  = "instance"
@@ -443,85 +532,5 @@ resource "signalfx_dashboard" "sfx_aws_rds_enhanced_instance" {
     value_required         = false
     values                 = []
     values_suggested       = []
-  }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_rds_enhanced_instance_cpu.id
-    row      = 0
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_instance_cpu_by_cat.id
-    row      = 0
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_instance_task_status.id
-    row      = 0
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_instance_ios.id
-    row      = 1
-    column   = 0
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_instance_thruput.id
-    row      = 1
-    column   = 6
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_instance_latency.id
-    row      = 2
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_instance_queue_len.id
-    row      = 2
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_instance_net_io.id
-    row      = 2
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_instance_mem.id
-    row      = 3
-    column   = 0
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_instance_storage.id
-    row      = 3
-    column   = 6
-    height   = 1
-    width    = 6
   }
 }

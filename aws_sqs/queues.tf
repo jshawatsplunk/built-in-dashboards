@@ -1,9 +1,10 @@
-resource "signalfx_single_value_chart" "sfx_aws_sqs_queues_0" {
+# signalfx_single_value_chart.sfx_aws_sqs_dash_1_0:
+resource "signalfx_single_value_chart" "sfx_aws_sqs_dash_1_0" {
   color_by                = "Dimension"
   is_timestamp_hidden     = false
   max_precision           = 0
   name                    = "# Active Queues"
-  program_text            = "A = data('NumberOfMessagesSent', filter=filter('namespace', 'AWS/SQS') and filter('stat', 'sum')).mean(over='15m').count(by=['QueueName', 'aws_region']).count().publish(label='A')"
+  program_text            = "A = data('NumberOfMessagesSent', filter=filter('namespace', 'AWS/SQS') and filter('stat', 'sum'),rollup='rate').mean(over='15m').count(by=['QueueName', 'aws_region']).count().publish(label='A')"
   secondary_visualization = "None"
   show_spark_line         = false
   unit_prefix             = "Metric"
@@ -13,8 +14,8 @@ resource "signalfx_single_value_chart" "sfx_aws_sqs_queues_0" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_sqs_queues_1" {
+# signalfx_time_chart.sfx_aws_sqs_dash_1_1:
+resource "signalfx_time_chart" "sfx_aws_sqs_dash_1_1" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -23,8 +24,8 @@ resource "signalfx_time_chart" "sfx_aws_sqs_queues_1" {
   name               = "Total #Msg / Min"
   plot_type          = "ColumnChart"
   program_text       = <<-EOF
-        A = data('NumberOfMessagesSent', filter=filter('stat', 'sum') and filter('namespace', 'AWS/SQS')).sum().scale(60).publish(label='A')
-        B = data('NumberOfMessagesReceived', filter=filter('stat', 'sum') and filter('namespace', 'AWS/SQS')).sum().scale(60).publish(label='B')
+        A = data('NumberOfMessagesSent', filter=filter('stat', 'sum') and filter('namespace', 'AWS/SQS'),rollup='rate').sum().scale(60).publish(label='A')
+        B = data('NumberOfMessagesReceived', filter=filter('stat', 'sum') and filter('namespace', 'AWS/SQS'),rollup='rate').sum().scale(60).publish(label='B')
     EOF
   show_data_markers  = false
   show_event_lines   = false
@@ -59,8 +60,8 @@ resource "signalfx_time_chart" "sfx_aws_sqs_queues_1" {
     label        = "B"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_sqs_queues_2" {
+# signalfx_time_chart.sfx_aws_sqs_dash_1_2:
+resource "signalfx_time_chart" "sfx_aws_sqs_dash_1_2" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -68,7 +69,7 @@ resource "signalfx_time_chart" "sfx_aws_sqs_queues_2" {
   minimum_resolution = 0
   name               = "Total Sent Bytes / Min"
   plot_type          = "AreaChart"
-  program_text       = "A = data('SentMessageSize', filter=filter('namespace', 'AWS/SQS') and filter('stat', 'sum')).scale(60).sum().publish(label='A')"
+  program_text       = "A = data('SentMessageSize', filter=filter('namespace', 'AWS/SQS') and filter('stat', 'sum'),rollup='rate').scale(60).sum().publish(label='A')"
   show_data_markers  = false
   show_event_lines   = false
   stacked            = false
@@ -95,30 +96,32 @@ resource "signalfx_time_chart" "sfx_aws_sqs_queues_2" {
     label        = "A"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_sqs_queues_3" {
+# signalfx_list_chart.sfx_aws_sqs_dash_1_3:
+resource "signalfx_list_chart" "sfx_aws_sqs_dash_1_3" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 0
   name                    = "Top Queues #Msg Sent / Min"
-  program_text            = "A = data('NumberOfMessagesSent', filter=filter('stat', 'sum') and filter('namespace', 'AWS/SQS')).scale(60).sum(by=['QueueName', 'aws_region']).top(count=5).publish(label='A')"
+  program_text            = "A = data('NumberOfMessagesSent', filter=filter('stat', 'sum') and filter('namespace', 'AWS/SQS'),rollup='rate').scale(60).sum(by=['QueueName', 'aws_region']).top(count=5).publish(label='A')"
   secondary_visualization = "None"
   sort_by                 = "-value"
   unit_prefix             = "Metric"
-}
 
-resource "signalfx_list_chart" "sfx_aws_sqs_queues_4" {
+}
+# signalfx_list_chart.sfx_aws_sqs_dash_1_4:
+resource "signalfx_list_chart" "sfx_aws_sqs_dash_1_4" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 0
   name                    = "Top Queues #Msg Recv / Min"
-  program_text            = "A = data('NumberOfMessagesReceived', filter=filter('stat', 'sum') and filter('namespace', 'AWS/SQS')).scale(60).sum(by=['QueueName', 'aws_region']).top(count=5).publish(label='A')"
+  program_text            = "A = data('NumberOfMessagesReceived', filter=filter('stat', 'sum') and filter('namespace', 'AWS/SQS'),rollup='rate').scale(60).sum(by=['QueueName', 'aws_region']).top(count=5).publish(label='A')"
   secondary_visualization = "None"
   sort_by                 = "-value"
   unit_prefix             = "Metric"
-}
 
-resource "signalfx_list_chart" "sfx_aws_sqs_queues_5" {
+}
+# signalfx_list_chart.sfx_aws_sqs_dash_1_5:
+resource "signalfx_list_chart" "sfx_aws_sqs_dash_1_5" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 0
@@ -154,8 +157,8 @@ resource "signalfx_list_chart" "sfx_aws_sqs_queues_5" {
   }
 
 }
-
-resource "signalfx_time_chart" "sfx_aws_sqs_queues_6" {
+# signalfx_time_chart.sfx_aws_sqs_dash_1_6:
+resource "signalfx_time_chart" "sfx_aws_sqs_dash_1_6" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -185,8 +188,8 @@ resource "signalfx_time_chart" "sfx_aws_sqs_queues_6" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_sqs_queues_7" {
+# signalfx_time_chart.sfx_aws_sqs_dash_1_7:
+resource "signalfx_time_chart" "sfx_aws_sqs_dash_1_7" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -216,8 +219,8 @@ resource "signalfx_time_chart" "sfx_aws_sqs_queues_7" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_sqs_queues_8" {
+# signalfx_time_chart.sfx_aws_sqs_dash_1_8:
+resource "signalfx_time_chart" "sfx_aws_sqs_dash_1_8" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -247,8 +250,8 @@ resource "signalfx_time_chart" "sfx_aws_sqs_queues_8" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_sqs_queues_9" {
+# signalfx_time_chart.sfx_aws_sqs_dash_1_9:
+resource "signalfx_time_chart" "sfx_aws_sqs_dash_1_9" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -256,7 +259,7 @@ resource "signalfx_time_chart" "sfx_aws_sqs_queues_9" {
   minimum_resolution = 0
   name               = "Total #Msg Deleted / Min"
   plot_type          = "AreaChart"
-  program_text       = "A = data('NumberOfMessagesDeleted', filter=filter('stat', 'sum') and filter('namespace', 'AWS/SQS')).sum().scale(60).publish(label='A')"
+  program_text       = "A = data('NumberOfMessagesDeleted', filter=filter('stat', 'sum') and filter('namespace', 'AWS/SQS'),rollup='rate').sum().scale(60).publish(label='A')"
   show_data_markers  = false
   show_event_lines   = false
   stacked            = false
@@ -283,91 +286,85 @@ resource "signalfx_time_chart" "sfx_aws_sqs_queues_9" {
     label        = "A"
   }
 }
-
-resource "signalfx_dashboard" "sfx_aws_sqs_queues" {
-
-  charts_resolution = "default"
-  dashboard_group   = signalfx_dashboard_group.sfx_aws_sqs.id
-  name              = "SQS Queues"
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_sqs_queues_0.id
-    row      = 0
-    column   = 0
-    height   = 1
-    width    = 4
-  }
+# signalfx_dashboard.sfx_aws_sqs_dash_1:
+resource "signalfx_dashboard" "sfx_aws_sqs_dash_1" {
+  charts_resolution       = "default"
+  dashboard_group         = signalfx_dashboard_group.sfx_aws_sqs.id
+  discovery_options_query = "namespace:\"AWS/SQS\" AND _exists_:QueueName"
+  discovery_options_selectors = [
+    "namespace:AWS/SQS",
+    "sf_key:QueueName",
+  ]
+  name = "SQS Queues"
 
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_sqs_queues_1.id
-    row      = 0
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_sqs_queues_2.id
-    row      = 0
+    chart_id = signalfx_time_chart.sfx_aws_sqs_dash_1_2.id
     column   = 8
     height   = 1
+    row      = 0
     width    = 4
   }
-
   chart {
-    chart_id = signalfx_list_chart.sfx_aws_sqs_queues_3.id
-    row      = 1
+    chart_id = signalfx_time_chart.sfx_aws_sqs_dash_1_6.id
     column   = 0
     height   = 1
-    width    = 4
+    row      = 2
+    width    = 6
   }
-
   chart {
-    chart_id = signalfx_list_chart.sfx_aws_sqs_queues_4.id
-    row      = 1
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_sqs_queues_5.id
-    row      = 1
+    chart_id = signalfx_list_chart.sfx_aws_sqs_dash_1_5.id
     column   = 8
     height   = 1
+    row      = 1
     width    = 4
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_sqs_queues_6.id
-    row      = 2
-    column   = 0
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_sqs_queues_7.id
-    row      = 2
+    chart_id = signalfx_time_chart.sfx_aws_sqs_dash_1_9.id
     column   = 6
     height   = 1
+    row      = 3
     width    = 6
   }
-
   chart {
-    chart_id = signalfx_time_chart.sfx_aws_sqs_queues_8.id
-    row      = 3
-    column   = 0
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_sqs_queues_9.id
-    row      = 3
+    chart_id = signalfx_time_chart.sfx_aws_sqs_dash_1_7.id
     column   = 6
     height   = 1
+    row      = 2
     width    = 6
   }
-
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_sqs_dash_1_1.id
+    column   = 4
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_sqs_dash_1_8.id
+    column   = 0
+    height   = 1
+    row      = 3
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_sqs_dash_1_4.id
+    column   = 4
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_sqs_dash_1_3.id
+    column   = 0
+    height   = 1
+    row      = 1
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_sqs_dash_1_0.id
+    column   = 0
+    height   = 1
+    row      = 0
+    width    = 4
+  }
 }
