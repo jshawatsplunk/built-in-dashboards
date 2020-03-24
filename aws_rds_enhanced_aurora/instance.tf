@@ -1,4 +1,5 @@
-resource "signalfx_single_value_chart" "sfx_aws_rds_enhanced_aurora_instance_0" {
+# signalfx_single_value_chart.sfx_aws_rds_enchanced_aurora_dash_1_0:
+resource "signalfx_single_value_chart" "sfx_aws_rds_enchanced_aurora_dash_1_0" {
   color_by                = "Dimension"
   is_timestamp_hidden     = false
   max_precision           = 0
@@ -13,8 +14,8 @@ resource "signalfx_single_value_chart" "sfx_aws_rds_enhanced_aurora_instance_0" 
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_1" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_1:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_aurora_dash_1_1" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Metric"
@@ -83,8 +84,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_1" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_2" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_2:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_aurora_dash_1_2" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Metric"
@@ -140,8 +141,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_2" {
     label        = "E"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_3" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_3:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_aurora_dash_1_3" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Metric"
@@ -184,8 +185,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_3" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_4" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_4:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_aurora_dash_1_4" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Metric"
@@ -228,8 +229,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_4" {
     label        = "B"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_5" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_5:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_aurora_dash_1_5" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -258,8 +259,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_5" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_6" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_6:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_aurora_dash_1_6" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -288,8 +289,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_6" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_7" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_7:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_aurora_dash_1_7" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -319,8 +320,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_7" {
     label        = "A"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_8" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_8:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_aurora_dash_1_8" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Metric"
@@ -375,8 +376,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_8" {
     label        = "E"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_9" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_9:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_aurora_dash_1_9" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Metric"
@@ -419,8 +420,8 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_9" {
     label        = "B"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_10" {
+# signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_10:
+resource "signalfx_time_chart" "sfx_aws_rds_enchanced_aurora_dash_1_10" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Metric"
@@ -463,12 +464,100 @@ resource "signalfx_time_chart" "sfx_aws_rds_enhanced_aurora_instance_10" {
     label        = "A"
   }
 }
+# signalfx_dashboard.sfx_aws_rds_enchanced_aurora_dash_1:
+resource "signalfx_dashboard" "sfx_aws_rds_enchanced_aurora_dash_1" {
+  charts_resolution       = "default"
+  dashboard_group         = signalfx_dashboard_group.sfx_aws_rds_enchanced_aurora.id
+  discovery_options_query = "_exists_:instanceResourceID AND _exists_:AWSUniqueId AND EngineName:\"Aurora\" AND Namespace:\"AWS/RDS\""
+  discovery_options_selectors = [
+    "EngineName:Aurora",
+    "Namespace:AWS/RDS",
+    "_exists_:AWSUniqueId",
+    "_exists_:EngineName",
+    "_exists_:Namespace",
+    "_exists_:instanceResourceID",
+    "sf_key:AWSUniqueId",
+    "sf_key:instanceResourceID",
+  ]
+  name = "Enhanced RDS Instance - Aurora"
 
-resource "signalfx_dashboard" "sfx_aws_rds_enhanced_aurora_instance" {
-
-  charts_resolution = "default"
-  dashboard_group   = signalfx_dashboard_group.sfx_aws_rds_enhanced_aurora.id
-  name              = "Enhanced RDS Instance - Aurora"
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_3.id
+    column   = 0
+    height   = 1
+    row      = 1
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_5.id
+    column   = 0
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_7.id
+    column   = 8
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_4.id
+    column   = 6
+    height   = 1
+    row      = 1
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_6.id
+    column   = 4
+    height   = 1
+    row      = 2
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_9.id
+    column   = 4
+    height   = 1
+    row      = 3
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_10.id
+    column   = 8
+    height   = 1
+    row      = 3
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_rds_enchanced_aurora_dash_1_0.id
+    column   = 0
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_2.id
+    column   = 8
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_1.id
+    column   = 4
+    height   = 1
+    row      = 0
+    width    = 4
+  }
+  chart {
+    chart_id = signalfx_time_chart.sfx_aws_rds_enchanced_aurora_dash_1_8.id
+    column   = 0
+    height   = 1
+    row      = 3
+    width    = 4
+  }
 
   variable {
     alias                  = "instance"
@@ -481,93 +570,4 @@ resource "signalfx_dashboard" "sfx_aws_rds_enhanced_aurora_instance" {
     values                 = []
     values_suggested       = []
   }
-
-  chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_rds_enhanced_aurora_instance_0.id
-    row      = 0
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_aurora_instance_1.id
-    row      = 0
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_aurora_instance_2.id
-    row      = 0
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_aurora_instance_3.id
-    row      = 1
-    column   = 0
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_aurora_instance_4.id
-    row      = 1
-    column   = 6
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_aurora_instance_5.id
-    row      = 2
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_aurora_instance_6.id
-    row      = 2
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_aurora_instance_7.id
-    row      = 2
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_aurora_instance_8.id
-    row      = 3
-    column   = 0
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_aurora_instance_9.id
-    row      = 3
-    column   = 4
-    height   = 1
-    width    = 4
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_rds_enhanced_aurora_instance_10.id
-    row      = 3
-    column   = 8
-    height   = 1
-    width    = 4
-  }
-
 }

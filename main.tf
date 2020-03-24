@@ -94,14 +94,14 @@ module "aws_rds" {
   source = "./aws_rds"
 }
 
-# module "aws_rds_enhanced" {
-#   source = "./aws_rds_enhanced"
-# }
-#
-# module "aws_rds_enhanced_aurora" {
-#   source = "./aws_rds_enhanced_aurora"
-# }
-#
+module "aws_rds_enhanced" {
+  source = "./aws_rds_enhanced"
+}
+
+module "aws_rds_enhanced_aurora" {
+  source = "./aws_rds_enhanced_aurora"
+}
+
 # module "aws_redshift" {
 #   source = "./aws_redshift"
 # }
