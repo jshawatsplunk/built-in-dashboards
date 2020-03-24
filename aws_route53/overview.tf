@@ -1,4 +1,5 @@
-resource "signalfx_single_value_chart" "sfx_aws_route53_overview_0" {
+# signalfx_single_value_chart.sfx_aws_route53_dash_0_0:
+resource "signalfx_single_value_chart" "sfx_aws_route53_dash_0_0" {
   color_by                = "Dimension"
   is_timestamp_hidden     = false
   max_precision           = 0
@@ -13,8 +14,8 @@ resource "signalfx_single_value_chart" "sfx_aws_route53_overview_0" {
     label        = "A"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_route53_overview_1" {
+# signalfx_list_chart.sfx_aws_route53_dash_0_1:
+resource "signalfx_list_chart" "sfx_aws_route53_dash_0_1" {
   color_by                = "Dimension"
   disable_sampling        = false
   max_precision           = 0
@@ -41,8 +42,8 @@ resource "signalfx_list_chart" "sfx_aws_route53_overview_1" {
     label        = "C"
   }
 }
-
-resource "signalfx_time_chart" "sfx_aws_route53_overview_2" {
+# signalfx_time_chart.sfx_aws_route53_dash_0_2:
+resource "signalfx_time_chart" "sfx_aws_route53_dash_0_2" {
   axes_include_zero  = false
   axes_precision     = 0
   color_by           = "Dimension"
@@ -111,8 +112,8 @@ resource "signalfx_time_chart" "sfx_aws_route53_overview_2" {
     label        = "E"
   }
 }
-
-resource "signalfx_list_chart" "sfx_aws_route53_overview_3" {
+# signalfx_list_chart.sfx_aws_route53_dash_0_3:
+resource "signalfx_list_chart" "sfx_aws_route53_dash_0_3" {
   color_by                = "Dimension"
   description             = "healthchecks that are least healthy"
   disable_sampling        = false
@@ -122,44 +123,45 @@ resource "signalfx_list_chart" "sfx_aws_route53_overview_3" {
   secondary_visualization = "Sparkline"
   sort_by                 = "+value"
   unit_prefix             = "Metric"
+
 }
-
-resource "signalfx_dashboard" "sfx_aws_route53_overview" {
-
-  charts_resolution = "default"
-  dashboard_group   = signalfx_dashboard_group.sfx_aws_route53.id
-  name              = "Route53"
+# signalfx_dashboard.sfx_aws_route53_dash_0:
+resource "signalfx_dashboard" "sfx_aws_route53_dash_0" {
+  charts_resolution       = "default"
+  dashboard_group         = signalfx_dashboard_group.sfx_aws_route53.id
+  discovery_options_query = "namespace:\"AWS/Route53\" AND _exists_:HealthCheckId"
+  discovery_options_selectors = [
+    "namespace:AWS/Route53",
+    "sf_key:HealthCheckId",
+  ]
+  name = "Route53"
 
   chart {
-    chart_id = signalfx_single_value_chart.sfx_aws_route53_overview_0.id
-    row      = 0
+    chart_id = signalfx_time_chart.sfx_aws_route53_dash_0_2.id
     column   = 0
     height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_list_chart.sfx_aws_route53_overview_1.id
-    row      = 0
-    column   = 6
-    height   = 1
-    width    = 6
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.sfx_aws_route53_overview_2.id
     row      = 1
+    width    = 6
+  }
+  chart {
+    chart_id = signalfx_single_value_chart.sfx_aws_route53_dash_0_0.id
     column   = 0
     height   = 1
+    row      = 0
     width    = 6
   }
-
   chart {
-    chart_id = signalfx_list_chart.sfx_aws_route53_overview_3.id
-    row      = 1
+    chart_id = signalfx_list_chart.sfx_aws_route53_dash_0_3.id
     column   = 6
     height   = 1
+    row      = 1
     width    = 6
   }
-
+  chart {
+    chart_id = signalfx_list_chart.sfx_aws_route53_dash_0_1.id
+    column   = 6
+    height   = 1
+    row      = 0
+    width    = 6
+  }
 }

@@ -106,10 +106,10 @@ module "aws_redshift" {
   source = "./aws_redshift"
 }
 
-# module "aws_route53" {
-#   source = "./aws_route53"
-# }
-#
+module "aws_route53" {
+  source = "./aws_route53"
+}
+
 # module "aws_sns" {
 #   source = "./aws_sns"
 # }
