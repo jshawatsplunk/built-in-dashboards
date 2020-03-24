@@ -114,6 +114,6 @@ module "aws_sns" {
   source = "./aws_sns"
 }
 
-# module "aws_sqs" {
-#   source = "./aws_sqs"
-# }
+module "aws_sqs" {
+  source = "./aws_sqs"
+}
