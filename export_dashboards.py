@@ -152,4 +152,4 @@ with signalfx.SignalFx(
             write_output(args['output'], args['name'] + ".tf", filter_hcl(output.decode('utf-8')))
     else:
         dash_out = handle_dashboard(sfx, args['dash'], args['name'], args)
-        write_output(args['output'], args['name'] + ".tf", dash_out.decode('utf-8'))
+        write_output(args['output'], args['name'] + ".tf", dash_out)
