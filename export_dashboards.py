@@ -24,6 +24,7 @@ def init_terraform(tdir, key, api_url, resource, name):
     with open('main.tf', 'w') as tffile:
         tffile.write('provider "signalfx" {\n')
         tffile.write(f'\tauth_token = "{key}"\n')
+        tffile.write(f'\tapi_url = "{api_url}"\n')
         tffile.write('}\n')
         tffile.write(f'resource "{resource}" "{name}" {{\n')
         tffile.write('}\n')
