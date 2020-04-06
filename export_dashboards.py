@@ -17,6 +17,7 @@ parser.add_argument('--output', dest='output', required=True, help='The name of 
 group = parser.add_mutually_exclusive_group(required=True)
 group.add_argument('--group', dest='group', help='The ID of the dashboard group in SignalFx')
 group.add_argument('--dashboard', dest='dash', help='The ID of the dashboard in SignalFx')
+group.add_argument('--detector', dest='detector', help='The ID of the detector in SignalFx')
 
 args = vars(parser.parse_args())
 
@@ -91,6 +92,11 @@ def replace_chart_ids(hcl, charts):
         hcl = hcl.replace(f'"{id}"', f'{name}.id')
     return hcl
 
+def handle_detector(sfx, id, name, args):
+    det = sfx.get_detector(id)
+
+    return handle_asset(args['key'], args['api_url'], "signalfx_detector", name, id)
+
 def handle_dashboard(sfx, id, name, args):
     dash = sfx.get_dashboard(id)
 
@@ -151,6 +157,12 @@ with signalfx.SignalFx(
         output = handle_asset(args['key'], args['api_url'], "signalfx_dashboard_group", args['name'], args['group'])
         if output != None:
             write_output(args['output'], args['name'] + ".tf", filter_hcl(output.decode('utf-8')))
-    else:
+    elif args['dash']:
         dash_out = handle_dashboard(sfx, args['dash'], args['name'], args)
         write_output(args['output'], args['name'] + ".tf", dash_out)
+    elif args['detector']:
+        det_out = handle_detector(sfx, args['detector'], args['name'], args)
+        write_output(args['output'], args['name'] + ".tf", det_out.decode('utf-8'))
+    else:
+        print('Use one of --dashboard, --detector or --group')
+        sys.exit(1)
