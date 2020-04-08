@@ -28,6 +28,15 @@ variable "sfx_custom_urls" {
   }
 }
 
+terraform {
+  backend "s3" {
+    bucket = "com-splunk-sfx-int-content-terraform"
+    key    = "prod/terraform.tfstate"
+    region = "us-east-2"
+    dynamodb_table = "remote-state-lock"
+  }
+}
+
 provider "signalfx" {
   auth_token     = var.sfx_tokens[terraform.workspace]
   api_url        = var.sfx_api_urls[terraform.workspace]
