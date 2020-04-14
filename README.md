@@ -18,6 +18,18 @@ You'll need to provide the var `sfx_token` to use this. I recommend using a `ter
 
 There is an included `export_dashboards.py` script which aims to reduce the effort of export an existing dashboard.
 
+## Requirements
+
+This script requires Python 3. I encourage the use of a [venv](https://docs.python.org/3/library/venv.html). You can set it up like this:
+
+```
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Usage
+
 ```
 usage: export_dashboards.py [-h] --key KEY [--api_url API_URL] --name NAME
                             [--exclude [EXCLUDES [EXCLUDES ...]]] --output
@@ -41,7 +53,6 @@ optional arguments:
 Here's an example for a dashboard:
 
 ```
-# You can setup a virtualenv and such, use `requirements.txt`
 python export_dashboard.py --key XxX --dashboard DjJ6MCMAgAA --name sfx_aws_sqs_queue --output ./
 ```
 
