@@ -87,9 +87,13 @@ def filter_hcl(hcl):
             keep.append(line)
     return "\n".join(keep)
 
+def replace_id_with_name(hcl, id, name):
+    hcl = hcl.replace(f'"{id}"', f'{name}.id')
+    return hcl
+
 def replace_chart_ids(hcl, charts):
     for id, name in charts.items():
-        hcl = hcl.replace(f'"{id}"', f'{name}.id')
+        hcl = replace_id_with_name(hcl, id, name)
     return hcl
 
 def handle_detector(sfx, id, name, args):
@@ -151,7 +155,7 @@ with signalfx.SignalFx(
             dash_name = args['name'] + f"_dash_{i}"
             dash_out = handle_dashboard(sfx, dash, dash_name, args)
             # Replace the dashboard group id
-            dash_out = dash_out.replace(f"\"{args['group']}\"", f"signalfx_dashboard_group.{args['name']}.id")
+            dash_out = replace_id_with_name(dash_out, args['group'], f"signalfx_dashboard_group.{args['name']}")
             write_output(args['output'], dash_name + ".tf", dash_out)
 
         output = handle_asset(args['key'], args['api_url'], "signalfx_dashboard_group", args['name'], args['group'])
