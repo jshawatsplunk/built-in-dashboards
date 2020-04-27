@@ -62,6 +62,6 @@ For dashboard groups uses `--group`. The output directory will contain one file 
 
 ## Notes
 
-If your SignalFx key begins with a hyphen you will need to use an equal sign like so: `--key=-someKeyHere`.
-
-The exporter does some regex surgery out the outputted HCL. By default it excludes computed fields `id` and `url` as well as the problematic `tags` field, which is deprecated. It also removes the "bounds" values for axes that are just fixed values and bare `viz_options` fields that only specify a label and no other information. The latter can cause weird problems on creation.
+* This does **not** export a dashboard's data links. The issue being that the "target" dashboard would be a static ID and not a Terraform asset. Slippery slope there.
+* If your SignalFx key begins with a hyphen you will need to use an equal sign like so: `--key=-someKeyHere`.
+* The exporter does some regex surgery out the emitted HCL. By default it excludes computed fields `id` and `url` as well as the problematic `tags` field, which is deprecated. It also removes the "bounds" values for axes that are just fixed values and bare `viz_options` fields that only specify a label and no other information. The latter can cause weird problems on creation.
