@@ -33,7 +33,8 @@ pip install -r requirements.txt
 ```
 usage: export_dashboards.py [-h] --key KEY [--api_url API_URL] --name NAME
                             [--exclude [EXCLUDES [EXCLUDES ...]]] --output
-                            OUTPUT (--group GROUP | --dashboard DASH)
+                            OUTPUT
+                            (--group GROUP | --dashboard DASH | --detector DETECTOR)
 
 Export a SignalFx asset as Terraform
 
@@ -48,6 +49,7 @@ optional arguments:
                         written
   --group GROUP         The ID of the dashboard group in SignalFx
   --dashboard DASH      The ID of the dashboard in SignalFx
+  --detector DETECTOR   The ID of the detector in SignalFx
 ```
 
 Here's an example for a dashboard:
