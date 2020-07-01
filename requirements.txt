@@ -1,1 +1,1 @@
-signalfx >= 1.1.5
+signalfx >= 1.1.7
