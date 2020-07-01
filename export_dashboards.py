@@ -18,6 +18,7 @@ group = parser.add_mutually_exclusive_group(required=True)
 group.add_argument('--group', dest='group', help='The ID of the dashboard group in SignalFx')
 group.add_argument('--dashboard', dest='dash', help='The ID of the dashboard in SignalFx')
 group.add_argument('--detector', dest='detector', help='The ID of the detector in SignalFx')
+group.add_argument('--globaldatalink', dest='globaldatalink', help='The colon : seperated property name and value for a global data link - if value is wildcarded just provide the name')
 
 args = vars(parser.parse_args())
 
@@ -101,6 +102,18 @@ def handle_detector(sfx, id, name, args):
 
     return handle_asset(args['key'], args['api_url'], "signalfx_detector", name, id)
 
+def handle_datalink(sfx, props, name, args):
+    propertyName=props.split(":")[0]
+    propertyValue=""
+    if len(props.split(":")) > 1:
+        propertyValue=props.split(":")[1]
+    dets = sfx.get_datalinks(None,propertyName,propertyValue)
+
+    if dets["count"] < 1:
+        print('There isnt a globaldatalink matching those values')
+        sys.exit(1)
+    return handle_asset(args['key'], args['api_url'], "signalfx_data_link", name, dets["results"][0]["id"])
+
 def handle_dashboard(sfx, id, name, args):
     dash = sfx.get_dashboard(id)
 
@@ -169,6 +182,9 @@ with signalfx.SignalFx(
     elif args['detector']:
         det_out = handle_detector(sfx, args['detector'], args['name'], args)
         write_output(args['output'], args['name'] + ".tf", det_out.decode('utf-8'))
+    elif args['globaldatalink']:
+        det_out = handle_datalink(sfx, args['globaldatalink'], args['name'], args)
+        write_output(args['output'], args['name'] + ".tf", det_out.decode('utf-8'))
     else:
-        print('Use one of --dashboard, --detector or --group')
+        print('Use one of --dashboard, --detector, --globaldatalink or --group')
         sys.exit(1)
