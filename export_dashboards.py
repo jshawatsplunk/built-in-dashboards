@@ -24,6 +24,17 @@ args = vars(parser.parse_args())
 
 def init_terraform(tdir, key, api_url, resource, name):
     with open('main.tf', 'w') as tffile:
+        # Dependency
+        tffile.write('terraform {\n')
+        tffile.write('\trequired_providers {\n')
+        tffile.write('\t\tsignalfx = {\n')
+        tffile.write('\t\t\tsource = "splunk-terraform/signalfx"\n')
+        tffile.write('\t\t\tversion = "6.7.4"\n')
+        tffile.write('\t\t}\n')
+        tffile.write('\t}\n')
+        tffile.write('}\n')
+
+        # Provider
         tffile.write('provider "signalfx" {\n')
         tffile.write(f'\tauth_token = "{key}"\n')
         tffile.write(f'\tapi_url = "{api_url}"\n')
